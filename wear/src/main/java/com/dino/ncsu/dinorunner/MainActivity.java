@@ -5,6 +5,7 @@ import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
 import android.widget.TextView;
+import com.dino.ncsu.dinorunner.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
