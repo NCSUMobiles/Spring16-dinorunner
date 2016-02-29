@@ -12,7 +12,8 @@
         android:id="@+id/run_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp" />
+        android:layout_marginTop="120dp"
+        android:clickable="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:text="PLAYER STATS"
         android:id="@+id/stats_button"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true" />
 
     <ProgressBar
         android:layout_width="wrap_content"

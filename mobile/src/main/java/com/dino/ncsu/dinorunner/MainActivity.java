@@ -1,16 +1,29 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
+
+   // private Button stats = (Button) findViewById(R.id.stats_button);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button runButton = (Button)findViewById(R.id.run_button);
+        runButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DinoPickerActivity.class));
+            }
+        });
     }
 
     @Override
@@ -34,4 +47,6 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
