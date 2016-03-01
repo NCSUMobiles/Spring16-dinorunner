@@ -17,7 +17,7 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="#f20404" />
+        android:textColor="#669999" />
 
     <ListView
         android:layout_width="wrap_content"

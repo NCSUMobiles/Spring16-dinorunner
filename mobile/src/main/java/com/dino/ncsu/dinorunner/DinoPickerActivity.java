@@ -14,13 +14,19 @@ public class DinoPickerActivity extends Activity {
     ListView list;
 
     String[] dinos = new String[] {
-        "T Rex"
+            "Stegosaurus",
+            "Triceratops",
+            "Tyrannosaurus Rex"
     } ;
     Integer[] imageId = new Integer[]{
-        R.mipmap.trex
+            R.mipmap.stego,
+            R.mipmap.tri,
+            R.mipmap.trex
     } ;
     String[] diff = new String[] {
-            "Very Hard"
+            "A lumbering, fern loving dinosaur. Not very dangerous unless provoked. Easy",
+            "A three horned beast. Be wary of its horns and acceleration. Medium",
+            "Four words. Run. For. Your. Life! Hard"
     } ;
 
     /** Called when the activity is first created. */
@@ -34,8 +40,8 @@ public class DinoPickerActivity extends Activity {
 
         for(int i=0;i<dinos.length;i++){
             HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("dinos", "Dinosaur : " + dinos[i]);
-            hm.put("diff","Difficulty : " + diff[i]);
+            hm.put("dinos", dinos[i]);
+            hm.put("diff", diff[i]);
             hm.put("image", Integer.toString(imageId[i]) );
             aList.add(hm);
         }
