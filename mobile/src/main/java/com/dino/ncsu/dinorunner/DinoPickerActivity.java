@@ -10,20 +10,15 @@ import android.widget.Toast;
 public class DinoPickerActivity extends Activity {
     ListView list;
 
-    String[] dinos = {
-        "T Rex"
-    } ;
-    Integer[] imageId = {
-
-    } ;
+    Dinosaur[] dinos = {new Dinosaur("T Rex", 0)};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dino_picker);
 
         CustomList adapter = new
-                CustomList(DinoPickerActivity.this, dinos, imageId);
+                CustomList(DinoPickerActivity.this, dinos);
         list=(ListView)findViewById(R.id.listView);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

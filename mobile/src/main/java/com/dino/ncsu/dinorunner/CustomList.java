@@ -13,18 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomList extends ArrayAdapter<String>{
+public class CustomList extends ArrayAdapter<Dinosaur>{
 
     private final Activity context;
-    private final String[] dinos;
-    private final Integer[] imageId;
+    private final Dinosaur[] dinos;
     public CustomList(Activity context,
-                      String[] dinos, Integer[] imageId) {
+                      Dinosaur[] dinos) {
         super(context, R.layout.list_single, dinos);
         this.context = context;
         this.dinos = dinos;
-        this.imageId = imageId;
-
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -33,9 +30,9 @@ public class CustomList extends ArrayAdapter<String>{
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        txtTitle.setText(dinos[position]);
+        txtTitle.setText(dinos[position].getNameOfDino());
 
-        imageView.setImageResource(imageId[position]);
+        imageView.setImageResource(dinos[position].getImageId());
         return rowView;
     }
 }
