@@ -9,6 +9,8 @@ public class Player {
     private double totalWeekDist;
     private double totalMonthDist;
     private EquippedItems listOfItems;
+    private double distance;
+
 
     public Player() {
         this.listOfItems = new EquippedItems();
