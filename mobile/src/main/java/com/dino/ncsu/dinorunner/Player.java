@@ -8,15 +8,18 @@ public class Player {
     private double avgSpeed;
     private double totalWeekDist;
     private double totalMonthDist;
+    private EquippedItems listOfItems;
 
     public Player() {
+        this.listOfItems = new EquippedItems();
     }
 
-    public Player(double topSpeed, double avgSpeed, double totalWeekDist, double totalMonthDist) {
-        setTopSpeed(topSpeed);
-        setAvgSpeed(avgSpeed);
-        setTotalWeekDist(totalWeekDist);
-        setTotalMonthDist(totalMonthDist);
+    public Player(double topSpeed, double avgSpeed, double totalWeekDist, double totalMonthDist, EquippedItems listOfItems) {
+        this.topSpeed = topSpeed;
+        this.avgSpeed = avgSpeed;
+        this.totalWeekDist = totalWeekDist;
+        this.totalMonthDist = totalMonthDist;
+        this.listOfItems = listOfItems;
     }
 
     public double getTopSpeed() {
