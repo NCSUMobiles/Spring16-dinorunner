@@ -1,20 +1,21 @@
 package com.dino.ncsu.dinorunner;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
 
    // private Button stats = (Button) findViewById(R.id.stats_button);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Button runButton = (Button)findViewById(R.id.run_button);

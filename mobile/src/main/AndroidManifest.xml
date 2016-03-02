@@ -20,6 +20,9 @@
         <activity
             android:name=".TrackPicker"
             android:label="@string/title_activity_track_picker"></activity>
+        <activity
+            android:name=".ItemPickActivity"
+            android:label="Pick your items"></activity>
     </application>
 
 </manifest>

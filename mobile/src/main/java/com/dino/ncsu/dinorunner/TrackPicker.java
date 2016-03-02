@@ -1,6 +1,7 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,13 +9,17 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
+
 
 public class TrackPicker extends Activity {
     ListView list;
+    byte[] dinoByteArray;
 
     String[] tracks = new String[]{
             "Forest of A'alath",
@@ -44,7 +49,10 @@ public class TrackPicker extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dino_picker);
+        setContentView(R.layout.activity_track_picker);
+
+        Bundle bundle = getIntent().getExtras();
+        dinoByteArray = bundle.getByteArray("dinoPicked");
 
         // Each row in the list stores track name, description, difficulty, image
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
@@ -77,6 +85,17 @@ public class TrackPicker extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
                 Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
+
+                try {
+                    Bundle dataBundle = new Bundle();
+                    Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
+                    dataBundle.putByteArray("dinoPicked", dinoByteArray);
+                    dataBundle.putByteArray("mapPicked", object2Bytes(item));
+                    intent.putExtras(dataBundle);
+                    startActivity(intent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

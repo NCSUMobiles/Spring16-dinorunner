@@ -1,9 +1,11 @@
 package com.dino.ncsu.dinorunner;
 
+import java.io.Serializable;
+
 /**
  * Created by Kevin-Lenovo on 2/29/2016.
  */
-public class Dinosaur {
+public class Dinosaur implements Serializable {
     private String nameOfDino; //Name of dinosaur
     private Integer imageId; //Image associated with dinosaur
     private double currSpeed; //Dinosaur's current speed
@@ -23,6 +25,11 @@ public class Dinosaur {
         setEnergy(engy);
         setEnergyRegen(engyRegen);
 
+    }
+
+    public Dinosaur(String dino, int id) {
+        setNameOfDino(dino);
+        setImageId(id);
     }
 
     public String getNameOfDino() {
@@ -88,6 +95,4 @@ public class Dinosaur {
     public double getDistance() {
         return distance;
     }
-
-
 }

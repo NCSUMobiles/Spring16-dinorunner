@@ -1,9 +1,11 @@
 package com.dino.ncsu.dinorunner;
 
+import java.io.Serializable;
+
 /**
  * Created by Kevin-Lenovo on 3/1/2016.
  */
-public class EquippedItems {
+public class EquippedItems implements Serializable {
     private RunningItem helmet;
     private RunningItem chest;
     private RunningItem shirt;

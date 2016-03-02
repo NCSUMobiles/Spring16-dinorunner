@@ -9,9 +9,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 
 public class DinoPickerActivity extends Activity {
@@ -71,7 +74,18 @@ public class DinoPickerActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
                 Toast.makeText(DinoPickerActivity.this, "DinoName: " + item.get("dinos"), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), TrackPicker.class));
+                Dinosaur dino = new Dinosaur(item.get("dinos"), Integer.parseInt(item.get("image")));
+
+                try {
+                    Bundle dataBundle = new Bundle();
+                    Intent intent = new Intent(getApplicationContext(), TrackPicker.class);
+                    dataBundle.putByteArray("dinoPicked", object2Bytes(dino));
+                    intent.putExtras(dataBundle);
+                    startActivity(intent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
