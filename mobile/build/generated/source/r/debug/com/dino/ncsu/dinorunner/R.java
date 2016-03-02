@@ -2010,7 +2010,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c0054;
         public static final int action_mode_bar_stub=0x7f0c0053;
         public static final int action_mode_close_button=0x7f0c003c;
-        public static final int action_settings=0x7f0c007c;
+        public static final int action_settings=0x7f0c007e;
         public static final int activity_chooser_view_content=0x7f0c003d;
         public static final int alertTitle=0x7f0c0047;
         public static final int always=0x7f0c002b;
@@ -2031,9 +2031,10 @@ containing a value of this type.
         public static final int customPanel=0x7f0c004b;
         public static final int decor_content_parent=0x7f0c0055;
         public static final int default_activity_button=0x7f0c0040;
+        public static final int desc=0x7f0c007d;
         public static final int dialog=0x7f0c0030;
-        public static final int diff=0x7f0c006e;
-        public static final int dinos=0x7f0c006d;
+        public static final int diff=0x7f0c006c;
+        public static final int dinos=0x7f0c006b;
         public static final int disableHome=0x7f0c000d;
         public static final int dropdown=0x7f0c0031;
         public static final int edit_query=0x7f0c0059;
@@ -2095,8 +2096,8 @@ containing a value of this type.
         public static final int showCustom=0x7f0c0010;
         public static final int showHome=0x7f0c0011;
         public static final int showTitle=0x7f0c0012;
-        public static final int snackbar_action=0x7f0c006c;
-        public static final int snackbar_text=0x7f0c006b;
+        public static final int snackbar_action=0x7f0c006e;
+        public static final int snackbar_text=0x7f0c006d;
         public static final int split_action_bar=0x7f0c0007;
         public static final int src_atop=0x7f0c0037;
         public static final int src_in=0x7f0c0038;
@@ -2115,6 +2116,7 @@ containing a value of this type.
         public static final int title_template=0x7f0c0046;
         public static final int top=0x7f0c0027;
         public static final int topPanel=0x7f0c0045;
+        public static final int tracks=0x7f0c007c;
         public static final int up=0x7f0c0008;
         public static final int useLogo=0x7f0c0013;
         public static final int view_offset_helper=0x7f0c0009;
@@ -2157,35 +2159,40 @@ containing a value of this type.
         public static final int abc_simple_dropdown_hint=0x7f040018;
         public static final int activity_dino_picker=0x7f040019;
         public static final int activity_main=0x7f04001a;
-        public static final int design_navigation_item=0x7f04001b;
-        public static final int design_navigation_item_header=0x7f04001c;
-        public static final int design_navigation_item_separator=0x7f04001d;
-        public static final int design_navigation_item_subheader=0x7f04001e;
-        public static final int design_navigation_menu=0x7f04001f;
-        public static final int layout_snackbar=0x7f040020;
-        public static final int layout_snackbar_include=0x7f040021;
-        public static final int list_single=0x7f040022;
-        public static final int notification_media_action=0x7f040023;
-        public static final int notification_media_cancel_action=0x7f040024;
-        public static final int notification_template_big_media=0x7f040025;
-        public static final int notification_template_big_media_narrow=0x7f040026;
-        public static final int notification_template_lines=0x7f040027;
-        public static final int notification_template_media=0x7f040028;
-        public static final int notification_template_part_chronometer=0x7f040029;
-        public static final int notification_template_part_time=0x7f04002a;
-        public static final int select_dialog_item_material=0x7f04002b;
-        public static final int select_dialog_multichoice_material=0x7f04002c;
-        public static final int select_dialog_singlechoice_material=0x7f04002d;
-        public static final int support_simple_spinner_dropdown_item=0x7f04002e;
+        public static final int activity_track_picker=0x7f04001b;
+        public static final int design_navigation_item=0x7f04001c;
+        public static final int design_navigation_item_header=0x7f04001d;
+        public static final int design_navigation_item_separator=0x7f04001e;
+        public static final int design_navigation_item_subheader=0x7f04001f;
+        public static final int design_navigation_menu=0x7f040020;
+        public static final int dinopicker_list_single=0x7f040021;
+        public static final int layout_snackbar=0x7f040022;
+        public static final int layout_snackbar_include=0x7f040023;
+        public static final int notification_media_action=0x7f040024;
+        public static final int notification_media_cancel_action=0x7f040025;
+        public static final int notification_template_big_media=0x7f040026;
+        public static final int notification_template_big_media_narrow=0x7f040027;
+        public static final int notification_template_lines=0x7f040028;
+        public static final int notification_template_media=0x7f040029;
+        public static final int notification_template_part_chronometer=0x7f04002a;
+        public static final int notification_template_part_time=0x7f04002b;
+        public static final int select_dialog_item_material=0x7f04002c;
+        public static final int select_dialog_multichoice_material=0x7f04002d;
+        public static final int select_dialog_singlechoice_material=0x7f04002e;
+        public static final int support_simple_spinner_dropdown_item=0x7f04002f;
+        public static final int trackpicker_list_single=0x7f040030;
     }
     public static final class menu {
         public static final int menu_main=0x7f0d0000;
     }
     public static final class mipmap {
-        public static final int ic_launcher=0x7f030000;
-        public static final int stego=0x7f030001;
-        public static final int trex=0x7f030002;
-        public static final int tri=0x7f030003;
+        public static final int desert_t=0x7f030000;
+        public static final int forest_a=0x7f030001;
+        public static final int ic_launcher=0x7f030002;
+        public static final int stego=0x7f030003;
+        public static final int trex=0x7f030004;
+        public static final int tri=0x7f030005;
+        public static final int troll=0x7f030006;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f060000;

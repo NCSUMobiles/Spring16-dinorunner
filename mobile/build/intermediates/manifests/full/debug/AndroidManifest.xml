@@ -23,6 +23,9 @@
             </intent-filter>
         </activity>
         <activity android:name="com.dino.ncsu.dinorunner.DinoPickerActivity" />
+        <activity
+            android:name="com.dino.ncsu.dinorunner.TrackPicker"
+            android:label="@string/title_activity_track_picker" />
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:2:1-22:12
+ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:2:1-25:12
 	xmlns:android
 		ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:2:11-69
 	package
@@ -14,7 +14,7 @@ ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidMani
 		INJECTED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml
 application
-ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:5:5-20:19
+ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:5:5-23:19
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\jianpingfan\Documents\DinoRunner\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.0] C:\Users\jianpingfan\Documents\DinoRunner\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:22.2.0] C:\Users\jianpingfan\Documents\DinoRunner\mobile\build\intermediates\exploded-aar\com.android.support\design\22.2.0\AndroidManifest.xml:22:5-20
@@ -49,6 +49,12 @@ activity#com.dino.ncsu.dinorunner.DinoPickerActivity
 ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:19:9-56
 	android:name
 		ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:19:19-53
+activity#com.dino.ncsu.dinorunner.TrackPicker
+ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:20:9-22:76
+	android:label
+		ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:22:13-64
+	android:name
+		ADDED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml:21:13-40
 uses-sdk
 INJECTED from C:\Users\jianpingfan\Documents\DinoRunner\mobile\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\jianpingfan\Documents\DinoRunner\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:20:5-43
