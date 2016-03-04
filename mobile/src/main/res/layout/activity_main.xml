@@ -9,23 +9,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RUN!"
-        android:textColor="#FF3333"
+        android:textColor="@color/prime_red"
         android:id="@+id/run_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120dp"
-        android:shadowColor="#999999"
+        android:shadowColor="@color/button_shadow"
         android:clickable="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PLAYER STATS"
-        android:textColor="#FF3333"
+        android:textColor="@color/prime_red"
         android:id="@+id/stats_button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:shadowColor="#999999"
+        android:shadowColor="@color/button_shadow"
         android:clickable="true" />
 
     <ProgressBar
