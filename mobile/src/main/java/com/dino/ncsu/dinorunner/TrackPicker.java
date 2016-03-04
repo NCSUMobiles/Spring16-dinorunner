@@ -1,6 +1,8 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -61,6 +63,7 @@ public class TrackPicker extends Activity {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("tracks", tracks[i]);
             hm.put("desc", desc[i]);
+            hm.put("diff", diff[i]);
             hm.put("image", Integer.toString(imageId[i]));
             aList.add(hm);
         }
@@ -83,19 +86,34 @@ public class TrackPicker extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
-                Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
+                final HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
 
-                try {
-                    Bundle dataBundle = new Bundle();
-                    Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
-                    dataBundle.putByteArray("dinoPicked", dinoByteArray);
-                    dataBundle.putByteArray("mapPicked", object2Bytes(item));
-                    intent.putExtras(dataBundle);
-                    startActivity(intent);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
+                        .setTitle(item.get("tracks"))
+                        .setMessage(item.get("desc"))
+                        .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    Bundle dataBundle = new Bundle();
+                                    Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
+                                    dataBundle.putByteArray("dinoPicked", dinoByteArray);
+                                    dataBundle.putByteArray("mapPicked", object2Bytes(item));
+                                    intent.putExtras(dataBundle);
+                                    Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //do nothing for right now
+                            }
+                        })
+                        .show();
             }
         });
     }

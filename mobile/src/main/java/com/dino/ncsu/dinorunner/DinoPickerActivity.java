@@ -73,7 +73,6 @@ public class DinoPickerActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
-                Toast.makeText(DinoPickerActivity.this, "DinoName: " + item.get("dinos"), Toast.LENGTH_SHORT).show();
                 Dinosaur dino = new Dinosaur(item.get("dinos"), Integer.parseInt(item.get("image")));
 
                 try {
@@ -81,6 +80,7 @@ public class DinoPickerActivity extends Activity {
                     Intent intent = new Intent(getApplicationContext(), TrackPicker.class);
                     dataBundle.putByteArray("dinoPicked", object2Bytes(dino));
                     intent.putExtras(dataBundle);
+                    Toast.makeText(DinoPickerActivity.this, "Selected Dinosaur: " + item.get("dinos"), Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
