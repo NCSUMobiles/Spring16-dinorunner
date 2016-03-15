@@ -17,6 +17,15 @@ public class ItemPickActivity extends AppCompatActivity {
         Bundle infoBundle = getIntent().getExtras();
         dino = infoBundle.getByteArray("dinoPicked");
         map = infoBundle.getByteArray("mapPicked");
+
+        //test: start map activity
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -28,4 +37,5 @@ public class ItemPickActivity extends AppCompatActivity {
         dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dataIntent);
     }
+
 }

@@ -23,6 +23,9 @@
         <activity
             android:name=".ItemPickActivity"
             android:label="Pick your items"></activity>
+        <activity
+            android:name=".MapViewActivity"
+            android:label="Map View"></activity>
     </application>
 
 </manifest>
