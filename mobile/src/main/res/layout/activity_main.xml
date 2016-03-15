@@ -29,6 +29,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map View"
+        android:textColor="@color/prime_red"
+        android:id="@+id/mapview_button"
+        android:shadowColor="@color/button_shadow"
+        android:clickable="true"
+        android:layout_below="@+id/stats_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp" />
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
