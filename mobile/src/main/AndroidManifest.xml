@@ -10,6 +10,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+            android:configChanges="orientation|screenSize"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,13 +20,21 @@
         <activity android:name=".DinoPickerActivity" />
         <activity
             android:name=".TrackPicker"
-            android:label="@string/title_activity_track_picker"></activity>
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_track_picker" />
         <activity
             android:name=".ItemPickActivity"
-            android:label="Pick your items"></activity>
+            android:configChanges="orientation|screenSize"
+            android:label="Pick your items" />
         <activity
             android:name=".MapViewActivity"
-            android:label="Map View"></activity>
+            android:configChanges="orientation|screenSize"
+            android:label="Map View" />
+        <activity
+            android:name=".RunningActivity"
+            android:label="@string/title_activity_running"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

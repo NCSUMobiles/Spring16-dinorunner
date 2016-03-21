@@ -9,9 +9,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/text_dino_name"
+        android:text="Pick your items"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/prime_red" />
+        android:textColor="@color/light_blue" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_button"
+        android:tint="@color/white"
+        android:src="@mipmap/runman"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
