@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DinoPickerActivity" />
+        <activity
+            android:name=".DinoPickerActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".TrackPicker"
             android:configChanges="orientation|screenSize"
@@ -32,8 +34,8 @@
             android:label="Map View" />
         <activity
             android:name=".RunningActivity"
-            android:label="@string/title_activity_running"
             android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_running"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
