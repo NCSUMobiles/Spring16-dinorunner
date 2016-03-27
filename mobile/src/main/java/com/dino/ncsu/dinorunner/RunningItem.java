@@ -10,16 +10,15 @@ public class RunningItem implements Serializable {
     private Integer imageId;
     private double speedBoost;
 
-    public RunningItem() {
-        setName("Default Item");
-        setImageId(0);
-        setSpeedBoost(0);
-    }
-
     public RunningItem(String name, Integer imageId, double speedBoost) {
         this.name = name;
         this.imageId = imageId;
         this.speedBoost = speedBoost;
+    }
+    public RunningItem() {
+        setName("Default Item");
+        setImageId(0);
+        setSpeedBoost(0);
     }
 
     public String getName() {
@@ -45,5 +44,4 @@ public class RunningItem implements Serializable {
     public void setSpeedBoost(double speedBoost) {
         this.speedBoost = speedBoost;
     }
-
 }

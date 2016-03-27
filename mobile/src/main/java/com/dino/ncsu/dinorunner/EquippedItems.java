@@ -67,4 +67,24 @@ public class EquippedItems implements Serializable {
     public void setShoes(RunningItem shoes) {
         this.shoes = shoes;
     }
+
+    public void setItemAtIndex(int i, RunningItem item) {
+        switch(i) {
+            case 0:
+                setHelmet(item);
+                break;
+            case 1:
+                setChest(item);
+                break;
+            case 2:
+                setShirt(item);
+                break;
+            case 3:
+                setPants(item);
+                break;
+            case 4:
+                setShoes(item);
+                break;
+        }
+    }
 }

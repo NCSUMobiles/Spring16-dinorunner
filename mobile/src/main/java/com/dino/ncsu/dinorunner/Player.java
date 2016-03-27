@@ -6,6 +6,7 @@ package com.dino.ncsu.dinorunner;
 public class Player {
     private double topSpeed; //Top speed achieved by player
     private double avgSpeed; //Average speed of player
+    private double boostedSpeed;    //speed to boost player
     private double totalWeekDist;
     private double totalMonthDist;
     private EquippedItems listOfItems; //List of items for player
@@ -63,5 +64,39 @@ public class Player {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public EquippedItems getListOfItems() {
+        return listOfItems;
+    }
+
+    public void setListOfItems(EquippedItems listOfItems) {
+        this.listOfItems = listOfItems;
+        initBoostedSpeed();
+    }
+
+    public void initBoostedSpeed() {
+        this.boostedSpeed = 0;
+        this.boostedSpeed += listOfItems.getHelmet().getSpeedBoost();
+        this.boostedSpeed += listOfItems.getShirt().getSpeedBoost();
+        this.boostedSpeed += listOfItems.getChest().getSpeedBoost();
+        this.boostedSpeed += listOfItems.getPants().getSpeedBoost();
+        this.boostedSpeed += listOfItems.getShoes().getSpeedBoost();
+    }
+
+    public double getBoostedSpeed() {
+        return boostedSpeed;
+    }
+
+    public void setBoostedSpeed(double boostedSpeed) {
+        this.boostedSpeed = boostedSpeed;
     }
 }

@@ -5,10 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -20,30 +20,41 @@ import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 
 public class TrackPicker extends Activity {
-    ListView list;
-    byte[] dinoByteArray;
 
-    String[] tracks = new String[]{
+    private byte[] dinoByteArray;
+
+    private String[] tracks = new String[]{
             "Forest of A'alath",
             "Desert of Tyndall",
             "Jungle of the Troll King"
     };
-    Integer[] imageId = new Integer[]{
+
+    private Integer[] imageId = new Integer[]{
             R.mipmap.forest_a,
             R.mipmap.desert_t,
             R.mipmap.troll
     };
-    String[] desc = new String[]{
+
+    private String[] desc = new String[]{
             "A small temperate forest near the town of A'alath. Few dangers rests in these peaceful woods. Even the most novice adventurers can navigate through these paths. ",
             "Named after the Elven King Tyndall, the desert of Tyndall is a barren land littered with bandits and quicksand. Even experienced adventurers will find difficulty in not getting lost in these vast sands. ",
             "Few adventurers have ventured into the Troll King's realm and left in one piece. The thick jungle is full of suprises, from man-eating bugs to savage trolls. Do not enter unless you are prepared to die."
     };
 
-    String[] diff = new String[] {
+    private String[] diff = new String[]{
             "Difficulty: Easy",
             "Difficulty: Medium",
             "Difficulty: Hard"
     };
+
+    // Keys used in Hashmap
+    private String[] from = {"image", "tracks", "desc", "diff"};
+
+    // Ids of views in listview_layout
+    private int[] to = {R.id.image, R.id.tracks, R.id.desc, R.id.diff};
+
+
+    private TrackListAdapter adapter;
 
     /**
      * Called when the activity is first created.
@@ -68,25 +79,32 @@ public class TrackPicker extends Activity {
             aList.add(hm);
         }
 
-        // Keys used in Hashmap
-        String[] from = {"image", "tracks", "desc", "diff"};
-
-        // Ids of views in listview_layout
-        int[] to = {R.id.image, R.id.tracks, R.id.desc, R.id.diff};
-
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
-        SimpleAdapter adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.trackpicker_list_single, from, to);
+        RecyclerView listView = (RecyclerView) findViewById(R.id.listView);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(TrackPicker.this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        // Getting a reference to listview of main.xml layout file
-        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setLayoutManager(mLayoutManager);
+        listView.setHasFixedSize(true);
 
         // Setting the adapter to the listView
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new TrackListAdapter(getBaseContext(), aList, R.layout.trackpicker_list_single, from, to, new CustomItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final HashMap<String, String> item = (HashMap<String, String>) parent.getAdapter().getItem(position);
+            void onItemClick(ItemListAdapter adapter, View v, int position) {
+                //Do Nothing
+            }
+
+            @Override
+            void onItemClick(DinoListAdapter adapter, View v, int position) {
+                //Do Nothing
+            }
+
+            @Override
+            void onItemClick(TrackListAdapter adapter, View v, int position) {
+                final HashMap<String, String> item = adapter.getItem(position);
+                final Track track = new Track(item.get("tracks"), Integer.parseInt(item.get("image")));
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))
@@ -98,7 +116,7 @@ public class TrackPicker extends Activity {
                                     Bundle dataBundle = new Bundle();
                                     Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
                                     dataBundle.putByteArray("dinoPicked", dinoByteArray);
-                                    dataBundle.putByteArray("mapPicked", object2Bytes(item));
+                                    dataBundle.putByteArray("mapPicked", object2Bytes(track));
                                     intent.putExtras(dataBundle);
                                     Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
@@ -116,6 +134,8 @@ public class TrackPicker extends Activity {
                         .show();
             }
         });
+
+        listView.setAdapter(adapter);
     }
 
 }
