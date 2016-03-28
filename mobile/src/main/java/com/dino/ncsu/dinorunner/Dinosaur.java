@@ -15,6 +15,13 @@ public class Dinosaur implements Serializable {
     private double energyRegen; //Dinosaur's energy regen level
     private double distance; //Dinosaur's distance traveled so far
 
+    private static Dinosaur instance; //Singleton of Dinosaur
+
+    public static Dinosaur getInstance() {
+        return instance;
+    }
+
+
     //Dinosaur object
     public Dinosaur(String name, int id, double curr, double max, double acc, double engy, double engyRegen) {
         setNameOfDino(name);

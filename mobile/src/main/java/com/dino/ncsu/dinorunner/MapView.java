@@ -30,7 +30,7 @@ public class MapView extends View {
 
 
     Bitmap default_head = BitmapFactory.decodeResource(getResources(), R.mipmap.default_head);
-    Bitmap default_torso = BitmapFactory.decodeResource(getResources(), R.mipmap.default_torso);
+    Bitmap default_torso = BitmapFactory.decodeResource(getResources(), R.mipmap.default_chest);
     Bitmap default_pants = BitmapFactory.decodeResource(getResources(), R.mipmap.default_pants);
     Bitmap default_shoes = BitmapFactory.decodeResource(getResources(), R.mipmap.default_shoes);
 

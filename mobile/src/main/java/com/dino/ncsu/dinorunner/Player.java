@@ -15,10 +15,6 @@ public class Player {
 
     private static Player instance; //instance of player
 
-    static {
-        instance = new Player();
-    }
-
     public Player() {
         this.listOfItems = EquippedItems.getInstance();
     }
