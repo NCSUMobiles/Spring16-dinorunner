@@ -13,6 +13,11 @@ public class Player {
     private double distance; //Distance traveled
     private String playerName; //Player name
 
+    private static Player instance; //instance of player
+
+    static {
+        instance = new Player();
+    }
 
     public Player() {
         this.listOfItems = new EquippedItems();
@@ -98,5 +103,10 @@ public class Player {
 
     public void setBoostedSpeed(double boostedSpeed) {
         this.boostedSpeed = boostedSpeed;
+    }
+
+    //Gets instance of player singleton
+    public static Player getInstance() {
+        return instance;
     }
 }

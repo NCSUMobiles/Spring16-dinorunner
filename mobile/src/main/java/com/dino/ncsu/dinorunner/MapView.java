@@ -13,6 +13,8 @@ public class MapView extends View {
 
     Paint paint = new Paint();
 
+    MapViewActivity map = new MapViewActivity(); //New Activity constructor
+
     public MapView(Context context) {
         super(context);
     }
@@ -22,9 +24,10 @@ public class MapView extends View {
         super.onDraw(canvas);
         paint.setColor(Color.parseColor("#ff0000"));
         paint.setStrokeWidth(2.0f);
+        paint.setTextSize(60);
         canvas.drawLine(0, 0, 500, 500, paint);
         canvas.drawLine(500,0,0,500,paint);
-
+        canvas.drawText("Player Speed: " + map.getSpeed(), 0, 600, paint);
     }
 }
  

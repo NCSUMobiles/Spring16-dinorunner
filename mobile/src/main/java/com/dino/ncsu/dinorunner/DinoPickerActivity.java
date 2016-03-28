@@ -19,19 +19,19 @@ import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 public class DinoPickerActivity extends Activity {
     private String[] dinos = new String[]{
-            "Stegosaurus",
-            "Triceratops",
-            "Tyrannosaurus Rex"
+            "Goblin",
+            "Skeleton Spearman",
+            "Forest Giant"
     };
     private Integer[] imageId = new Integer[]{
-            R.mipmap.stego,
-            R.mipmap.tri,
-            R.mipmap.trex
+            R.mipmap.goblin,
+            R.mipmap.skele_spearman,
+            R.mipmap.forest_giant
     };
     private String[] diff = new String[]{
-            "A lumbering, fern loving dinosaur. Not very dangerous unless provoked. Easy",
-            "A three horned beast. Be wary of its horns and acceleration. Medium",
-            "Four words. Run. For. Your. Life! Hard"
+            "Goblins are more mischievous than dangerous. They patrol around to find weak adventurers to ambush. Easy",
+            "Sp00ky! Medium",
+            "Peaceful until provoked. Just being there is provoking him. Hard"
     };
 
     private DinoListAdapter adapter;
