@@ -47,19 +47,19 @@ public class ItemPickActivity extends Activity {
     };
 
     private Integer[] imageId = new Integer[]{
-            R.mipmap.stego,
+            R.mipmap.default_head,
             R.mipmap.runman,
             R.mipmap.runman,
-            R.mipmap.tri,
+            R.mipmap.default_torso,
+            R.mipmap.stitched_shirt_blue,
+            R.mipmap.runman,
+            R.mipmap.stitched_shirt_blue,
             R.mipmap.runman,
             R.mipmap.runman,
-            R.mipmap.trex,
+            R.mipmap.default_pants,
             R.mipmap.runman,
             R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.runman,
+            R.mipmap.default_shoes,
             R.mipmap.runman,
             R.mipmap.runman
 
@@ -71,7 +71,7 @@ public class ItemPickActivity extends Activity {
             "Default Item. No boost to your speed",
             "Epic Item. +1.5 to your overall speed",
             "Legendary Item. +3.14 to your overall speed",
-            "Default Item. No boost to your speed",
+            "Stitched Blue Shirt. No boost to your speed",
             "Epic Item. +1.5 to your overall speed",
             "Legendary Item. +3.14 to your overall speed",
             "Default Item. No boost to your speed",
@@ -287,7 +287,7 @@ public class ItemPickActivity extends Activity {
 
                             int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
 
-                            EquippedItems equippedItems = new EquippedItems();
+                            EquippedItems equippedItems = EquippedItems.getInstance();
 
                             for (int i = 0; i < 5; i++) {
                                 HashMap<String, String> iMap = mListAdapter.getItem(i);

@@ -20,7 +20,7 @@ public class Player {
     }
 
     public Player() {
-        this.listOfItems = new EquippedItems();
+        this.listOfItems = EquippedItems.getInstance();
     }
 
     public Player(double topSpeed, double avgSpeed, double totalWeekDist, double totalMonthDist, EquippedItems listOfItems) {
