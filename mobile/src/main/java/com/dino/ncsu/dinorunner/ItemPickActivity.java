@@ -53,7 +53,7 @@ public class ItemPickActivity extends Activity {
             R.mipmap.default_chest,
             R.mipmap.stitched_shirt_blue,
             R.mipmap.cloak_of_flames,
-            R.mipmap.default_shirt,
+            R.mipmap.runman,
             R.mipmap.runman,
             R.mipmap.runman,
             R.mipmap.default_pants,

@@ -18,11 +18,17 @@ public class RunningActivity extends Activity {
     private double distanceTraveled;
     private int totalDistance;
     private Player player;
+    private float speed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MapViewActivity map = new MapViewActivity();
+        speed = map.getSpeed();
+
         setContentView(new MapView(this));
+
 
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
@@ -43,11 +49,16 @@ public class RunningActivity extends Activity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
     @Override
     public void onBackPressed() {
         Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
         dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dataIntent);
+    }
+
+    public float getPlayerSpeed() {
+        return this.speed;
     }
 }
