@@ -29,19 +29,19 @@ public class ItemPickActivity extends Activity {
     private byte[] map;
 
     private String[] items = new String[]{
-            "Default Helmet",
+            "No Helmet",
             "Majestic Helmet",
             "Legacy Helmet",
             "Default Armor",
             "Blue Stitched Vest",
             "Flame Walker Vest",
-            "Default Shirt",
+            "Yellow Shirt",
             "Majestic Shirt",
             "Epic Shirt",
-            "Default Pants",
+            "Brown Pants",
             "Epic Pants",
             "Legacy Pants",
-            "Default Shoes",
+            "Old Black Boots",
             "Fast Shoes",
             "Ultimate Shoes"
     };
@@ -53,7 +53,7 @@ public class ItemPickActivity extends Activity {
             R.mipmap.default_chest,
             R.mipmap.stitched_shirt_blue,
             R.mipmap.cloak_of_flames,
-            R.mipmap.runman,
+            R.mipmap.default_shirt,
             R.mipmap.runman,
             R.mipmap.runman,
             R.mipmap.default_pants,
@@ -74,10 +74,10 @@ public class ItemPickActivity extends Activity {
             "Standard shirt. Havn't been washed in days. No boost to your speed",
             "Epic Item. +1.5 to your overall speed",
             "Legendary Item. +3.14 to your overall speed",
-            "Default Item. No boost to your speed",
+            "Was brown its original color? Who knows. No boost to your speed",
             "Epic Item. +1.5 to your overall speed",
             "Legendary Item. +3.14 to your overall speed",
-            "Default Item. No boost to your speed",
+            "A pair of stinky black boots. No boost to your speed",
             "Epic Item. +1.5 to your overall speed",
             "Legendary Item. +3.14 to your overall speed"
     };

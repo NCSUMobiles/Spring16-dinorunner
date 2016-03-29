@@ -29,10 +29,6 @@
             android:configChanges="orientation|screenSize"
             android:label="Pick your items" />
         <activity
-            android:name=".MapViewActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="Map View" />
-        <activity
             android:name=".RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running" />

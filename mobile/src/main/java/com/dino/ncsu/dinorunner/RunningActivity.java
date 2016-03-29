@@ -1,14 +1,17 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import java.io.IOException;
 
 import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
-public class RunningActivity extends Activity {
+public class RunningActivity extends Activity implements  IBaseGpsListener {
 
     //Private variables in this class
     private Dinosaur dino;
@@ -24,11 +27,7 @@ public class RunningActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MapViewActivity map = new MapViewActivity();
-        speed = map.getSpeed();
-
         setContentView(new MapView(this));
-
 
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
@@ -50,6 +49,17 @@ public class RunningActivity extends Activity {
             e.printStackTrace();
         }
 
+        //Gps stuff goes here:
+        //Acquire reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                0,
+                0,
+                this);
+
+        this.updateSpeed(null);
+
     }
     @Override
     public void onBackPressed() {
@@ -59,6 +69,54 @@ public class RunningActivity extends Activity {
     }
 
     public float getPlayerSpeed() {
+
         return this.speed;
+    }
+
+    public void finish()
+    {
+        super.finish();
+        System.exit(0);
+    }
+
+    public void updateSpeed(Location location)
+    {
+        float nCurrentSpeed = 0;
+
+        if( location!=null )
+        {
+            nCurrentSpeed = location.getSpeed();
+            speed = nCurrentSpeed;
+        }
+    }
+
+    public void onLocationChanged(Location location)
+    {
+        if (location != null)
+        {
+            Location myLocation = new Location(location);
+            this.updateSpeed(myLocation);
+        }
+    }
+
+    public void onProviderDisabled(String provider)
+    {
+        // TODO: do something one day?
+    }
+
+    public void onProviderEnabled(String provider)
+    {
+        // TODO: do something one day?
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+        // TODO: do something one day?
+
+    }
+
+    public void onGpsStatusChanged(int event)
+    {
+        // TODO: do something one day?
     }
 }

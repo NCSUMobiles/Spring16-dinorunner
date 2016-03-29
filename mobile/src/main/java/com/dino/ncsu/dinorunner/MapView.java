@@ -25,8 +25,13 @@ public class MapView extends View {
 
     EquippedItems equipment = EquippedItems.getInstance();
 
-    float EquipmentPos_X = 700;
-    float EquipmentPos_Y = 100;
+    //Equipment Location on Canvas
+    float EquipmentPos_X = 640;
+    float EquipmentPos_Y = 70;
+
+    //Equipment Frame Location on Canvas
+    float EquipmentFramePos_X = 600;
+    float EquipmentFramePos_Y = 50;
 
 
     Bitmap default_head = BitmapFactory.decodeResource(getResources(), R.mipmap.default_head);
@@ -45,7 +50,7 @@ public class MapView extends View {
     Bitmap equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
     Bitmap equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
     Bitmap equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId() );
-    Bitmap equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId() );
+    Bitmap equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
 
 
     float equipped_head_POS_Y = equipped_head.getHeight();
@@ -53,8 +58,15 @@ public class MapView extends View {
     float equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
     float equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();;
 
+
+    //Timer variables for Frame refresh
+    int framesPerSecond = 60;
+
+    long startTime;
+
     @Override
     protected void onDraw(Canvas canvas) {
+        long elapsedTime = System.currentTimeMillis() - startTime;
         super.onDraw(canvas);
         paint.setColor(Color.parseColor("#ff0000"));
         paint.setStrokeWidth(2.0f);
@@ -62,16 +74,28 @@ public class MapView extends View {
         canvas.drawLine(0, 0, 500, 500, paint);
         canvas.drawLine(500, 0, 0, 500, paint);
 
+        //Code for Drawing
+        drawEquipment(canvas);
+
+
+        canvas.drawText("Player Speed: " + run.getPlayerSpeed(), 0, 600, paint);
+
+        //Refreshes frame
+        this.postInvalidateDelayed( 1000 / framesPerSecond);
+    }
+
+    //This method draws all the equipment
+    public void drawEquipment(Canvas canvas) {
         //Draws equipment screen
-        canvas.drawBitmap(character_farme, EquipmentPos_X, EquipmentPos_Y, paint);
+        canvas.drawBitmap(character_farme, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
 
         //Draws equipment
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
         canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
         canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
-
-        canvas.drawText("Player Speed: " + run.getPlayerSpeed(), 0, 600, paint);
     }
+
+
 }
  

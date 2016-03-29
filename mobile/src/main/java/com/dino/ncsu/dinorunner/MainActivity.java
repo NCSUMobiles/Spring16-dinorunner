@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mapViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MapViewActivity.class));
+                startActivity(new Intent(getApplicationContext(), RunningActivity.class));
             }
         });
     }
