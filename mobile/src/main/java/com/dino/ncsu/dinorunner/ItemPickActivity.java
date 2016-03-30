@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,12 +17,17 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.widget.EditText.*;
 import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 public class ItemPickActivity extends Activity {
@@ -114,6 +120,11 @@ public class ItemPickActivity extends Activity {
     private int[] to = {R.id.image, R.id.name, R.id.desc, R.id.boost};
 
     private ItemListAdapter mListAdapter;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +149,7 @@ public class ItemPickActivity extends Activity {
                 hm.put("boost", Double.toString(boosts[i]));
                 allItems.add(hm);
 
-                if(defaultIndices.indexOf(i) != -1)
+                if (defaultIndices.indexOf(i) != -1)
                     itemList.add(hm);
             }
 
@@ -168,26 +179,29 @@ public class ItemPickActivity extends Activity {
             lView.setAdapter(mListAdapter);
         }
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.start_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "Clicked the button!", Toast.LENGTH_LONG).show();
                 createRunDialog();
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void createItemDialog(final int position, ItemListAdapter adapter) {
         adapter.getItem(position);
         View dialogView = getLayoutInflater().inflate(R.layout.list_items, null);
 
-        RecyclerView rView = (RecyclerView)dialogView.findViewById(R.id.listView2);
+        RecyclerView rView = (RecyclerView) dialogView.findViewById(R.id.listView2);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ItemPickActivity.this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         rView.setItemAnimator(new DefaultItemAnimator());
         rView.setLayoutManager(mLayoutManager);
-        final List<HashMap<String, String>> newList = allItems.subList(defaultIndices.get(position), defaultIndices.get(position+1));
+        final List<HashMap<String, String>> newList = allItems.subList(defaultIndices.get(position), defaultIndices.get(position + 1));
 
         final AlertDialog newDialog = new AlertDialog.Builder(ItemPickActivity.this, AlertDialog.THEME_HOLO_LIGHT)
                 .setTitle(itemTypes[position])
@@ -223,6 +237,7 @@ public class ItemPickActivity extends Activity {
         pickDist.setProgress(0);
         pickDist.incrementProgressBy(50);
         final EditText distValueText = (EditText) dialogView.findViewById(R.id.dist_value);
+        distValueText.setSelection(distValueText.length());
 
         distValueText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -309,7 +324,7 @@ public class ItemPickActivity extends Activity {
                             intent.putExtras(dataBundle);
                             //Toast.makeText(getApplicationContext(), "Start Running", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
-                        } catch(IOException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -333,4 +348,43 @@ public class ItemPickActivity extends Activity {
         startActivity(dataIntent);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ItemPick Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.dino.ncsu.dinorunner/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ItemPick Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.dino.ncsu.dinorunner/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }

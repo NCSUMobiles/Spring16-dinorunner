@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Running Distance"
+        android:text="@string/running_distance"
         android:id="@+id/textView2"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -18,10 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dist_value"
-        android:text="100"
+        android:text="@string/default_disctance"
         android:inputType="number"
         android:layout_below="@+id/textView2"
-        android:layout_alignStart="@+id/laps_picker" />
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
     <SeekBar
         android:id="@+id/distance_picker"
@@ -33,29 +34,35 @@
 
     <TextView
         android:id="@+id/laps_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Laps"
+        android:text="@string/laps"
         android:textStyle="bold"
         android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:layout_alignRight="@+id/laps_picker"
+        android:layout_alignEnd="@+id/laps_picker"
         android:layout_below="@+id/distance_picker"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/dist_value"
+        android:layout_toEndOf="@+id/dist_value" />
 
     <NumberPicker
         android:id="@+id/laps_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/laps_label"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Meters"
+        android:text="@string/meters"
         android:id="@+id/textView3"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:layout_alignBaseline="@+id/dist_value"
         android:layout_alignBottom="@+id/dist_value"
+        android:layout_toRightOf="@+id/dist_value"
         android:layout_toEndOf="@+id/dist_value" />
 </RelativeLayout>
