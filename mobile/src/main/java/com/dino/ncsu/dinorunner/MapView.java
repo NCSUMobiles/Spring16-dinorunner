@@ -15,8 +15,6 @@ public class MapView extends View {
 
     Paint paint = new Paint();
 
-    RunningActivity run = new RunningActivity();
-
     public MapView(Context context) {
         super(context);
     }
@@ -45,7 +43,7 @@ public class MapView extends View {
     float default_shoes_POS_Y = default_head.getHeight() + default_pants_POS_Y + default_torso_POS_Y;
 
     //Bitmap for frame:
-    Bitmap character_farme = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
+    Bitmap character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
 
     Bitmap equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
     Bitmap equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
@@ -78,22 +76,24 @@ public class MapView extends View {
         drawEquipment(canvas);
 
 
-        canvas.drawText("Player Speed: " + run.getPlayerSpeed(), 0, 600, paint);
 
-        //Refreshes frame
-        this.postInvalidateDelayed( 1000 / framesPerSecond);
+
     }
 
     //This method draws all the equipment
     public void drawEquipment(Canvas canvas) {
         //Draws equipment screen
-        canvas.drawBitmap(character_farme, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
+        canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
 
         //Draws equipment
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
         canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
         canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
+    }
+
+    public void redraw() {
+
     }
 
 

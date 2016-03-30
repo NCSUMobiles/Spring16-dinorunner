@@ -3,6 +3,10 @@ package com.dino.ncsu.dinorunner;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,27 +15,45 @@ import java.io.IOException;
 
 import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
-public class RunningActivity extends Activity implements  IBaseGpsListener {
+public class RunningActivity extends Activity implements SensorEventListener{
 
     //Private variables in this class
     private Dinosaur dino;
     private Track track;
     private int lapsDone;
     private int totalLaps;
-    private double distanceTraveled;
+    private int distanceTraveled;
     private int totalDistance;
     private Player player;
     private float speed;
+    private boolean activityRunning = true;
+
+    //Pedometer Data
+
+    private SensorManager mSensorManager;
+
+    private Sensor mStepCounterSensor;
+
+    private Sensor mStepDetectorSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(new MapView(this));
+        setContentView(R.layout.activity_running);
 
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
 
+        //load pedometer sensors
+        mSensorManager = (SensorManager)
+                getSystemService(Context.SENSOR_SERVICE);
+        mStepCounterSensor = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mStepDetectorSensor = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+
+        //Laps, distance traveled data
         lapsDone = 0;
         totalLaps = infoBundle.getInt("lapsPicked");
         distanceTraveled = 0;
@@ -49,18 +71,9 @@ public class RunningActivity extends Activity implements  IBaseGpsListener {
             e.printStackTrace();
         }
 
-        //Gps stuff goes here:
-        //Acquire reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0,
-                0,
-                this);
-
-        this.updateSpeed(null);
-
     }
+
+    //When backbutton is pressed
     @Override
     public void onBackPressed() {
         Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -68,55 +81,64 @@ public class RunningActivity extends Activity implements  IBaseGpsListener {
         startActivity(dataIntent);
     }
 
+    //When steps are detected
+    public void onSensorChanged(SensorEvent event) {
+        Sensor sensor = event.sensor;
+        float[] values = event.values;
+        int value = -1;
+
+        if (values.length > 0) {
+            value = (int) values[0];
+        }
+
+        if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) { //Sets total steps to this when step counter is changed
+            distanceTraveled = value;
+        }
+        else if (sensor.getType() == Sensor.TYPE_STEP_DETECTOR) { //Increases step counter by 1 when step is taken
+            distanceTraveled += 1;
+        }
+    }
+
+    //Unpause
+    protected void onResume() {
+
+        super.onResume();
+
+        mSensorManager.registerListener(this, mStepCounterSensor,
+
+                SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mStepDetectorSensor,
+
+                SensorManager.SENSOR_DELAY_FASTEST);
+    }
+
+    //Stopped
+    protected void onStop() {
+        super.onStop();
+        mSensorManager.unregisterListener(this, mStepCounterSensor);
+        mSensorManager.unregisterListener(this, mStepDetectorSensor);
+    }
+
+    //Pause
+    protected void onPause() {
+        super.onPause();
+        activityRunning = false;
+    }
+
+    //Dunno what this does
+    @Override
+    public void onAccuracyChanged (Sensor sensor, int accuracy) {
+        //Nothing yet
+    }
+
+    //Returns player speed
     public float getPlayerSpeed() {
 
         return this.speed;
     }
 
-    public void finish()
-    {
-        super.finish();
-        System.exit(0);
-    }
-
-    public void updateSpeed(Location location)
-    {
-        float nCurrentSpeed = 0;
-
-        if( location!=null )
-        {
-            nCurrentSpeed = location.getSpeed();
-            speed = nCurrentSpeed;
-        }
-    }
-
-    public void onLocationChanged(Location location)
-    {
-        if (location != null)
-        {
-            Location myLocation = new Location(location);
-            this.updateSpeed(myLocation);
-        }
-    }
-
-    public void onProviderDisabled(String provider)
-    {
-        // TODO: do something one day?
-    }
-
-    public void onProviderEnabled(String provider)
-    {
-        // TODO: do something one day?
-    }
-
-    public void onStatusChanged(String provider, int status, Bundle extras)
-    {
-        // TODO: do something one day?
-
-    }
-
-    public void onGpsStatusChanged(int event)
-    {
-        // TODO: do something one day?
+    //Returns distance traveled
+    public int getDistanceTraveled() {
+        return this.distanceTraveled;
     }
 }
