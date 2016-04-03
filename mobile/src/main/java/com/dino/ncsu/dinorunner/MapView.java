@@ -10,6 +10,9 @@ import android.view.View;
 
 /**
  * Created by luyao on 3/3/2016.
+ *
+ * Class that contains the map view which will draw the
+ * map and checks the current progress of the monster and runner
  */
 public class MapView extends View {
 

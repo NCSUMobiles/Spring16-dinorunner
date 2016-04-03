@@ -16,8 +16,13 @@ import java.util.List;
 
 import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
-
+/**
+ * This class holds the necessary functionality for the DicoPickerActivity
+ * When the user picks a Monster from the list, the data of the monster
+ * is carried over to the TrackPickerActivity.
+ */
 public class DinoPickerActivity extends Activity {
+    //private variables for this class
     private String[] dinos = new String[]{
             "Goblin",
             "Skeleton Spearman",
@@ -38,6 +43,8 @@ public class DinoPickerActivity extends Activity {
 
     /**
      * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {

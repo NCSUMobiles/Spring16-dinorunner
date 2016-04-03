@@ -18,9 +18,13 @@ import java.util.List;
 
 import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
-
+/**
+ * This class holds the necessary functionality for the TrackPickActivity
+ * When the user picks a track from the list, the previous data along with
+ * the track is carried over to the ItemPickActivity.
+ */
 public class TrackPicker extends Activity {
-
+    //Private variables in this class
     private byte[] dinoByteArray;
 
     private String[] tracks = new String[]{
@@ -58,6 +62,8 @@ public class TrackPicker extends Activity {
 
     /**
      * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {

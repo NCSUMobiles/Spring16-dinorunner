@@ -8,17 +8,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * This class holds the necessary functionality for the MainActivity.
+ */
 public class MainActivity extends AppCompatActivity {
 
-
-   // private Button stats = (Button) findViewById(R.id.stats_button);
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-        Button runButton = (Button)findViewById(R.id.run_button);
+        Button runButton = (Button) findViewById(R.id.run_button);
         runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button mapViewButton = (Button)findViewById(R.id.mapview_button);
+        Button mapViewButton = (Button) findViewById(R.id.mapview_button);
         mapViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Pulls up the menu to configure the default options for the user
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -42,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Checks if item is already clicked
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

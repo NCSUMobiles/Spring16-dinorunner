@@ -13,8 +13,12 @@ import java.util.List;
 
 /**
  * Created by Kevin-Lenovo on 3/26/2016.
+ * <p>
+ * Contains the list adapter that will be used to
+ * maintain the list of Tracks to be selected by the user.
  */
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
+    //private variables for this class
     private Context context;
     private List<HashMap<String, String>> aList;
     private int layoutId;
@@ -22,6 +26,16 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     private static int[] to;
     private CustomItemClickListener listener;
 
+    /**
+     * Constructor for the TrackListAdapter
+     *
+     * @param baseContext             Context to inflate the layout for the ItemPicker
+     * @param aList                   The list of Track in a list of hashmaps
+     * @param trackpicker_list_single The resource ID of the layout for a single Running item
+     * @param from                    The list of keys to attach each resource in the RecyclerView
+     * @param to                      The list of IDs of each component of the layout in this view
+     * @param listener                The custom click listener to attach to this class
+     */
     public TrackListAdapter(Context baseContext, List<HashMap<String, String>> aList, int trackpicker_list_single, String[] from, int[] to, CustomItemClickListener listener) {
         this.context = baseContext;
         this.aList = aList;
@@ -29,11 +43,6 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         this.from = from;
         this.to = to;
         this.listener = listener;
-    }
-
-    public void setItem(int position, HashMap<String, String> stringStringHashMap) {
-        aList.set(position, stringStringHashMap);
-        notifyDataSetChanged();
     }
 
     /**
@@ -48,17 +57,26 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
         /**
          * Constructor for the inner ViewHolder class
+         *
          * @param v The view to get other views from.
          */
         public ViewHolder(View v) {
             super(v);
-            iView = (ImageView)v.findViewById(to[0]);
-            nameView = (TextView)v.findViewById(to[1]);
-            descView = (TextView)v.findViewById(to[2]);
-            diffView = (TextView)v.findViewById(to[3]);
+            iView = (ImageView) v.findViewById(to[0]);
+            nameView = (TextView) v.findViewById(to[1]);
+            descView = (TextView) v.findViewById(to[2]);
+            diffView = (TextView) v.findViewById(to[3]);
         }
     }
 
+    /**
+     * Creates the ViewHolder to contain the linearlayout for
+     * this list of items
+     *
+     * @param parent   The parent view to hold
+     * @param viewType The type of view to hold
+     * @return the ViewHolder for the RecyclerView
+     */
     @Override
     public TrackListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
@@ -75,6 +93,12 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         return vh;
     }
 
+    /**
+     * Binds the item in the list to each component of the view
+     *
+     * @param holder   The holder that holds the view
+     * @param position The position in the list to put items in
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.iView.setImageResource(Integer.parseInt(aList.get(position).get(from[0])));
@@ -83,11 +107,22 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         holder.diffView.setText(aList.get(position).get(from[3]));
     }
 
+    /**
+     * Gets the item count
+     *
+     * @return The size of the list
+     */
     @Override
     public int getItemCount() {
         return aList.size();
     }
 
+    /**
+     * Gets an item in the specified position
+     *
+     * @param position The position to get the item inside of the list
+     * @return The item inside of the specified position
+     */
     public HashMap<String, String> getItem(int position) {
         return aList.get(position);
     }

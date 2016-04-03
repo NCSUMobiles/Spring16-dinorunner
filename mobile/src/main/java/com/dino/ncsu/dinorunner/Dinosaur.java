@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Created by Kevin-Lenovo on 2/29/2016.
+ *
+ * Singleton class that holds the essential data for the Monster class
  */
 public class Dinosaur implements Serializable {
     private String nameOfDino; //Name of dinosaur
@@ -22,7 +24,7 @@ public class Dinosaur implements Serializable {
     }
 
 
-    //Dinosaur object
+    //Dinosaur constructors
     public Dinosaur(String name, int id, double curr, double max, double acc, double engy, double engyRegen) {
         setNameOfDino(name);
         setImageId(id);

@@ -7,8 +7,15 @@ import java.io.IOException;
 
 import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
+/**
+ * This class holds the necessary functionality for the RunningActivity
+ * <p>
+ * Keeps track of the progress running by the runner to see if the monster
+ * is catching up to them.  Moves forward to the victory screen when the run is funished.
+ * <p>
+ * Moves back to the main screen if the user presses the back button.
+ */
 public class RunningActivity extends Activity {
-
     //Private variables in this class
     private Dinosaur dino;
     private Track track;
@@ -20,6 +27,11 @@ public class RunningActivity extends Activity {
     private float speed;
     private boolean activityRunning = true;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +63,6 @@ public class RunningActivity extends Activity {
 
     //Returns player speed
     public float getPlayerSpeed() {
-
         return this.speed;
     }
 

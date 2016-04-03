@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 
 /**
  * Created by Kevin-Lenovo on 3/2/2016.
+ * <p>
+ * Contains the operations to convert
+ * serialiable objects to byte arrays and vice versa
  */
 public class FileOperations {
     /**

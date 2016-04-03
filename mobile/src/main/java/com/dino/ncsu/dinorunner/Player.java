@@ -2,6 +2,8 @@ package com.dino.ncsu.dinorunner;
 
 /**
  * Created by jiminfan on 2/28/2016.
+ * <p>
+ * Singleton Class that contains the necessary information that will pertain to the player
  */
 public class Player {
     private double topSpeed; //Top speed achieved by player
@@ -19,6 +21,15 @@ public class Player {
         this.listOfItems = EquippedItems.getInstance();
     }
 
+    /**
+     * Constructor for the player
+     *
+     * @param topSpeed       The top speed of the player
+     * @param avgSpeed       The average speed ran by the player
+     * @param totalWeekDist  The distance traveled for the whole week
+     * @param totalMonthDist The distance traveled for the whole month
+     * @param listOfItems    The list of items earned through his/her lifetime
+     */
     public Player(double topSpeed, double avgSpeed, double totalWeekDist, double totalMonthDist, EquippedItems listOfItems) {
         this.topSpeed = topSpeed;
         this.avgSpeed = avgSpeed;

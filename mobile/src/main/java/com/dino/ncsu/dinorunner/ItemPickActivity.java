@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,20 +16,22 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.widget.EditText.*;
+import static android.widget.EditText.OnClickListener;
 import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
+/**
+ * This class holds the necessary functionality for the ItemPickActivity
+ * When the user picks items from the list, the previous data along with
+ * the list of equipped items is carried over to the RunningActivity.
+ */
 public class ItemPickActivity extends Activity {
+    //private variables for this class
     private byte[] dino;
     private byte[] map;
 
@@ -120,12 +121,12 @@ public class ItemPickActivity extends Activity {
     private int[] to = {R.id.image, R.id.name, R.id.desc, R.id.boost};
 
     private ItemListAdapter mListAdapter;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,11 +187,14 @@ public class ItemPickActivity extends Activity {
                 createRunDialog();
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    /**
+     * Creates the dialog to choose an item for the specific category
+     *
+     * @param position The type of item to choose in the dialog
+     * @param adapter  The adapter that holds the items currently equipped
+     */
     private void createItemDialog(final int position, ItemListAdapter adapter) {
         adapter.getItem(position);
         View dialogView = getLayoutInflater().inflate(R.layout.list_items, null);
@@ -229,6 +233,10 @@ public class ItemPickActivity extends Activity {
         newDialog.show();
     }
 
+    /**
+     * Creates the dialog necessary to set the distance
+     * and laps to run for the run
+     */
     private void createRunDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_view_options, null);
 
@@ -322,7 +330,6 @@ public class ItemPickActivity extends Activity {
                             dataBundle.putByteArray("itemsPicked", object2Bytes(equippedItems));
 
                             intent.putExtras(dataBundle);
-                            //Toast.makeText(getApplicationContext(), "Start Running", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -338,6 +345,9 @@ public class ItemPickActivity extends Activity {
                 .show();
     }
 
+    /**
+     * Goes back to the previous activity when the back button is pressed
+     */
     @Override
     public void onBackPressed() {
         Intent dataIntent = new Intent(getApplicationContext(), TrackPicker.class);
@@ -346,45 +356,5 @@ public class ItemPickActivity extends Activity {
         dataIntent.putExtras(bundle);
         dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dataIntent);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ItemPick Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.dino.ncsu.dinorunner/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ItemPick Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.dino.ncsu.dinorunner/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }

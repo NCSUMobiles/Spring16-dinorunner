@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by Kevin-Lenovo on 3/1/2016.
+ *
+ * Singleton class that holds the essential data for the EquippedItem class.
+ * This holds a list of Running Items for a single player
  */
 public class EquippedItems implements Serializable {
 

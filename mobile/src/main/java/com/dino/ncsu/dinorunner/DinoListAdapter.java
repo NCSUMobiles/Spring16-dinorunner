@@ -13,8 +13,12 @@ import java.util.List;
 
 /**
  * Created by Kevin-Lenovo on 3/26/2016.
+ * <p>
+ * Contains the list adapter that will be used to
+ * maintain the list of monsters to be selected by the user.
  */
 public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHolder> {
+    //private variables for this class
     private Context context;
     private List<HashMap<String, String>> aList;
     private int layoutId;
@@ -22,6 +26,16 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
     private static int[] to;
     private CustomItemClickListener listener;
 
+    /**
+     * Constructor for the class.
+     *
+     * @param baseContext            Context to inflate the layout for the dinoPicker
+     * @param aList                  The list of dinosaurs in a list of hashmaps
+     * @param dinopicker_list_single The resource ID of the layout for a single monster item
+     * @param from                   The list of keys to attach each resource in the RecyclerView
+     * @param to                     The list of IDs of each component of the layout in this view
+     * @param listener               The custom click listener to attach to this class
+     */
     public DinoListAdapter(Context baseContext, List<HashMap<String, String>> aList, int dinopicker_list_single, String[] from, int[] to, CustomItemClickListener listener) {
         this.context = baseContext;
         this.aList = aList;
@@ -29,11 +43,6 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
         this.from = from;
         this.to = to;
         this.listener = listener;
-    }
-
-    public void setItem(int position, HashMap<String, String> stringStringHashMap) {
-        aList.set(position, stringStringHashMap);
-        notifyDataSetChanged();
     }
 
     /**
@@ -47,16 +56,25 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
 
         /**
          * Constructor for the inner ViewHolder class
+         *
          * @param v The view to get other views from.
          */
         public ViewHolder(View v) {
             super(v);
-            iView = (ImageView)v.findViewById(to[0]);
-            nameView = (TextView)v.findViewById(to[1]);
-            descView = (TextView)v.findViewById(to[2]);
+            iView = (ImageView) v.findViewById(to[0]);
+            nameView = (TextView) v.findViewById(to[1]);
+            descView = (TextView) v.findViewById(to[2]);
         }
     }
 
+    /**
+     * Creates the ViewHolder to contain the linearlayout for
+     * this list of items
+     *
+     * @param parent   The parent view to hold
+     * @param viewType The type of view to hold
+     * @return the ViewHolder for the RecyclerView
+     */
     @Override
     public DinoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
@@ -73,6 +91,11 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
         return vh;
     }
 
+    /**
+     * Binds the item in the list to each component of the view
+     * @param holder The holder that holds the view
+     * @param position The position in the list to put items in
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.iView.setImageResource(Integer.parseInt(aList.get(position).get(from[0])));
@@ -80,11 +103,22 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
         holder.descView.setText(aList.get(position).get(from[2]));
     }
 
+    /**
+     * Gets the item count
+     *
+     * @return The size of the list
+     */
     @Override
     public int getItemCount() {
         return aList.size();
     }
 
+    /**
+     * Gets an item in the specified position
+     *
+     * @param position The position to get the item inside of the list
+     * @return The item inside of the specified position
+     */
     public HashMap<String, String> getItem(int position) {
         return aList.get(position);
     }
