@@ -16,7 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.dino.ncsu.dinorunner.pedometer;
+package com.dino.ncsu.dinorunner;
+
+import com.dino.ncsu.dinorunner.pedometer.StepListener;
 
 import java.util.ArrayList;
 
@@ -27,16 +29,9 @@ import java.util.ArrayList;
 public class StepDisplayer implements StepListener {
 
     private int mCount = 0;
-    PedometerSettings mSettings;
-    Utils mUtils;
 
-    public StepDisplayer(PedometerSettings settings, Utils utils) {
-        mUtils = utils;
-        mSettings = settings;
+    public StepDisplayer() {
         notifyListener();
-    }
-    public void setUtils(Utils utils) {
-        mUtils = utils;
     }
 
     public void setSteps(int steps) {
@@ -69,8 +64,9 @@ public class StepDisplayer implements StepListener {
     }
     public void notifyListener() {
         for (Listener listener : mListeners) {
-            listener.stepsChanged((int)mCount);
+            listener.stepsChanged((int) mCount);
         }
     }
-
+    
+    
 }

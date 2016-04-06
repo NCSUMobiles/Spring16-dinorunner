@@ -1,9 +1,13 @@
-package com.dino.ncsu.dinorunner.pedometer;
+package com.dino.ncsu.dinorunner;
+
+import java.util.Locale;
 
 import android.app.Service;
+import android.speech.tts.TextToSpeech;
 import android.text.format.Time;
+import android.util.Log;
 
-public class Utils  {
+public class Utils {
     private static final String TAG = "Utils";
     private Service mService;
 
@@ -11,20 +15,18 @@ public class Utils  {
 
     private Utils() {
     }
-
+     
     public static Utils getInstance() {
         if (instance == null) {
             instance = new Utils();
         }
         return instance;
     }
-
+    
     public void setService(Service service) {
         mService = service;
     }
-
-    /********** Time **********/
-
+    
     public static long currentTimeInMillis() {
         Time time = new Time();
         time.setToNow();
