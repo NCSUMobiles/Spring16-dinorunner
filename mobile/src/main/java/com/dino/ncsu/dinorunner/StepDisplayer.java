@@ -18,8 +18,6 @@
 
 package com.dino.ncsu.dinorunner;
 
-import com.dino.ncsu.dinorunner.pedometer.StepListener;
-
 import java.util.ArrayList;
 
 /**

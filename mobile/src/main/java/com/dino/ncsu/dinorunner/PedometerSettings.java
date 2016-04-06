@@ -20,9 +20,6 @@ package com.dino.ncsu.dinorunner;
 
 import android.content.SharedPreferences;
 
-import com.dino.ncsu.dinorunner.pedometer.*;
-import com.dino.ncsu.dinorunner.pedometer.Utils;
-
 /**
  * Wrapper for {@link SharedPreferences}, handles preferences-related tasks.
  * @author Levente Bagi

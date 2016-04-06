@@ -26,9 +26,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-import com.dino.ncsu.dinorunner.pedometer.*;
-import com.dino.ncsu.dinorunner.pedometer.StepListener;
-
 /**
  * Detects steps and notifies all listeners (that implement StepListener).
  * @author Levente Bagi
@@ -47,7 +44,7 @@ public class StepDetector implements SensorEventListener
     private float   mLastDiff[] = new float[3*2];
     private int     mLastMatch = -1;
     
-    private ArrayList<com.dino.ncsu.dinorunner.pedometer.StepListener> mStepListeners = new ArrayList<com.dino.ncsu.dinorunner.pedometer.StepListener>();
+    private ArrayList<com.dino.ncsu.dinorunner.StepListener> mStepListeners = new ArrayList<com.dino.ncsu.dinorunner.StepListener>();
 
     public StepDetector() {
         int h = 480; // TODO: remove this constant
@@ -60,7 +57,7 @@ public class StepDetector implements SensorEventListener
         mLimit = sensitivity; // 1.97  2.96  4.44  6.66  10.00  15.00  22.50  33.75  50.62
     }
 
-    public void addStepListener(com.dino.ncsu.dinorunner.pedometer.StepListener sl) {
+    public void addStepListener(com.dino.ncsu.dinorunner.StepListener sl) {
         mStepListeners.add(sl);
     }
 

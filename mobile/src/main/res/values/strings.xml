@@ -10,4 +10,7 @@
     <string name="running_distance">Running Distance</string>
     <string name="meters">meters</string>
     <string name="laps">Laps</string>
+
+    <string name="notification_subtitle">Counting your steps</string>
+
 </resources>

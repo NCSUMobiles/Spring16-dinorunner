@@ -39,9 +39,6 @@ import android.widget.Toast;
 
 import com.dino.ncsu.dinorunner.R;
 import com.dino.ncsu.dinorunner.RunningActivity;
-import com.dino.ncsu.dinorunner.pedometer.*;
-import com.dino.ncsu.dinorunner.pedometer.StepDisplayer;
-import com.dino.ncsu.dinorunner.pedometer.Utils;
 
 
 /**
