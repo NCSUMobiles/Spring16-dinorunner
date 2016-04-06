@@ -53,7 +53,7 @@ import com.dino.ncsu.dinorunner.RunningActivity;
  * calling startActivity().
  */
 public class StepService extends Service {
-	private static final String TAG = "name.bagi.levente.pedometer.StepService";
+    private static final String TAG = "name.bagi.levente.pedometer.StepService";
     private SharedPreferences mSettings;
     private PedometerSettings mPedometerSettings;
     private SharedPreferences mState;
@@ -62,7 +62,6 @@ public class StepService extends Service {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private StepDetector mStepDetector;
-    // private StepBuzzer mStepBuzzer; // used for debugging
     private com.dino.ncsu.dinorunner.StepDisplayer mStepDisplayer;
 
     private PowerManager.WakeLock wakeLock;
@@ -77,17 +76,25 @@ public class StepService extends Service {
      */
     public class StepBinder extends Binder {
         StepService getService() {
+            Log.d("test", "GOT TO STEPBINDER");
             return StepService.this;
         }
     }
 
     @Override
     public void onCreate() {
-        Log.i(TAG, "[SERVICE] onCreate");
+        Log.d("test", "GOT TO CREATING STEP SERVICE");
         super.onCreate();
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         showNotification();
+
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        mPedometerSettings = new PedometerSettings(mSettings);
+        mState = getSharedPreferences("state", 0);
+
+        mUtils = Utils.getInstance();
+        mUtils.setService(this);
 
         acquireWakeLock();
 
@@ -101,14 +108,11 @@ public class StepService extends Service {
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mReceiver, filter);
 
-        mStepDisplayer = new com.dino.ncsu.dinorunner.StepDisplayer();
+        mStepDisplayer = new com.dino.ncsu.dinorunner.StepDisplayer(mPedometerSettings, mUtils);
         mStepDisplayer.setSteps(mSteps = mState.getInt("steps", 0));
         mStepDisplayer.addListener(mStepListener);
         mStepDetector.addStepListener(mStepDisplayer);
 
-        // Used when debugging:
-        // mStepBuzzer = new StepBuzzer(this);
-        // mStepDetector.addStepListener(mStepBuzzer);
 
     }
 
@@ -140,12 +144,12 @@ public class StepService extends Service {
 
     private void registerDetector() {
         mSensor = mSensorManager.getDefaultSensor(
-            Sensor.TYPE_ACCELEROMETER /*|
+                Sensor.TYPE_ACCELEROMETER /*|
             Sensor.TYPE_MAGNETIC_FIELD |
             Sensor.TYPE_ORIENTATION*/);
         mSensorManager.registerListener(mStepDetector,
-            mSensor,
-            SensorManager.SENSOR_DELAY_FASTEST);
+                mSensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     private void unregisterDetector() {
@@ -204,7 +208,7 @@ public class StepService extends Service {
             }
         }
     };
-    
+
     /**
      * Show a notification while this service is running.
      */

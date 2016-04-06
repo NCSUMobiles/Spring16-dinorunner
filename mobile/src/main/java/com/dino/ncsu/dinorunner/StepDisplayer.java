@@ -18,6 +18,8 @@
 
 package com.dino.ncsu.dinorunner;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -27,9 +29,18 @@ import java.util.ArrayList;
 public class StepDisplayer implements StepListener {
 
     private int mCount = 0;
+    PedometerSettings mSettings;
+    Utils mUtils;
 
-    public StepDisplayer() {
+    public StepDisplayer(PedometerSettings settings, Utils utils) {
+        Log.d("test", "Got to step displayer");
+        mUtils = utils;
+        mSettings = settings;
         notifyListener();
+    }
+
+    public void setUtils(Utils utils) {
+        mUtils = utils;
     }
 
     public void setSteps(int steps) {
@@ -45,12 +56,12 @@ public class StepDisplayer implements StepListener {
     }
     public void passValue() {
     }
-    
-    
+
+
 
     //-----------------------------------------------------
     // Listener
-    
+
     public interface Listener {
         public void stepsChanged(int value);
         public void passValue();
@@ -65,6 +76,6 @@ public class StepDisplayer implements StepListener {
             listener.stepsChanged((int) mCount);
         }
     }
-    
-    
+
+
 }

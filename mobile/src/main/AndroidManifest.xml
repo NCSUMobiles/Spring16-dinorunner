@@ -35,11 +35,7 @@
             android:name=".RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running" />
-
-        <service
-            android:name=".RunningService"
-            android:enabled="true"
-            android:exported="true" />
+        <service android:name=".StepService" />
     </application>
 
 </manifest>

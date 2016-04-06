@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Handler;
@@ -62,8 +63,6 @@ public class RunningActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_running);
-
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
 
@@ -78,6 +77,7 @@ public class RunningActivity extends Activity {
 
         mStepValueView     = (TextView) findViewById(R.id.stepView);
 
+
         //Initialize player stats
         player = new Player();
         try {
@@ -89,6 +89,8 @@ public class RunningActivity extends Activity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        setContentView(R.layout.activity_running);
 
     }
 
@@ -104,6 +106,7 @@ public class RunningActivity extends Activity {
 
         // Start the service if this is considered to be an application start (last onPause was long ago)
         if (!mIsRunning && mPedometerSettings.isNewStart()) {
+            Log.d("test", "We Tested Step Service");
             startStepService();
             bindStepService();
         }
@@ -120,6 +123,7 @@ public class RunningActivity extends Activity {
 
     @Override
     protected void onPause() {
+        Log.d("test", "WE PAUSED");
         if (mIsRunning) {
             unbindStepService();
         }
@@ -135,11 +139,11 @@ public class RunningActivity extends Activity {
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.d("test", "WE CONNECTED TO SERVICE");
             mService = ((StepService.StepBinder)service).getService();
 
             mService.registerCallback(mCallback);
             mService.reloadSettings();
-
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -148,6 +152,7 @@ public class RunningActivity extends Activity {
     };
 
     private void startStepService() {
+        Log.d("test", "WE STARTED STEP SERVICE");
         if (!mIsRunning) {
             mIsRunning = true;
             startService(new Intent(RunningActivity.this,
@@ -203,19 +208,17 @@ public class RunningActivity extends Activity {
     private static final int STEPS_MSG = 1;
 
     private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
+
+        @Override public void handleMessage(Message msg) {
             switch (msg.what) {
                 case STEPS_MSG:
                     mStepValue = (int)msg.arg1;
                     mStepValueView.setText("" + mStepValue);
                     break;
                 default:
-                    STEPS_MSG:
-                    mStepValue = (int)msg.arg1;
-                    mStepValueView.setText("" + mStepValue);
-                    break;
+                    super.handleMessage(msg);
             }
+
         }
     };
 
