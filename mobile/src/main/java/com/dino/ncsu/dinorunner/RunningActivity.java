@@ -6,10 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -63,6 +62,8 @@ public class RunningActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_running);
+
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
 
@@ -89,8 +90,6 @@ public class RunningActivity extends Activity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        setContentView(R.layout.activity_running);
 
     }
 
@@ -138,7 +137,7 @@ public class RunningActivity extends Activity {
     private StepService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
+        @Override public void onServiceConnected(ComponentName className, IBinder service) {
             Log.d("test", "WE CONNECTED TO SERVICE");
             mService = ((StepService.StepBinder)service).getService();
 
@@ -146,7 +145,7 @@ public class RunningActivity extends Activity {
             mService.reloadSettings();
         }
 
-        public void onServiceDisconnected(ComponentName className) {
+        @Override public void onServiceDisconnected(ComponentName className) {
             mService = null;
         }
     };
@@ -201,7 +200,11 @@ public class RunningActivity extends Activity {
     // TODO: unite all into 1 type of message
     private StepService.ICallback mCallback = new StepService.ICallback() {
         public void stepsChanged(int value) {
-            mHandler.sendMessage(mHandler.obtainMessage(STEPS_MSG, value, 0));
+            Message message = new Message();
+            message.what = STEPS_MSG;
+            message.arg1 = value;
+            message.arg2 = 0;
+            mHandler.sendMessage(message);
         }
     };
 
@@ -212,8 +215,8 @@ public class RunningActivity extends Activity {
         @Override public void handleMessage(Message msg) {
             switch (msg.what) {
                 case STEPS_MSG:
-                    mStepValue = (int)msg.arg1;
-                    mStepValueView.setText("" + mStepValue);
+                    mStepValue = msg.arg1;
+                    mStepValueView.setText(Integer.toString(mStepValue));
                     break;
                 default:
                     super.handleMessage(msg);

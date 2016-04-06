@@ -35,18 +35,12 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.dino.ncsu.dinorunner.R;
-import com.dino.ncsu.dinorunner.RunningActivity;
 
 
 /**
  * This is an example of implementing an application service that runs locally
- * in the same process as the application.  The {@link StepServiceController}
- * and {@link StepServiceBinding} classes show how to interact with the
- * service.
- *
+ * in the same process as the application.
+ * <p/>
  * <p>Notice the use of the {@link NotificationManager} when interesting things
  * happen in the service.  This is generally how background services should
  * interact with the user, rather than doing something more disruptive such as
@@ -86,7 +80,7 @@ public class StepService extends Service {
         Log.d("test", "GOT TO CREATING STEP SERVICE");
         super.onCreate();
 
-        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         showNotification();
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -112,8 +106,6 @@ public class StepService extends Service {
         mStepDisplayer.setSteps(mSteps = mState.getInt("steps", 0));
         mStepDisplayer.addListener(mStepListener);
         mStepDetector.addStepListener(mStepDisplayer);
-
-
     }
 
     @Override
@@ -187,7 +179,7 @@ public class StepService extends Service {
             );
         }
 
-        if (mStepDisplayer    != null) mStepDisplayer.reloadSettings();
+        if (mStepDisplayer != null) mStepDisplayer.reloadSettings();
     }
 
     public void resetValues() {
@@ -202,6 +194,7 @@ public class StepService extends Service {
             mSteps = value;
             passValue();
         }
+
         public void passValue() {
             if (mCallback != null) {
                 mCallback.stepsChanged(mSteps);
@@ -251,11 +244,9 @@ public class StepService extends Service {
         int wakeFlags;
         if (mPedometerSettings.wakeAggressively()) {
             wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
-        }
-        else if (mPedometerSettings.keepScreenOn()) {
+        } else if (mPedometerSettings.keepScreenOn()) {
             wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK;
-        }
-        else {
+        } else {
             wakeFlags = PowerManager.PARTIAL_WAKE_LOCK;
         }
         wakeLock = pm.newWakeLock(wakeFlags, TAG);
