@@ -6,15 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
@@ -26,7 +33,7 @@ import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
  * <p>
  * Moves back to the main screen if the user presses the back button.
  */
-public class RunningActivity extends Activity {
+public class RunningActivity extends Activity implements Runnable {
     //Private variables in this class
     private Dinosaur dino;
     private Track track;
@@ -42,9 +49,21 @@ public class RunningActivity extends Activity {
     private SharedPreferences mSettings;
     private PedometerSettings mPedometerSettings;
     private Utils mUtils;
+    private long startTime; //Starting Time
+    private long totalTime; //total time ran
 
     private TextView mStepValueView;
+    private TextView mDistanceView;
+    private TextView mDistanceLeftView;
+    private TextView mSpeedView;
+
+
     private int mStepValue;
+    private double SpeedValue;
+    private double DistanceValue;
+    private double DistanceLeftValue;
+    private double TotalDistance;
+    private double StepLength = 30.48; //Let's say everyone's feet is 1 foot or .3048 meters
     private boolean mQuitting = false; // Set when user selected Quit from menu, can be used by onPause, onStop, onDestroy
 
     /**
@@ -52,6 +71,46 @@ public class RunningActivity extends Activity {
      */
     private boolean mIsRunning;
 
+    SurfaceView surfaceView;
+    SurfaceHolder surfaceHolder;
+    private Thread thread;
+    private boolean locker=true;
+
+    //All Equipment Logic here
+
+    EquippedItems equipment = EquippedItems.getInstance();
+
+    //Equipment Location on Canvas
+    float EquipmentPos_X = 640;
+    float EquipmentPos_Y = 940;
+
+    //Equipment Frame Location on Canvas
+    float EquipmentFramePos_X = 600;
+    float EquipmentFramePos_Y = 920;
+
+    private Paint paint = new Paint();
+
+    private Bitmap character_frame;
+
+    private Bitmap equipped_head;
+    private Bitmap equipped_chest;
+    private Bitmap equipped_pants;
+    private Bitmap equipped_shoes;
+
+    private float equipped_head_POS_Y;
+    private float equipped_chest_POS_Y;
+    private float equipped_pants_POS_Y;
+    private float equipped_shoes_POS_Y;
+
+    float default_head_POS_Y;
+    float default_torso_POS_Y;
+    float default_pants_POS_Y;
+    float default_shoes_POS_Y;
+
+    Bitmap default_head;
+    Bitmap default_torso;
+    Bitmap default_pants;
+    Bitmap default_shoes;
 
     /**
      * Called when the activity is first created.
@@ -60,24 +119,52 @@ public class RunningActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        default_head = BitmapFactory.decodeResource(getResources(), R.mipmap.default_head);
+        default_torso = BitmapFactory.decodeResource(getResources(), R.mipmap.default_chest);
+        default_pants = BitmapFactory.decodeResource(getResources(), R.mipmap.default_pants);
+        default_shoes = BitmapFactory.decodeResource(getResources(), R.mipmap.default_shoes);
 
-        setContentView(R.layout.activity_running);
+        default_head_POS_Y = default_head.getHeight();
+        default_torso_POS_Y = default_head.getHeight();
+        default_pants_POS_Y = default_torso.getHeight() + default_head_POS_Y;
+        default_shoes_POS_Y = default_head.getHeight() + default_pants_POS_Y + default_torso_POS_Y;
+
+        //Bitmap for frame:
+         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
+
+         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
+         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
+         equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId() );
+         equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
+
+
+         equipped_head_POS_Y = equipped_head.getHeight();
+         equipped_chest_POS_Y = equipped_head.getHeight();
+         equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
+         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();;
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.running_activity);
+        surfaceView = (SurfaceView) findViewById(R.id.surface);
+        surfaceHolder = surfaceView.getHolder();
 
         //load meta data here.
         Bundle infoBundle = getIntent().getExtras();
-
         //Steps stuff
         mStepValue = 0;
+        startTime = mUtils.currentTimeInMillis();
 
         mUtils = Utils.getInstance();
 
         //Laps, distance traveled data
         lapsDone = 0;
         totalLaps = infoBundle.getInt("lapsPicked");
+        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
 
         mStepValueView     = (TextView) findViewById(R.id.stepView);
-
+        mDistanceView = (TextView) findViewById(R.id.distanceView);
+        mDistanceLeftView = (TextView) findViewById(R.id.distanceLeftView);
+        mSpeedView = (TextView) findViewById(R.id.speedView);
 
         //Initialize player stats
         player = new Player();
@@ -91,6 +178,9 @@ public class RunningActivity extends Activity {
             e.printStackTrace();
         }
 
+
+        thread = new Thread(this);
+        thread.start();
     }
 
     @Override
@@ -120,6 +210,12 @@ public class RunningActivity extends Activity {
 
     }
 
+    private void resume() {
+        //RESTART THREAD AND OPEN LOCKER FOR run();
+        locker = true;
+
+    }
+
     @Override
     protected void onPause() {
         Log.d("test", "WE PAUSED");
@@ -133,7 +229,23 @@ public class RunningActivity extends Activity {
         }
 
         super.onPause();
+        pause();
     }
+
+    private void pause() {
+        //CLOSE LOCKER FOR run();
+        locker = false;
+        while(true){
+            try {
+                //WAIT UNTIL THREAD DIE, THEN EXIT WHILE LOOP AND RELEASE a thread
+                thread.join();
+            } catch (InterruptedException e) {e.printStackTrace();
+            }
+            break;
+        }
+        thread = null;
+    }
+
     private StepService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -209,6 +321,7 @@ public class RunningActivity extends Activity {
     };
 
     private static final int STEPS_MSG = 1;
+    private static final int DISTANCE_MSG = 2;
 
     private Handler mHandler = new Handler() {
 
@@ -216,7 +329,15 @@ public class RunningActivity extends Activity {
             switch (msg.what) {
                 case STEPS_MSG:
                     mStepValue = msg.arg1;
-                    mStepValueView.setText(Integer.toString(mStepValue));
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    DistanceValue = getmDistanceValue();
+                    DistanceLeftValue = getDistanceLeftValue();
+                    SpeedValue = getSpeed();
+
+                    mStepValueView.setText("Steps: " + Integer.toString(mStepValue) + " Steps");
+                    mDistanceView.setText("Distance: " + df.format(DistanceValue) + " Meters");
+                    mDistanceLeftView.setText("Remaining: " + df.format(DistanceLeftValue) + " Meters");
+                    mSpeedView.setText("Average Speed: " + df.format(SpeedValue) + " m/s");
                     break;
                 default:
                     super.handleMessage(msg);
@@ -231,6 +352,53 @@ public class RunningActivity extends Activity {
      * @return
      */
     public int getStepsTraveled() {
-        return this.stepsTraveled;
+        return mStepValue;
     }
+
+    public double getmDistanceValue() {
+            return mStepValue * StepLength /100;
+//        return stepsTraveled * Player.getInstance().getmStepLength() / 12;
+    }
+
+    public double getDistanceLeftValue() {
+            return TotalDistance - getmDistanceValue();
+    }
+
+    public double getSpeed() {
+        long deltaTime = startTime - System.currentTimeMillis();
+        return getmDistanceValue()/deltaTime/1000;
+    }
+
+
+    public void run() {
+        while(locker) {
+            //checks if the lockCanvas() method will be success,and if not, will check this statement again
+            if(!surfaceHolder.getSurface().isValid()){
+                continue;
+            }
+            Canvas canvas = surfaceHolder.lockCanvas();
+            draw(canvas);
+
+            // End of painting to canvas. system will paint with this canvas,to the surface.
+            surfaceHolder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    private void draw(Canvas canvas) {
+        canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
+        drawEquipment(canvas);
+    }
+
+    //This method draws all the equipment
+    public void drawEquipment(Canvas canvas) {
+        //Draws equipment screen
+        canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
+
+
+        canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
+        canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
+        canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
+        canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
+    }
+
 }

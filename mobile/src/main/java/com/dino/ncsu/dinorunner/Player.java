@@ -14,6 +14,8 @@ public class Player {
     private EquippedItems listOfItems; //List of items for player
     private double distance; //Distance traveled
     private String playerName; //Player name
+    private double mStepLength = 30.48; //Player Step Length = .3048
+    private boolean isMetric = true; //Default is True...more to come
 
     private static Player instance; //instance of player
 
@@ -112,6 +114,13 @@ public class Player {
         this.boostedSpeed = boostedSpeed;
     }
 
+    public double getmStepLength() {return mStepLength;}
+
+    public void setmStepLength(double mStepLength) {this.mStepLength = mStepLength;}
+
+    public boolean getMetric() {return true;}
+
+    public void setMetric(boolean isMetric) {this.isMetric = isMetric;}
     //Gets instance of player singleton
     public static Player getInstance() {
         return instance;
