@@ -34,7 +34,8 @@
         <activity
             android:name=".RunningActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_running" />
+            android:label="@string/title_activity_running"
+            android:launchMode="singleTask"/>
         <service android:name=".StepService" />
     </application>
 

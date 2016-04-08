@@ -74,7 +74,7 @@ public class RunningActivity extends Activity implements Runnable {
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
     private Thread thread;
-    private boolean locker=true;
+    private boolean locker = true;
 
     //All Equipment Logic here
 
@@ -130,18 +130,18 @@ public class RunningActivity extends Activity implements Runnable {
         default_shoes_POS_Y = default_head.getHeight() + default_pants_POS_Y + default_torso_POS_Y;
 
         //Bitmap for frame:
-         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
+        character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
 
-         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
-         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
-         equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId() );
-         equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
+        equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
+        equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
+        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId());
+        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
 
 
-         equipped_head_POS_Y = equipped_head.getHeight();
-         equipped_chest_POS_Y = equipped_head.getHeight();
-         equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
-         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();;
+        equipped_head_POS_Y = equipped_head.getHeight();
+        equipped_chest_POS_Y = equipped_head.getHeight();
+        equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
+        equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -161,7 +161,7 @@ public class RunningActivity extends Activity implements Runnable {
         totalLaps = infoBundle.getInt("lapsPicked");
         TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
 
-        mStepValueView     = (TextView) findViewById(R.id.stepView);
+        mStepValueView = (TextView) findViewById(R.id.stepView);
         mDistanceView = (TextView) findViewById(R.id.distanceView);
         mDistanceLeftView = (TextView) findViewById(R.id.distanceLeftView);
         mSpeedView = (TextView) findViewById(R.id.speedView);
@@ -181,6 +181,8 @@ public class RunningActivity extends Activity implements Runnable {
 
         thread = new Thread(this);
         thread.start();
+
+        resetValues(true);
     }
 
     @Override
@@ -198,22 +200,21 @@ public class RunningActivity extends Activity implements Runnable {
             Log.d("test", "We Tested Step Service");
             startStepService();
             bindStepService();
-        }
-        else if (mIsRunning) {
+        } else if (mIsRunning) {
             bindStepService();
         }
 
         mPedometerSettings.clearServiceRunning();
 
-
-
-
+        resume();
     }
 
     private void resume() {
         //RESTART THREAD AND OPEN LOCKER FOR run();
         locker = true;
 
+        thread = new Thread(this);
+        thread.start();
     }
 
     @Override
@@ -235,13 +236,14 @@ public class RunningActivity extends Activity implements Runnable {
     private void pause() {
         //CLOSE LOCKER FOR run();
         locker = false;
-        while(true){
+        while (true) {
             try {
                 //WAIT UNTIL THREAD DIE, THEN EXIT WHILE LOOP AND RELEASE a thread
                 thread.join();
-            } catch (InterruptedException e) {e.printStackTrace();
+                break;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            break;
         }
         thread = null;
     }
@@ -249,15 +251,17 @@ public class RunningActivity extends Activity implements Runnable {
     private StepService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
-        @Override public void onServiceConnected(ComponentName className, IBinder service) {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
             Log.d("test", "WE CONNECTED TO SERVICE");
-            mService = ((StepService.StepBinder)service).getService();
+            mService = ((StepService.StepBinder) service).getService();
 
             mService.registerCallback(mCallback);
             mService.reloadSettings();
         }
 
-        @Override public void onServiceDisconnected(ComponentName className) {
+        @Override
+        public void onServiceDisconnected(ComponentName className) {
             mService = null;
         }
     };
@@ -291,8 +295,7 @@ public class RunningActivity extends Activity implements Runnable {
     private void resetValues(boolean updateDisplay) {
         if (mService != null && mIsRunning) {
             mService.resetValues();
-        }
-        else {
+        } else {
             mStepValueView.setText("0");
             SharedPreferences state = getSharedPreferences("state", 0);
             SharedPreferences.Editor stateEditor = state.edit();
@@ -304,7 +307,7 @@ public class RunningActivity extends Activity implements Runnable {
     }
 
     private static final int MENU_SETTINGS = 8;
-    private static final int MENU_QUIT     = 9;
+    private static final int MENU_QUIT = 9;
 
     private static final int MENU_PAUSE = 1;
     private static final int MENU_RESUME = 2;
@@ -325,7 +328,8 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Handler mHandler = new Handler() {
 
-        @Override public void handleMessage(Message msg) {
+        @Override
+        public void handleMessage(Message msg) {
             switch (msg.what) {
                 case STEPS_MSG:
                     mStepValue = msg.arg1;
@@ -349,6 +353,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     /**
      * Returns steps traveled
+     *
      * @return
      */
     public int getStepsTraveled() {
@@ -356,24 +361,27 @@ public class RunningActivity extends Activity implements Runnable {
     }
 
     public double getmDistanceValue() {
-            return mStepValue * StepLength /100;
+        return mStepValue * StepLength / 100;
 //        return stepsTraveled * Player.getInstance().getmStepLength() / 12;
     }
 
     public double getDistanceLeftValue() {
-            return TotalDistance - getmDistanceValue();
+        return TotalDistance - getmDistanceValue();
     }
 
     public double getSpeed() {
-        long deltaTime = startTime - System.currentTimeMillis();
-        return getmDistanceValue()/deltaTime/1000;
+        long lastTime = System.currentTimeMillis();
+        long deltaTime = lastTime - startTime;
+        startTime = lastTime;
+        Log.d("CurrentSpeed", "" + (StepLength / deltaTime) * 100);
+        return ((getStepsTraveled() == 0) ? 0.00 : (StepLength / deltaTime) * 100);
     }
 
 
     public void run() {
-        while(locker) {
+        while (locker) {
             //checks if the lockCanvas() method will be success,and if not, will check this statement again
-            if(!surfaceHolder.getSurface().isValid()){
+            if (!surfaceHolder.getSurface().isValid()) {
                 continue;
             }
             Canvas canvas = surfaceHolder.lockCanvas();
@@ -393,8 +401,6 @@ public class RunningActivity extends Activity implements Runnable {
     public void drawEquipment(Canvas canvas) {
         //Draws equipment screen
         canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
-
-
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
         canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
         canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
