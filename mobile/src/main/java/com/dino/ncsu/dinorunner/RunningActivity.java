@@ -1,8 +1,10 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -407,4 +409,37 @@ public class RunningActivity extends Activity implements Runnable {
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
     }
 
+    /**
+     * Goes back to the Main Menu when the back button is pressed.
+     * This will occur only if the user accepts the prompt to exit to the main menu.
+     */
+    @Override
+    public void onBackPressed() {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(RunningActivity.this, AlertDialog.THEME_HOLO_LIGHT)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle("Warning!")
+                        .setMessage("Are you sure you want to exit?\nYou will lose your current progress.")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Only if the user accepts the prompt to exit to the main menu
+                                //Check items are consumed by user
+                                Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(dataIntent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //do nothing for right now
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
 }
