@@ -52,7 +52,7 @@ public class DistanceNotifier implements StepListener {
     
     public void reloadSettings() {
         mIsMetric = Player.getInstance().getMetric();
-        mStepLength = Player.getInstance().getmStepLength();
+        mStepLength = Player.getInstance().getTotalStepLength();
         notifyListener();
     }
     

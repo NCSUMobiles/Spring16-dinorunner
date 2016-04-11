@@ -6,9 +6,9 @@ package com.dino.ncsu.dinorunner;
  * Singleton Class that contains the necessary information that will pertain to the player
  */
 public class Player {
-    private double topSpeed; //Top speed achieved by player
     private double avgSpeed; //Average speed of player
-    private double boostedSpeed;    //speed to boost player
+    private double boostedStep;    //speed to boost player
+
     private double totalWeekDist;
     private double totalMonthDist;
     private EquippedItems listOfItems; //List of items for player
@@ -16,7 +16,10 @@ public class Player {
     private double stepsTraveled; //Steps traveled
     private String playerName; //Player name
     private double mStepLength = 30.48; //Player Step Length = .3048
+    private double health = 100;
+    private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
+
 
     private static Player instance; //instance of player
 
@@ -24,38 +27,13 @@ public class Player {
         this.listOfItems = EquippedItems.getInstance();
     }
 
-    /**
-     * Constructor for the player
-     *
-     * @param topSpeed       The top speed of the player
-     * @param avgSpeed       The average speed ran by the player
-     * @param totalWeekDist  The distance traveled for the whole week
-     * @param totalMonthDist The distance traveled for the whole month
-     * @param listOfItems    The list of items earned through his/her lifetime
-     */
-    public Player(double topSpeed, double avgSpeed, double totalWeekDist, double totalMonthDist, EquippedItems listOfItems) {
-        this.topSpeed = topSpeed;
-        this.avgSpeed = avgSpeed;
-        this.totalWeekDist = totalWeekDist;
-        this.totalMonthDist = totalMonthDist;
-        this.listOfItems = listOfItems;
-    }
-
-    public double getTopSpeed() {
-        return topSpeed;
-    }
-
-    public void setTopSpeed(double topSpeed) {
-        this.topSpeed = topSpeed;
-    }
-
-    public double getAvgSpeed() {
-        return avgSpeed;
-    }
+    public double getAvgSpeed() { return avgSpeed; }
 
     public void setAvgSpeed(double avgSpeed) {
         this.avgSpeed = avgSpeed;
     }
+
+    public double getTotalSpeed() { return avgSpeed + boostedStep; }
 
     public double getTotalWeekDist() {
         return totalWeekDist;
@@ -103,31 +81,46 @@ public class Player {
     }
 
     public void initBoostedSpeed() {
-        this.boostedSpeed = 0;
-        this.boostedSpeed += listOfItems.getHelmet().getSpeedBoost();
-        this.boostedSpeed += listOfItems.getShirt().getSpeedBoost();
-        this.boostedSpeed += listOfItems.getChest().getSpeedBoost();
-        this.boostedSpeed += listOfItems.getPants().getSpeedBoost();
-        this.boostedSpeed += listOfItems.getShoes().getSpeedBoost();
+        this.boostedStep = 0;
+        this.boostedStep += listOfItems.getHelmet().getSpeedBoost();
+        this.boostedStep += listOfItems.getShirt().getSpeedBoost();
+        this.boostedStep += listOfItems.getChest().getSpeedBoost();
+        this.boostedStep += listOfItems.getPants().getSpeedBoost();
+        this.boostedStep += listOfItems.getShoes().getSpeedBoost();
     }
 
-    public double getBoostedSpeed() {
-        return boostedSpeed;
+    public double getBoostedStep() {
+        return boostedStep;
     }
 
-    public void setBoostedSpeed(double boostedSpeed) {
-        this.boostedSpeed = boostedSpeed;
+    public void setBoostedStep(double boostedStep) {
+        this.boostedStep = boostedStep;
     }
 
-    public double getmStepLength() {return mStepLength;}
+    public double getHealth() {
+        return health;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
 
     public void setmStepLength(double mStepLength) {this.mStepLength = mStepLength;}
 
+    public double getTotalStepLength() {
+        totalStepLength = mStepLength + boostedStep;
+        return totalStepLength;
+    }
+
     public boolean getMetric() {return true;}
+
 
     public void setMetric(boolean isMetric) {this.isMetric = isMetric;}
     //Gets instance of player singleton
     public static Player getInstance() {
+        if (instance == null) {
+            instance = new Player();
+        }
         return instance;
     }
 }

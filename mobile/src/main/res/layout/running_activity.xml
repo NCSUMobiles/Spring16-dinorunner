@@ -18,22 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Large Text"
-            android:id="@+id/stepView"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="19dp"
-            android:layout_above="@+id/distanceView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Large Text"
+            android:text="Distance"
             android:id="@+id/distanceView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="23dp"
+            android:layout_marginBottom="20dp"
             android:layout_above="@+id/distanceLeftView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -42,10 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Large Text"
+            android:text="Distance Left"
             android:id="@+id/distanceLeftView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="23dp"
             android:layout_above="@+id/speedView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -54,13 +42,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Large Text"
+            android:text="Speed"
             android:id="@+id/speedView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="94dp"
+            android:layout_marginBottom="130dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Health"
+            android:id="@+id/healthView"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="36dp"
+            android:layout_alignTop="@+id/speedView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Dino Distance"
+            android:id="@+id/dinoDistanceView"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="27dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Monster Speed"
+            android:id="@+id/dinoSpeedView"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/dinoDistanceView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
+
     </RelativeLayout>
 
 </FrameLayout>
