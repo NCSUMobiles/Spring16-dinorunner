@@ -11,16 +11,18 @@ public class Track implements Serializable {
     //private variables for this class
     private int imageId;
     private String name;
-
+    private int trackImageId;
     /**
      * Constructor for the Track class
      *
      * @param name    Name of the track
      * @param imageId ID of the image to display for the track
+     * @param trackImageId ID of the track image
      */
-    public Track(String name, int imageId) {
+    public Track(String name, int imageId, int trackImageId) {
         this.setName(name);
         this.setImageId(imageId);
+        this.setTrackImageId(trackImageId);
     }
 
     public int getImageId() {
@@ -37,5 +39,11 @@ public class Track implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getTrackImageId() { return trackImageId; }
+
+    public void setTrackImageId(int trackImageId) {
+        this.trackImageId = trackImageId;
     }
 }

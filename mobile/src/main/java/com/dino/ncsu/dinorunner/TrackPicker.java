@@ -39,6 +39,12 @@ public class TrackPicker extends Activity {
             R.mipmap.troll
     };
 
+    private Integer[] trackImageId = new Integer[] {
+            R.mipmap.track1,
+            R.mipmap.track1,
+            R.mipmap.track1
+    };
+
     private String[] desc = new String[]{
             "A small temperate forest near the town of A'alath. Few dangers rests in these peaceful woods. Even the most novice adventurers can navigate through these paths. ",
             "Named after the Elven King Tyndall, the desert of Tyndall is a barren land littered with bandits and quicksand. Even experienced adventurers will find difficulty in not getting lost in these vast sands. ",
@@ -82,6 +88,7 @@ public class TrackPicker extends Activity {
             hm.put("desc", desc[i]);
             hm.put("diff", diff[i]);
             hm.put("image", Integer.toString(imageId[i]));
+            hm.put("trackImage", Integer.toString(trackImageId[i]));
             aList.add(hm);
         }
 
@@ -110,7 +117,7 @@ public class TrackPicker extends Activity {
             @Override
             void onItemClick(TrackListAdapter adapter, View v, int position) {
                 final HashMap<String, String> item = adapter.getItem(position);
-                final Track track = new Track(item.get("tracks"), Integer.parseInt(item.get("image")));
+                final Track track = new Track(item.get("tracks"), Integer.parseInt(item.get("image")), Integer.parseInt(item.get("trackImage")));
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))

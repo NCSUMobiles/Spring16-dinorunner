@@ -104,6 +104,8 @@ public class RunningActivity extends Activity implements Runnable {
     private float equipped_pants_POS_Y;
     private float equipped_shoes_POS_Y;
 
+    private Bitmap map;
+
     float default_head_POS_Y;
     float default_torso_POS_Y;
     float default_pants_POS_Y;
@@ -121,17 +123,8 @@ public class RunningActivity extends Activity implements Runnable {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        default_head = BitmapFactory.decodeResource(getResources(), R.mipmap.default_head);
-        default_torso = BitmapFactory.decodeResource(getResources(), R.mipmap.default_chest);
-        default_pants = BitmapFactory.decodeResource(getResources(), R.mipmap.default_pants);
-        default_shoes = BitmapFactory.decodeResource(getResources(), R.mipmap.default_shoes);
 
-        default_head_POS_Y = default_head.getHeight();
-        default_torso_POS_Y = default_head.getHeight();
-        default_pants_POS_Y = default_torso.getHeight() + default_head_POS_Y;
-        default_shoes_POS_Y = default_head.getHeight() + default_pants_POS_Y + default_torso_POS_Y;
-
-        //Bitmap for frame:
+        //Bitmap for frame: Character
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
@@ -144,6 +137,11 @@ public class RunningActivity extends Activity implements Runnable {
         equipped_chest_POS_Y = equipped_head.getHeight();
         equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
+
+        //Bitmap for frame: Track
+       // map = BitmapFactory.decodeResource(getResources(), context.)
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);

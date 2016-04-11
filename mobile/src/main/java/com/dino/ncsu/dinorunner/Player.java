@@ -13,6 +13,7 @@ public class Player {
     private double totalMonthDist;
     private EquippedItems listOfItems; //List of items for player
     private double distance; //Distance traveled
+    private double stepsTraveled; //Steps traveled
     private String playerName; //Player name
     private double mStepLength = 30.48; //Player Step Length = .3048
     private boolean isMetric = true; //Default is True...more to come
@@ -87,6 +88,10 @@ public class Player {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    public double getStepsTraveled() { return stepsTraveled; }
+
+    public void setStepsTraveled(double steps) { this.stepsTraveled = steps; }
 
     public EquippedItems getListOfItems() {
         return listOfItems;
