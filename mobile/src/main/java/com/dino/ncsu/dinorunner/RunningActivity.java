@@ -412,7 +412,11 @@ public class RunningActivity extends Activity implements Runnable {
                     }
 
                     if (DinoSpeedValue <= 0 && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
-                        mDinoSpeedView.setText("UNDER ATTACK!");
+                        if (Dinosaur.getInstance().getStunned()) {
+                            mDinoSpeedView.setText("STUNNED");
+                        } else {
+                            mDinoSpeedView.setText("UNDER ATTACK!");
+                        }
                     } else if (Player.getInstance().getDistance() <= Dinosaur.getInstance().getHeadStart()) {
                         mDinoSpeedView.setText("Giving Player Headstart: " + df.format(Dinosaur.getInstance().getHeadStart() - Player.getInstance().getDistance()) + "m left");
                     }
