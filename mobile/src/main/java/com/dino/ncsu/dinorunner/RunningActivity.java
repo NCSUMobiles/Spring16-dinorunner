@@ -147,6 +147,8 @@ public class RunningActivity extends Activity implements Runnable {
         scale_height = height / 1776;
 
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
+        Log.d("width", "" + Math.round(character_frame.getWidth() * scale_width));
+        Log.d("height","" + Math.round(character_frame.getHeight() * scale_height));
         character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
         equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
@@ -570,5 +572,12 @@ public class RunningActivity extends Activity implements Runnable {
         Dinosaur.getInstance().setDistance(0);
         Player.getInstance().setDistance(0);
         Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
+    }
+
+    @Override
+    public void onDestroy() {
+        stopStepService();
+        unbindStepService();
+        super.onDestroy();
     }
 }

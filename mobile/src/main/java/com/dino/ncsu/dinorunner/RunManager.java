@@ -18,17 +18,17 @@ public class RunManager {
     public double getDistanceFromPlayer() {
 
         double distance = Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance();
+        Log.d("OK", "" + distance);
         if (distance <= 0) {
             distance = 0;
         }
-        //Log.d("OK", "" + distance );
         return distance;
     }
 
     public void checkStunMonster() {
         //Log.d("OK", "OK2!");
         long delta = System.currentTimeMillis() - lastStunnedTime;
-        if (Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) ) {
+        if (Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
             Log.d("test", "We are stunned" + Dinosaur.getInstance().getStunned());
             Dinosaur.getInstance().setSpeed(0);
 
@@ -37,16 +37,21 @@ public class RunManager {
                 Dinosaur.getInstance().setStunned(false);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
             }
-        }
-        else {
+        } else if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
             Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
+        } else {
+            lastStunnedTime = System.currentTimeMillis();
         }
     }
 
     public void checkDistance() {
         //Log.d("OK", "OK3!");
-        if (getDistanceFromPlayer() <= 0 && !Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
+        if ((getDistanceFromPlayer() <= 0)
+                && !Dinosaur.getInstance().getStunned()
+                && (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart())
+                && (System.currentTimeMillis() - lastStunnedTime >= Dinosaur.getInstance().getStunTime())) {
             Dinosaur.getInstance().setStunned(true);
+            Log.d("attack", "We just got hit bro!");
             Player.getInstance().setHealth(Player.getInstance().getHealth() - Dinosaur.getInstance().getAttack());
         }
     }
@@ -57,21 +62,27 @@ public class RunManager {
 
     public void updateDistance() {
         //Log.d("OK", "OK!");
-        if (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) {
+        if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
             //Log.d("Test", "Distance :" + Dinosaur.getInstance().getDistance());
             long delta = System.currentTimeMillis() - lastMoveTime;
             if (Dinosaur.getInstance().getDistance() == 0) {
                 lastMoveTime = System.currentTimeMillis();
-                if (delta > Dinosaur.getInstance().getStunTime()) {
+                if (delta > 1000) {
                     lastMoveTime = System.currentTimeMillis();
                     Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
                 }
-            } else if (delta > 1000) {
+            } else if ( (Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance() > 0)
+                    && ((!Dinosaur.getInstance().getStunned() && delta > 1000)
+                    || (Dinosaur.getInstance().getStunned() && System.currentTimeMillis() - lastStunnedTime > Dinosaur.getInstance().getStunTime()))) {
                 // Log.d("OK", "OK4!");
                 lastMoveTime = System.currentTimeMillis();
                 Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
             }
         }
+    }
+
+    public double getDinoSpeed() {
+        return Dinosaur.getInstance().getSpeed();
     }
 
     public static synchronized RunManager getInstance() {
