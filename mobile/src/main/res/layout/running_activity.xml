@@ -21,10 +21,10 @@
             android:text="Distance"
             android:id="@+id/distanceView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="19dp"
             android:layout_above="@+id/distanceLeftView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/dinoSpeedView"
+            android:layout_alignStart="@+id/dinoSpeedView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,10 +33,10 @@
             android:text="Distance Left"
             android:id="@+id/distanceLeftView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="23dp"
+            android:layout_marginBottom="16dp"
             android:layout_above="@+id/speedView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/distanceView"
+            android:layout_alignStart="@+id/distanceView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,10 +45,10 @@
             android:text="Speed"
             android:id="@+id/speedView"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="130dp"
+            android:layout_marginBottom="158dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/distanceLeftView"
+            android:layout_alignStart="@+id/distanceLeftView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,10 +57,10 @@
             android:text="Health"
             android:id="@+id/healthView"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="32dp"
             android:layout_alignTop="@+id/speedView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/speedView"
+            android:layout_alignStart="@+id/speedView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,11 +68,13 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Dino Distance"
             android:id="@+id/dinoDistanceView"
-            android:textColor="#FFFFFF"
+            android:textColor="#FF0000"
             android:layout_marginTop="27dp"
+            android:layout_marginRight="47dp"
+            android:layout_marginEnd="47dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,11 +82,13 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Monster Speed"
             android:id="@+id/dinoSpeedView"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/dinoDistanceView"
+            android:textColor="#4B0082"
+            android:layout_marginBottom="54dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_above="@+id/distanceView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp" />
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

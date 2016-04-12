@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -38,7 +39,6 @@ import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
  */
 public class RunningActivity extends Activity implements Runnable {
     //Private variables in this class
-    private Track track;
     private int totalLaps;
     private int lapsDone;
 
@@ -101,6 +101,10 @@ public class RunningActivity extends Activity implements Runnable {
     private float EquipmentFramePos_X; //600
     private float EquipmentFramePos_Y; //920
 
+    //Map Details
+    private float MapPos_X;
+    private float MapPos_Y;
+
     //Scale for image size of different screens
     private float scale_width;
     private float scale_height;
@@ -120,7 +124,7 @@ public class RunningActivity extends Activity implements Runnable {
     private float equipped_shoes_POS_Y;
 
     private Bitmap map;
-
+    private Bitmap stat_frame;
     /**
      * Called when the activity is first created.
      *
@@ -142,12 +146,6 @@ public class RunningActivity extends Activity implements Runnable {
         scale_width = width / 1080;
         scale_height = height / 1776;
 
-        EquipmentFramePos_X = 600 * scale_width;
-        EquipmentFramePos_Y = 920 * scale_height;
-
-        EquipmentPos_X = 640 * scale_width;
-        EquipmentPos_Y = 940 * scale_height;
-
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
         character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
@@ -159,14 +157,13 @@ public class RunningActivity extends Activity implements Runnable {
         equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
         equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
 
-
-        equipped_head_POS_Y = equipped_head.getHeight();
-        equipped_chest_POS_Y = equipped_head.getHeight();
-        equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
-        equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
-
         //Bitmap for frame: Track
-       // map = BitmapFactory.decodeResource(getResources(), context.)
+        map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
+        map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
+
+        //Bitmap for statistics frame
+        stat_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.stat_frame);
+        stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -198,8 +195,6 @@ public class RunningActivity extends Activity implements Runnable {
         //Initialize player stats
         try {
             Player.getInstance().setListOfItems((EquippedItems) bytes2Object(infoBundle.getByteArray("itemsPicked")));
-            // = (Dinosaur) bytes2Object(infoBundle.getByteArray("dinoPicked"));
-            track = (Track) bytes2Object(infoBundle.getByteArray("mapPicked"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -419,11 +414,21 @@ public class RunningActivity extends Activity implements Runnable {
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    DecimalFormat df = new DecimalFormat("#.##");
+                    DecimalFormat df = new DecimalFormat("#.#");
+
+                    //Old London Text Style
+                    Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+
+                    mDinoDistanceView.setTypeface(oldLondon);
+                    mSpeedView.setTypeface(oldLondon);
+                    mHealthView.setTypeface(oldLondon);
+                    mDinoSpeedView.setTypeface(oldLondon);
+                    mDistanceView.setTypeface(oldLondon);
+                    mDistanceLeftView.setTypeface(oldLondon);
 
                     //Dino Stuff
                     DinoDistanceValue = RunManager.getInstance().getDistanceFromPlayer();
-                    DinoSpeedValue = RunManager.getInstance().getDinoSpeed();
+                    DinoSpeedValue = Dinosaur.getInstance().getSpeed();
                     HealthValue = Player.getInstance().getHealth();
 
                     mDinoDistanceView.setText("Distance: " + df.format(DinoDistanceValue) + " Meters");
@@ -448,7 +453,7 @@ public class RunningActivity extends Activity implements Runnable {
                             mDinoSpeedView.setText("UNDER ATTACK!");
                         }
                     } else if (Player.getInstance().getDistance() <= Dinosaur.getInstance().getHeadStart()) {
-                        mDinoSpeedView.setText("Giving Player Headstart: " + df.format(Dinosaur.getInstance().getHeadStart() - Player.getInstance().getDistance()) + "m left");
+                        mDinoSpeedView.setText("Waiting to Chase: " + df.format(Dinosaur.getInstance().getHeadStart() - Player.getInstance().getDistance()) + "m left");
                     }
                 }
             });
@@ -484,16 +489,39 @@ public class RunningActivity extends Activity implements Runnable {
     private void draw(Canvas canvas) {
         canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
         drawEquipment(canvas);
+        drawMap(canvas);
     }
 
     //This method draws all the equipment
     public void drawEquipment(Canvas canvas) {
+        //Positions
+        EquipmentFramePos_X = 700 * scale_width;
+        EquipmentFramePos_Y = 910 * scale_height;
+
+        EquipmentPos_X = 740 * scale_width;
+        EquipmentPos_Y = 930 * scale_height;
+
+        equipped_head_POS_Y = equipped_head.getHeight();
+        equipped_chest_POS_Y = equipped_head.getHeight();
+        equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
+        equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
+
         //Draws equipment screen
         canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
         canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
         canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
+
+        //Draws stats screen
+        canvas.drawBitmap(stat_frame, 0, 910 * scale_height, paint);
+    }
+
+    //This method draws the map
+    public void drawMap(Canvas canvas) {
+        MapPos_X = 0;
+        MapPos_Y = 0;
+        canvas.drawBitmap(map, MapPos_X, MapPos_Y, paint);
     }
 
     /**
