@@ -17,6 +17,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
@@ -57,7 +61,6 @@ public class RunningActivity extends Activity implements Runnable {
     private TextView mDistanceLeftView;
     private TextView mSpeedView;
     private TextView mHealthView;
-
 
 
     private int mStepValue;
@@ -113,6 +116,16 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Bitmap map;
 
+    float default_head_POS_Y;
+    float default_torso_POS_Y;
+    float default_pants_POS_Y;
+    float default_shoes_POS_Y;
+
+    Bitmap default_head;
+    Bitmap default_torso;
+    Bitmap default_pants;
+    Bitmap default_shoes;
+
     /**
      * Called when the activity is first created.
      *
@@ -136,7 +149,7 @@ public class RunningActivity extends Activity implements Runnable {
         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
 
         //Bitmap for frame: Track
-       // map = BitmapFactory.decodeResource(getResources(), context.)
+        // map = BitmapFactory.decodeResource(getResources(), context.)
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -152,18 +165,17 @@ public class RunningActivity extends Activity implements Runnable {
         mUtils = Utils.getInstance();
 
         //Laps, distance traveled data
-        clearProgress();
+        lapsDone = 0;
+        totalLaps = infoBundle.getInt("lapsPicked");
+        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
 
         //mStepValueView = (TextView) findViewById(R.id.stepView);
         mDistanceView = (TextView) findViewById(R.id.distanceView);
         mDistanceLeftView = (TextView) findViewById(R.id.distanceLeftView);
         mSpeedView = (TextView) findViewById(R.id.speedView);
         mHealthView = (TextView) findViewById(R.id.healthView);
-        //Dino Stuff
-        mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
-        mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
 
-
+        Player.getInstance().setHealth(100);
 
         //Initialize player stats
         try {
@@ -179,7 +191,40 @@ public class RunningActivity extends Activity implements Runnable {
 
         thread = new Thread(this);
         thread.start();
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            private Timer timer = new Timer();
+            private final long Delay = 2000;  //2 seconds
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                                   @Override
+                                   public void run() {
+                                       runOnUiThread(new Runnable() {
+                                           public void run() {
+                                               if (!s.toString().equals("Current Speed: 0 km/hr"))
+                                                   RunningActivity.this.mSpeedView.setText("Current Speed: 0 km/hr");
+                                           }
+                                       });
+                                   }
+                               }
+                        , Delay);
+            }
+        };
+
+        mSpeedView.addTextChangedListener(watcher);
         resetValues(true);
     }
 
@@ -215,21 +260,22 @@ public class RunningActivity extends Activity implements Runnable {
         thread.start();
     }
 
-// @Override
-//    protected void onPause() {
-//        Log.d("test", "WE PAUSED");
-//        if (mIsRunning) {
-//            unbindStepService();
-//        }
-//        if (mQuitting) {
-//            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
-//        } else {
-//            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
-//        }
-//
-//        super.onPause();
-//        pause();
-//    }
+
+    @Override
+    protected void onPause() {
+        Log.d("test", "WE PAUSED");
+        if (mIsRunning) {
+            unbindStepService();
+        }
+        if (mQuitting) {
+            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
+        } else {
+            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
+        }
+
+        super.onPause();
+        pause();
+    }
 
     private void pause() {
         //CLOSE LOCKER FOR run();
@@ -332,11 +378,21 @@ public class RunningActivity extends Activity implements Runnable {
                 case STEPS_MSG:
                     mStepValue = msg.arg1;
                     Player.getInstance().setStepsTraveled(mStepValue);
+                    DecimalFormat df = new DecimalFormat("#.##");
                     DistanceValue = getmDistanceValue();
                     Player.getInstance().setDistance(DistanceValue);
                     DistanceLeftValue = getDistanceLeftValue();
                     SpeedValue = getSpeed();
                     Player.getInstance().setAvgSpeed(SpeedValue);
+                    HealthValue = Player.getInstance().getHealth();
+
+
+                    //mStepValueView.setText("Steps: " + Integer.toString(mStepValue) + " Steps");
+                    mDistanceView.setText("Distance: " + df.format(DistanceValue) + " Meters");
+                    mDistanceLeftView.setText("Remaining: " + df.format(DistanceLeftValue) + " Meters");
+                    mSpeedView.setText("Average Speed: " + df.format(SpeedValue) + " km/hr");
+
+
                     break;
                 default:
                     super.handleMessage(msg);
@@ -368,7 +424,7 @@ public class RunningActivity extends Activity implements Runnable {
         long lastTime = System.currentTimeMillis();
         long deltaTime = lastTime - startTime;
         startTime = lastTime;
-        return ((getStepsTraveled() == 0) ? 0.00 : (StepLength / deltaTime) * 100);
+        return ((getStepsTraveled() == 0) ? 0.00 : (StepLength * 3.6 / deltaTime) * 100);
     }
 
     //Game logic + Draw Logic
@@ -379,54 +435,30 @@ public class RunningActivity extends Activity implements Runnable {
                 continue;
             }
 
-            //Game logic
             checkPlayerDead();
-            RunManager.getInstance().checkStunMonster();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
+            RunManager.getInstance().checkStunMonster();
 
-            //UI updates
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     DecimalFormat df = new DecimalFormat("#.##");
 
                     //Dino Stuff
+                    mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
+                    mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
+
+                    //Dino Stuff
                     DinoDistanceValue = RunManager.getInstance().getDistanceFromPlayer();
                     DinoSpeedValue = RunManager.getInstance().getDinoSpeed();
-                    HealthValue = Player.getInstance().getHealth();
+                    HealthValue = RunManager.getInstance().getHealth();
 
                     mDinoDistanceView.setText("Distance: " + df.format(DinoDistanceValue) + " Meters");
-                    mSpeedView.setText("Speed: " + df.format(SpeedValue) + " m/s");
+                    mDinoSpeedView.setText("Speed: " + df.format(DinoSpeedValue) + " m/s");
                     mHealthView.setText("HP: " + df.format(HealthValue));
-                    mDinoSpeedView.setText("Chasing: " + df.format(DinoSpeedValue) + " m/s");
-
-                    //mStepValueView.setText("Steps: " + Integer.toString(mStepValue) + " Steps");
-                    mDistanceView.setText("Distance: " + df.format(DistanceValue) + " Meters");
-                    mDistanceLeftView.setText("Remaining: " + df.format(DistanceLeftValue) + " Meters");
-
-
-                    //Logic checks for when Dino is on Player
-                    if (DistanceValue <= 0 && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
-                        mDistanceView.setText("UNDER ATTACK!");
-                    }
-
-                    if (DinoSpeedValue <= 0 && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
-                        mDinoSpeedView.setText("UNDER ATTACK!");
-                    } else if (Player.getInstance().getDistance() <= Dinosaur.getInstance().getHeadStart()) {
-                        mDinoSpeedView.setText("Giving Player Headstart: " + df.format(Dinosaur.getInstance().getHeadStart() - Player.getInstance().getDistance()) + "m left");
-                    }
                 }
             });
-
-
-
-
-
-
-
-
-
 
 
             Canvas canvas = surfaceHolder.lockCanvas();
@@ -441,10 +473,10 @@ public class RunningActivity extends Activity implements Runnable {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
             dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            stopStepService();
             startActivity(dataIntent);
         }
     }
-
 
 
     private void draw(Canvas canvas) {
@@ -479,10 +511,10 @@ public class RunningActivity extends Activity implements Runnable {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Only if the user accepts the prompt to exit to the main menu
-                                clearProgress();
                                 //Check items are consumed by user
                                 Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                stopStepService();
                                 startActivity(dataIntent);
                             }
                         })
@@ -497,16 +529,4 @@ public class RunningActivity extends Activity implements Runnable {
         });
     }
 
-    public void clearProgress() {
-        Bundle infoBundle = getIntent().getExtras();
-
-        //Laps, distance traveled data
-        lapsDone = 0;
-        totalLaps = infoBundle.getInt("lapsPicked");
-        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
-        Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
-        Dinosaur.getInstance().setDistance(0);
-        Player.getInstance().setDistance(0);
-        Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
-    }
 }

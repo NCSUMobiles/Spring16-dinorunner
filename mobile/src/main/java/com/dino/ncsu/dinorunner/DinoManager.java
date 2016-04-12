@@ -1,7 +1,5 @@
 package com.dino.ncsu.dinorunner;
 
-import android.util.Log;
-
 /**
  * Created by Jimin Fan on 4/11/2016.
  */
@@ -9,21 +7,19 @@ public class DinoManager {
 
 
     public void setDinos() {
-        String name = Dinosaur.getInstance().getNameOfDino();
+        Dinosaur dino = Dinosaur.getInstance();
+        String name = dino.getNameOfDino();
 
         switch(name) {
             case "Goblin":
-                Dinosaur.getInstance().setNameOfDino("Goblin");
-                Dinosaur.getInstance().setHeadStart(10);
-                Dinosaur.getInstance().setImageId(R.mipmap.goblin);
-                Dinosaur.getInstance().setAttack(5);
-                Dinosaur.getInstance().setMaxSpeed(.1);
-                Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
-                Dinosaur.getInstance().setStunTime(5000);
-                Dinosaur.getInstance().setStunned(false);
-                Dinosaur.getInstance().setDistance(0);
-
-                Log.d("StunTIme", "" + Dinosaur.getInstance().getHeadStart());
+                dino.setNameOfDino("Goblin");
+                dino.setImageId(R.mipmap.goblin);
+                dino.setAttack(5);
+                dino.setMaxSpeed(1.5);
+                dino.setSpeed(dino.getMaxSpeed());
+                dino.setStunTime(5000);
+                dino.setStunned(false);
+                dino.setDistance(0);
                 break;
         }
     }
