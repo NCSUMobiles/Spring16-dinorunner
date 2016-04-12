@@ -74,10 +74,6 @@ public class RunManager {
         }
     }
 
-    public double getDinoSpeed() {
-        return Dinosaur.getInstance().getSpeed();
-    }
-
     public static synchronized RunManager getInstance() {
         if (instance == null) {
             instance = new RunManager();

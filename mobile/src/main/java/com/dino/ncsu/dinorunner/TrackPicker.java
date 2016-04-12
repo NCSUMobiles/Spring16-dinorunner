@@ -11,12 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 /**
  * This class holds the necessary functionality for the TrackPickActivity
@@ -117,7 +114,8 @@ public class TrackPicker extends Activity {
             @Override
             void onItemClick(TrackListAdapter adapter, View v, int position) {
                 final HashMap<String, String> item = adapter.getItem(position);
-                final Track track = new Track(item.get("tracks"), Integer.parseInt(item.get("image")), Integer.parseInt(item.get("trackImage")));
+                Track.getInstance().setTrackName(item.get("tracks"));
+                Track.getInstance().setTrackImageId( Integer.parseInt(item.get("trackImage")));
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))
@@ -125,17 +123,12 @@ public class TrackPicker extends Activity {
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                try {
                                     Bundle dataBundle = new Bundle();
                                     Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
                                     dataBundle.putByteArray("dinoPicked", dinoByteArray);
-                                    dataBundle.putByteArray("mapPicked", object2Bytes(track));
                                     intent.putExtras(dataBundle);
                                     Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
