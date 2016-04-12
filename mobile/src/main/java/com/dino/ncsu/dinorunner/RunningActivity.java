@@ -215,21 +215,21 @@ public class RunningActivity extends Activity implements Runnable {
         thread.start();
     }
 
-// @Override
-//    protected void onPause() {
-//        Log.d("test", "WE PAUSED");
-//        if (mIsRunning) {
-//            unbindStepService();
-//        }
-//        if (mQuitting) {
-//            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
-//        } else {
-//            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
-//        }
-//
-//        super.onPause();
-//        pause();
-//    }
+ @Override
+    protected void onPause() {
+        Log.d("test", "WE PAUSED");
+        if (mIsRunning) {
+           // unbindStepService();
+        }
+        if (mQuitting) {
+            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
+        } else {
+            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
+        }
+
+        super.onPause();
+        //pause();
+    }
 
     private void pause() {
         //CLOSE LOCKER FOR run();
