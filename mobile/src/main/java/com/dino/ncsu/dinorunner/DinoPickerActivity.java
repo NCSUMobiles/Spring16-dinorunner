@@ -91,9 +91,7 @@ public class DinoPickerActivity extends Activity {
                 HashMap<String, String> item = adapter.getItem(position);
                 Dinosaur.getInstance().setNameOfDino(item.get("dinos"));
                 Dinosaur.getInstance().setImageId(Integer.parseInt(item.get("image")));
-                Dinosaur dino = Dinosaur.getInstance();
                 DinoManager dinoManager = new DinoManager();
-
                 dinoManager.setDinos();
 
                 try {

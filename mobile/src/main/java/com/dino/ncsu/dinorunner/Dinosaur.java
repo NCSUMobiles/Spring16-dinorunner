@@ -19,6 +19,7 @@ public class Dinosaur implements Serializable {
     private double attack; //Dinosaur's attack damage
     private double stunTime; //Dinosaur's time stunned after attacking player
     private boolean stunned; //is dinosaur stunned? If so, speed  = 0
+    private double headStart; //How much headstart distance at beginning of race
 
     private static Dinosaur instance; //Singleton of Dinosaur
 
@@ -94,5 +95,8 @@ public class Dinosaur implements Serializable {
 
     public boolean getStunned() { return stunned; }
 
+    public void setHeadStart(double headStart) { this.headStart = headStart; }
+
+    public double getHeadStart() { return headStart; }
 
 }

@@ -113,16 +113,6 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Bitmap map;
 
-    float default_head_POS_Y;
-    float default_torso_POS_Y;
-    float default_pants_POS_Y;
-    float default_shoes_POS_Y;
-
-    Bitmap default_head;
-    Bitmap default_torso;
-    Bitmap default_pants;
-    Bitmap default_shoes;
-
     /**
      * Called when the activity is first created.
      *
@@ -162,16 +152,16 @@ public class RunningActivity extends Activity implements Runnable {
         mUtils = Utils.getInstance();
 
         //Laps, distance traveled data
-        lapsDone = 0;
-        totalLaps = infoBundle.getInt("lapsPicked");
-        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
+        clearProgress();
 
         //mStepValueView = (TextView) findViewById(R.id.stepView);
         mDistanceView = (TextView) findViewById(R.id.distanceView);
         mDistanceLeftView = (TextView) findViewById(R.id.distanceLeftView);
         mSpeedView = (TextView) findViewById(R.id.speedView);
         mHealthView = (TextView) findViewById(R.id.healthView);
-
+        //Dino Stuff
+        mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
+        mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
 
 
 
@@ -342,23 +332,11 @@ public class RunningActivity extends Activity implements Runnable {
                 case STEPS_MSG:
                     mStepValue = msg.arg1;
                     Player.getInstance().setStepsTraveled(mStepValue);
-                    DecimalFormat df = new DecimalFormat("#.##");
                     DistanceValue = getmDistanceValue();
                     Player.getInstance().setDistance(DistanceValue);
                     DistanceLeftValue = getDistanceLeftValue();
                     SpeedValue = getSpeed();
                     Player.getInstance().setAvgSpeed(SpeedValue);
-                    HealthValue = Player.getInstance().getHealth();
-
-
-
-                    //mStepValueView.setText("Steps: " + Integer.toString(mStepValue) + " Steps");
-                    mDistanceView.setText("Distance: " + df.format(DistanceValue) + " Meters");
-                    mDistanceLeftView.setText("Remaining: " + df.format(DistanceLeftValue) + " Meters");
-                    mSpeedView.setText("Average Speed: " + df.format(SpeedValue) + " m/s");
-
-
-
                     break;
                 default:
                     super.handleMessage(msg);
@@ -401,28 +379,43 @@ public class RunningActivity extends Activity implements Runnable {
                 continue;
             }
 
+            //Game logic
             checkPlayerDead();
             RunManager.getInstance().checkStunMonster();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
 
+            //UI updates
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     DecimalFormat df = new DecimalFormat("#.##");
 
                     //Dino Stuff
-                    mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
-                    mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
-
-                    //Dino Stuff
                     DinoDistanceValue = RunManager.getInstance().getDistanceFromPlayer();
                     DinoSpeedValue = RunManager.getInstance().getDinoSpeed();
-                    HealthValue = RunManager.getInstance().getHealth();
+                    HealthValue = Player.getInstance().getHealth();
 
                     mDinoDistanceView.setText("Distance: " + df.format(DinoDistanceValue) + " Meters");
-                    mDinoSpeedView.setText("Speed: " + df.format(DinoDistanceValue) + " m/s");
+                    mSpeedView.setText("Speed: " + df.format(SpeedValue) + " m/s");
                     mHealthView.setText("HP: " + df.format(HealthValue));
+                    mDinoSpeedView.setText("Chasing: " + df.format(DinoSpeedValue) + " m/s");
+
+                    //mStepValueView.setText("Steps: " + Integer.toString(mStepValue) + " Steps");
+                    mDistanceView.setText("Distance: " + df.format(DistanceValue) + " Meters");
+                    mDistanceLeftView.setText("Remaining: " + df.format(DistanceLeftValue) + " Meters");
+
+
+                    //Logic checks for when Dino is on Player
+                    if (DistanceValue <= 0 && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
+                        mDistanceView.setText("UNDER ATTACK!");
+                    }
+
+                    if (DinoSpeedValue <= 0 && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
+                        mDinoSpeedView.setText("UNDER ATTACK!");
+                    } else if (Player.getInstance().getDistance() <= Dinosaur.getInstance().getHeadStart()) {
+                        mDinoSpeedView.setText("Giving Player Headstart: " + df.format(Dinosaur.getInstance().getHeadStart() - Player.getInstance().getDistance()) + "m left");
+                    }
                 }
             });
 
@@ -486,6 +479,7 @@ public class RunningActivity extends Activity implements Runnable {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Only if the user accepts the prompt to exit to the main menu
+                                clearProgress();
                                 //Check items are consumed by user
                                 Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -501,5 +495,18 @@ public class RunningActivity extends Activity implements Runnable {
                         .show();
             }
         });
+    }
+
+    public void clearProgress() {
+        Bundle infoBundle = getIntent().getExtras();
+
+        //Laps, distance traveled data
+        lapsDone = 0;
+        totalLaps = infoBundle.getInt("lapsPicked");
+        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
+        Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
+        Dinosaur.getInstance().setDistance(0);
+        Player.getInstance().setDistance(0);
+        Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 }

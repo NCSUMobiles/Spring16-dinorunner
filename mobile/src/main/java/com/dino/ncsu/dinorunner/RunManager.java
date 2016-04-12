@@ -8,7 +8,6 @@ import android.util.Log;
  */
 public class RunManager {
     private static RunManager instance; //Instance of run manager
-    private double distanceFromPlayer; //Distance monster from player
     private long lastStunnedTime;
     private long lastMoveTime;
 
@@ -19,17 +18,17 @@ public class RunManager {
     public double getDistanceFromPlayer() {
 
         double distance = Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance();
-        Log.d("OK", "" + distance );
-        if (distance < 0) {
+        if (distance <= 0) {
             distance = 0;
         }
+        //Log.d("OK", "" + distance );
         return distance;
     }
 
     public void checkStunMonster() {
         //Log.d("OK", "OK2!");
         long delta = System.currentTimeMillis() - lastStunnedTime;
-        if (Dinosaur.getInstance().getStunned()) {
+        if (Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) ) {
             Log.d("test", "We are stunned" + Dinosaur.getInstance().getStunned());
             Dinosaur.getInstance().setSpeed(0);
 
@@ -46,7 +45,7 @@ public class RunManager {
 
     public void checkDistance() {
         //Log.d("OK", "OK3!");
-        if (getDistanceFromPlayer() <= 0 && Player.getInstance().getDistance() > 10) {
+        if (getDistanceFromPlayer() <= 0 && !Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
             Dinosaur.getInstance().setStunned(true);
             Player.getInstance().setHealth(Player.getInstance().getHealth() - Dinosaur.getInstance().getAttack());
         }
@@ -58,20 +57,20 @@ public class RunManager {
 
     public void updateDistance() {
         //Log.d("OK", "OK!");
-        Log.d("Test", "Distance :" + Dinosaur.getInstance().getDistance());
-        long delta = System.currentTimeMillis() - lastMoveTime;
-//        if (dino.getDistance() == 0) {
-//            lastMoveTime = System.currentTimeMillis();
-//            if (delta > dino.getStunTime()) {
-//                lastMoveTime = System.currentTimeMillis();
-//                dino.setDistance(dino.getDistance() + dino.getSpeed());
-//            }
-//        }
-//        else
-            if (delta > 1000) {
-           // Log.d("OK", "OK4!");
-            lastMoveTime = System.currentTimeMillis();
-            Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
+        if (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) {
+            //Log.d("Test", "Distance :" + Dinosaur.getInstance().getDistance());
+            long delta = System.currentTimeMillis() - lastMoveTime;
+            if (Dinosaur.getInstance().getDistance() == 0) {
+                lastMoveTime = System.currentTimeMillis();
+                if (delta > Dinosaur.getInstance().getStunTime()) {
+                    lastMoveTime = System.currentTimeMillis();
+                    Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
+                }
+            } else if (delta > 1000) {
+                // Log.d("OK", "OK4!");
+                lastMoveTime = System.currentTimeMillis();
+                Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
+            }
         }
     }
 

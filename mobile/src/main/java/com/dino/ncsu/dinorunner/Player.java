@@ -17,6 +17,7 @@ public class Player {
     private String playerName; //Player name
     private double mStepLength = 30.48; //Player Step Length = .3048
     private double health = 100;
+    private double maxHealth = 100;
     private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
 
@@ -123,4 +124,10 @@ public class Player {
         }
         return instance;
     }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(double maxHealth) { this.maxHealth = maxHealth;}
 }
