@@ -101,6 +101,10 @@ public class RunningActivity extends Activity implements Runnable {
     private float EquipmentFramePos_X; //600
     private float EquipmentFramePos_Y; //920
 
+    //Scale for image size of different screens
+    private float scale_width;
+    private float scale_height;
+
     private Paint paint = new Paint();
 
     private Bitmap character_frame;
@@ -135,18 +139,25 @@ public class RunningActivity extends Activity implements Runnable {
 
 
         //Bitmap for frame: Character
-        EquipmentFramePos_X = 600 * (width / 1080);
-        EquipmentFramePos_Y = 920 * (height/1776);
+        scale_width = width / 1080;
+        scale_height = height / 1776;
 
-        EquipmentPos_X = 640 * (width/1080);
-        EquipmentPos_Y = 940 * (height/1080);
+        EquipmentFramePos_X = 600 * scale_width;
+        EquipmentFramePos_Y = 920 * scale_height;
+
+        EquipmentPos_X = 640 * scale_width;
+        EquipmentPos_Y = 940 * scale_height;
 
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
-
+        character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
+        equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
+        equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
         equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId());
+        equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
         equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
+        equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
 
 
         equipped_head_POS_Y = equipped_head.getHeight();
