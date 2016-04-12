@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,19 +39,14 @@ import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 public class RunningActivity extends Activity implements Runnable {
     //Private variables in this class
     private Track track;
-    private int lapsDone;
     private int totalLaps;
-    private double speed;
-    private boolean activityRunning = true;
-    private int stepsTraveled; //Steps traveled total
-    private int stepsLap; //Total amount of steps per lap
+    private int lapsDone;
 
     //Pedometer Stuff
     private SharedPreferences mSettings;
     private PedometerSettings mPedometerSettings;
     private Utils mUtils;
     private long startTime; //Starting Time
-    private long totalTime; //total time ran
 
     private TextView mStepValueView;
     private TextView mDistanceView;
@@ -80,22 +76,30 @@ public class RunningActivity extends Activity implements Runnable {
      */
     private boolean mIsRunning;
 
-    SurfaceView surfaceView;
-    SurfaceHolder surfaceHolder;
+    //Surfaceview information
+    private  SurfaceView surfaceView;
+    private SurfaceHolder surfaceHolder;
+
+    //Display information
+    private DisplayMetrics display;
+    private int width; //HTC ONE M8 = 1080
+    private int height; //HTC ONE M8 = 1776
+
+    //Thread information
     private Thread thread;
     private boolean locker = true;
 
     //All Equipment Logic here
 
-    EquippedItems equipment = EquippedItems.getInstance();
+    private EquippedItems equipment = EquippedItems.getInstance();
 
     //Equipment Location on Canvas
-    float EquipmentPos_X = 640;
-    float EquipmentPos_Y = 940;
+    private float EquipmentPos_X; //640
+    private float EquipmentPos_Y; //940;
 
     //Equipment Frame Location on Canvas
-    float EquipmentFramePos_X = 600;
-    float EquipmentFramePos_Y = 920;
+    private float EquipmentFramePos_X; //600
+    private float EquipmentFramePos_Y; //920
 
     private Paint paint = new Paint();
 
@@ -121,7 +125,22 @@ public class RunningActivity extends Activity implements Runnable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //Screen information here
+        //display = getWindowManager().getDefaultDisplay();
+        display = this.getResources().getDisplayMetrics();
+        //size = new Point();
+        //display.getSize(size);
+        width = display.widthPixels;
+        height = display.heightPixels;
+
+
         //Bitmap for frame: Character
+        EquipmentFramePos_X = 600 * (width / 1080);
+        EquipmentFramePos_Y = 920 * (height/1776);
+
+        EquipmentPos_X = 640 * (width/1080);
+        EquipmentPos_Y = 940 * (height/1080);
+
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
