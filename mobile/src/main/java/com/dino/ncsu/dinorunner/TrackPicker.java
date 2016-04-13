@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +26,15 @@ import java.util.Random;
 public class TrackPicker extends Activity {
     //Private variables in this class
     //private byte[] dinoByteArray;
+
+    //Scale for image size of different screens
+    private float scale_width;
+    private float scale_height;
+
+    //Display information
+    private DisplayMetrics display;
+    private int width; //HTC ONE M8 = 1080
+    private int height; //HTC ONE M8 = 1776
 
     private double[][] probs = {
             {.95, .999},
@@ -80,6 +91,12 @@ public class TrackPicker extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_picker);
 
+        DisplayMetrics display = this.getResources().getDisplayMetrics();
+        int width = display.widthPixels;
+        int height = display.heightPixels;
+        scale_width = width / 1080;
+        scale_height = height / 1776;
+
 //        Bundle bundle = getIntent().getExtras();
 //        dinoByteArray = bundle.getByteArray("dinoPicked");
 
@@ -120,9 +137,12 @@ public class TrackPicker extends Activity {
 
             @Override
             void onItemClick(TrackListAdapter adapter, View v, final int position) {
+
                 final HashMap<String, String> item = adapter.getItem(position);
                 Track.getInstance().setTrackName(item.get("tracks"));
                 Track.getInstance().setTrackImageId(Integer.parseInt(item.get("trackImage")));
+                TrackManager tm = new TrackManager();
+                tm.setTrack(scale_width, scale_height);
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))

@@ -14,6 +14,7 @@ public class Player {
     private EquippedItems listOfItems; //List of items for player
     private double distance; //Distance traveled
     private double stepsTraveled; //Steps traveled
+    private int currentTile; //Current tile of track player is on
     private String playerName; //Player name
     private double mStepLength = 30.48; //Player Step Length = .3048
     private double health = 100;
@@ -130,4 +131,8 @@ public class Player {
     }
 
     public void setMaxHealth(double maxHealth) { this.maxHealth = maxHealth;}
+
+    public int getCurrentTile() { return currentTile; }
+
+    public void setCurrentTile(int currentTile) { this.currentTile = currentTile; }
 }

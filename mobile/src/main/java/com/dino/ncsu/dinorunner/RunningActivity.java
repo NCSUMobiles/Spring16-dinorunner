@@ -20,8 +20,10 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -234,7 +236,7 @@ public class RunningActivity extends Activity implements Runnable {
 
         // Start the service if this is considered to be an application start (last onPause was long ago)
         if (!mIsRunning && mPedometerSettings.isNewStart()) {
-            Log.d("test", "We Tested Step Service");
+            //Log.d("test", "We Tested Step Service");
             startStepService();
             bindStepService();
         } else if (mIsRunning) {
@@ -244,7 +246,7 @@ public class RunningActivity extends Activity implements Runnable {
         mPedometerSettings.clearServiceRunning();
 
         resume();
-        Log.d(TAG, "onResume() called");
+        //Log.d(TAG, "onResume() called");
     }
 
     private void resume() {
@@ -257,7 +259,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     @Override
     protected void onPause() {
-        Log.d("test", "WE PAUSED");
+        //Log.d("test", "WE PAUSED");
         if (mIsRunning) {
             // unbindStepService();
         }
@@ -269,7 +271,7 @@ public class RunningActivity extends Activity implements Runnable {
 
         super.onPause();
         //pause();
-        Log.d(TAG, "onPause() called");
+        //Log.d(TAG, "onPause() called");
     }
 
     private void pause() {
@@ -578,14 +580,26 @@ public class RunningActivity extends Activity implements Runnable {
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
         Player.getInstance().setDistance(0);
-        Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
+        //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 
     @Override
     public void onDestroy() {
         unbindStepService();
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
+        //Log.d(TAG, "onDestroy() called");
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+        }
+        Log.d("Coordinates of Touch: ", "" + x +"," + y);
+        return false;
+    }
 }

@@ -10,6 +10,7 @@ public class RunManager {
     private static RunManager instance; //Instance of run manager
     private long lastStunnedTime;
     private long lastMoveTime;
+    private Tile currentTile;
 
     private RunManager() {
 
@@ -18,7 +19,7 @@ public class RunManager {
     public double getDistanceFromPlayer() {
 
         double distance = Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance();
-        Log.d("OK", "" + distance);
+        //Log.d("OK", "" + distance);
         if (distance <= 0) {
             distance = 0;
         }
@@ -85,10 +86,20 @@ public class RunManager {
         return Dinosaur.getInstance().getSpeed();
     }
 
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+
     public static synchronized RunManager getInstance() {
         if (instance == null) {
             instance = new RunManager();
         }
         return instance;
     }
+
+
 }
