@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,6 +126,8 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Bitmap map;
     private Bitmap stat_frame;
+
+    MapView mapView = null;
 
     /**
      * Called when the activity is first created.
@@ -492,12 +495,19 @@ public class RunningActivity extends Activity implements Runnable {
         }
     }
 
-
+    int playerX = 300;
+    int playerY = 300;
     private void draw(Canvas canvas) {
         if (canvas != null) {
             canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
             drawEquipment(canvas);
             drawMap(canvas);
+
+            if(mapView == null) {
+                mapView = new MapView(canvas, getResources());
+            }
+
+            mapView.draw();
         }
     }
 
