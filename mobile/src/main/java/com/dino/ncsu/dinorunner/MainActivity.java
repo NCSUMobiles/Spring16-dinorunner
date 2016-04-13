@@ -28,15 +28,15 @@ public class MainActivity extends AppCompatActivity {
         runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), DinoPickerActivity.class));
+                startActivity(new Intent(getApplicationContext(), TrackPicker.class));
             }
         });
 
-        Button mapViewButton = (Button) findViewById(R.id.mapview_button);
+        Button mapViewButton = (Button) findViewById(R.id.gallery_button);
         mapViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RunningActivity.class));
+                startActivity(new Intent(getApplicationContext(), DinoPickerActivity.class));
             }
         });
     }

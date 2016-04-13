@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This class holds the necessary functionality for the TrackPickActivity
@@ -22,7 +23,13 @@ import java.util.List;
  */
 public class TrackPicker extends Activity {
     //Private variables in this class
-    private byte[] dinoByteArray;
+    //private byte[] dinoByteArray;
+
+    private double[][] probs = {
+            {.95, .999},
+            {.5, .9},
+            {.1, .4}
+    };
 
     private String[] tracks = new String[]{
             "Forest of A'alath",
@@ -36,7 +43,7 @@ public class TrackPicker extends Activity {
             R.mipmap.troll
     };
 
-    private Integer[] trackImageId = new Integer[] {
+    private Integer[] trackImageId = new Integer[]{
             R.mipmap.track1,
             R.mipmap.track1,
             R.mipmap.track1
@@ -73,8 +80,8 @@ public class TrackPicker extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_picker);
 
-        Bundle bundle = getIntent().getExtras();
-        dinoByteArray = bundle.getByteArray("dinoPicked");
+//        Bundle bundle = getIntent().getExtras();
+//        dinoByteArray = bundle.getByteArray("dinoPicked");
 
         // Each row in the list stores track name, description, difficulty, image
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
@@ -112,10 +119,10 @@ public class TrackPicker extends Activity {
             }
 
             @Override
-            void onItemClick(TrackListAdapter adapter, View v, int position) {
+            void onItemClick(TrackListAdapter adapter, View v, final int position) {
                 final HashMap<String, String> item = adapter.getItem(position);
                 Track.getInstance().setTrackName(item.get("tracks"));
-                Track.getInstance().setTrackImageId( Integer.parseInt(item.get("trackImage")));
+                Track.getInstance().setTrackImageId(Integer.parseInt(item.get("trackImage")));
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))
@@ -123,12 +130,29 @@ public class TrackPicker extends Activity {
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                    Bundle dataBundle = new Bundle();
-                                    Intent intent = new Intent(getApplicationContext(), ItemPickActivity.class);
-                                    dataBundle.putByteArray("dinoPicked", dinoByteArray);
-                                    intent.putExtras(dataBundle);
-                                    Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
-                                    startActivity(intent);
+                                //Bundle dataBundle = new Bundle();
+
+                                //dataBundle.putByteArray("dinoPicked", dinoByteArray);
+                                //intent.putExtras(dataBundle);
+                                //calcuate probabilities here depending on map
+                                Random ran = new Random();
+                                double prob = ran.nextDouble();
+
+                                if (prob <= probs[position][0]) {
+                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[0]);
+                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[0]);
+                                } else if (prob <= probs[position][1]) {
+                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[1]);
+                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[1]);
+                                } else {
+                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[2]);
+                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[2]);
+                                }
+
+                                DinoManager dinoManager = new DinoManager();
+                                dinoManager.setDinos();
+                                Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), ItemPickActivity.class));
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

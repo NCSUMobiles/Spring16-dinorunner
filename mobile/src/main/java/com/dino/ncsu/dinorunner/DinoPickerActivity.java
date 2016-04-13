@@ -1,20 +1,15 @@
 package com.dino.ncsu.dinorunner;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 /**
  * This class holds the necessary functionality for the DicoPickerActivity
@@ -23,12 +18,12 @@ import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
  */
 public class DinoPickerActivity extends Activity {
     //private variables for this class
-    private String[] dinos = new String[]{
+    public static String[] dinos = new String[]{
             "Goblin",
             "Skeleton Spearman",
             "Forest Giant"
     };
-    private Integer[] imageId = new Integer[]{
+    public static Integer[] imageId = new Integer[]{
             R.mipmap.goblin,
             R.mipmap.skele_spearman,
             R.mipmap.forest_giant
@@ -88,22 +83,22 @@ public class DinoPickerActivity extends Activity {
 
             @Override
             public void onItemClick(DinoListAdapter adapter, View v, int position) {
-                HashMap<String, String> item = adapter.getItem(position);
-                Dinosaur.getInstance().setNameOfDino(item.get("dinos"));
-                Dinosaur.getInstance().setImageId(Integer.parseInt(item.get("image")));
-                DinoManager dinoManager = new DinoManager();
-                dinoManager.setDinos();
-
-                try {
-                    Bundle dataBundle = new Bundle();
-                    Intent intent = new Intent(getApplicationContext(), TrackPicker.class);
-                    dataBundle.putByteArray("dinoPicked", object2Bytes(Dinosaur.getInstance()));
-                    intent.putExtras(dataBundle);
-                    Toast.makeText(DinoPickerActivity.this, "Selected Dinosaur: " + item.get("dinos"), Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                HashMap<String, String> item = adapter.getItem(position);
+//                Dinosaur.getInstance().setNameOfDino(item.get("dinos"));
+//                Dinosaur.getInstance().setImageId(Integer.parseInt(item.get("image")));
+//                DinoManager dinoManager = new DinoManager();
+//                dinoManager.setDinos();
+//
+//                try {
+//                    Bundle dataBundle = new Bundle();
+//                    Intent intent = new Intent(getApplicationContext(), TrackPicker.class);
+//                    dataBundle.putByteArray("dinoPicked", object2Bytes(Dinosaur.getInstance()));
+//                    intent.putExtras(dataBundle);
+//                    Toast.makeText(DinoPickerActivity.this, "Selected Dinosaur: " + item.get("dinos"), Toast.LENGTH_SHORT).show();
+//                    startActivity(intent);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
             }
 

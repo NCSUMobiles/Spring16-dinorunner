@@ -132,11 +132,6 @@ public class ItemPickActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_pick);
 
-        //load meta data here.
-        Bundle infoBundle = getIntent().getExtras();
-        dino = infoBundle.getByteArray("dinoPicked");
-        map = infoBundle.getByteArray("mapPicked");
-
         //Each row of the list stores item name, image and description
         if (itemList == null) {
             itemList = new ArrayList<>();

@@ -31,16 +31,17 @@ import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
 
 /**
  * This class holds the necessary functionality for the RunningActivity
- * <p>
+ * <p/>
  * Keeps track of the progress running by the runner to see if the monster
  * is catching up to them.  Moves forward to the victory screen when the run is funished.
- * <p>
+ * <p/>
  * Moves back to the main screen if the user presses the back button.
  */
 public class RunningActivity extends Activity implements Runnable {
     //Private variables in this class
     private int totalLaps;
     private int lapsDone;
+    private static final String TAG = "DinoTag";
 
     //Pedometer Stuff
     private SharedPreferences mSettings;
@@ -53,7 +54,6 @@ public class RunningActivity extends Activity implements Runnable {
     private TextView mDistanceLeftView;
     private TextView mSpeedView;
     private TextView mHealthView;
-
 
 
     private int mStepValue;
@@ -77,7 +77,7 @@ public class RunningActivity extends Activity implements Runnable {
     private boolean mIsRunning;
 
     //Surfaceview information
-    private  SurfaceView surfaceView;
+    private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
     //Display information
@@ -125,6 +125,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Bitmap map;
     private Bitmap stat_frame;
+
     /**
      * Called when the activity is first created.
      *
@@ -147,25 +148,37 @@ public class RunningActivity extends Activity implements Runnable {
         scale_height = height / 1776;
 
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
-        Log.d("width", "" + Math.round(character_frame.getWidth() * scale_width));
-        Log.d("height","" + Math.round(character_frame.getHeight() * scale_height));
-        character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
-        equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
-        equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
         equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId());
-        equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
         equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
-        equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
 
         //Bitmap for frame: Track
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
-        map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
 
         //Bitmap for statistics frame
         stat_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.stat_frame);
-        stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
+
+        if (character_frame != null && Math.round(character_frame.getWidth() * scale_width) != 0 && Math.round(character_frame.getHeight() * scale_height) != 0)
+            character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
+
+        if (equipped_head != null && Math.round(equipped_head.getWidth() * scale_width) != 0 && Math.round(equipped_head.getHeight() * scale_height) != 0)
+            equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
+
+        if (equipped_chest != null && Math.round(equipped_chest.getWidth() * scale_width) != 0 && Math.round(equipped_chest.getHeight() * scale_height) != 0)
+            equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
+
+        if (equipped_pants != null && Math.round(equipped_pants.getWidth() * scale_width) != 0 && Math.round(equipped_pants.getHeight() * scale_height) != 0)
+            equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
+
+        if (equipped_shoes != null && Math.round(equipped_shoes.getWidth() * scale_width) != 0 && Math.round(equipped_shoes.getHeight() * scale_height) != 0)
+            equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
+
+        if (map != null && Math.round(map.getWidth() * scale_width) != 0 && Math.round(map.getHeight() * scale_height) != 0)
+            map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
+
+        if (stat_frame != null && Math.round(stat_frame.getWidth() * scale_width) != 0 && Math.round(stat_frame.getHeight() * scale_height) != 0)
+            stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -191,7 +204,6 @@ public class RunningActivity extends Activity implements Runnable {
         //Dino Stuff
         mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
         mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
-
 
 
         //Initialize player stats
@@ -232,6 +244,7 @@ public class RunningActivity extends Activity implements Runnable {
         mPedometerSettings.clearServiceRunning();
 
         resume();
+        Log.d(TAG, "onResume() called");
     }
 
     private void resume() {
@@ -242,11 +255,11 @@ public class RunningActivity extends Activity implements Runnable {
         thread.start();
     }
 
- @Override
+    @Override
     protected void onPause() {
         Log.d("test", "WE PAUSED");
         if (mIsRunning) {
-           // unbindStepService();
+            // unbindStepService();
         }
         if (mQuitting) {
             mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
@@ -256,6 +269,7 @@ public class RunningActivity extends Activity implements Runnable {
 
         super.onPause();
         //pause();
+        Log.d(TAG, "onPause() called");
     }
 
     private void pause() {
@@ -460,21 +474,13 @@ public class RunningActivity extends Activity implements Runnable {
                 }
             });
 
-
-
-
-
-
-
-
-
-
-
             Canvas canvas = surfaceHolder.lockCanvas();
-            draw(canvas);
+            if (canvas != null) {
+                draw(canvas);
 
-            // End of painting to canvas. system will paint with this canvas,to the surface.
-            surfaceHolder.unlockCanvasAndPost(canvas);
+                // End of painting to canvas. system will paint with this canvas,to the surface.
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            }
         }
     }
 
@@ -487,11 +493,12 @@ public class RunningActivity extends Activity implements Runnable {
     }
 
 
-
     private void draw(Canvas canvas) {
-        canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
-        drawEquipment(canvas);
-        drawMap(canvas);
+        if (canvas != null) {
+            canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
+            drawEquipment(canvas);
+            drawMap(canvas);
+        }
     }
 
     //This method draws all the equipment
@@ -576,8 +583,9 @@ public class RunningActivity extends Activity implements Runnable {
 
     @Override
     public void onDestroy() {
-        stopStepService();
         unbindStepService();
         super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
     }
+
 }

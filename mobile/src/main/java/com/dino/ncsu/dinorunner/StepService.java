@@ -212,7 +212,7 @@ public class StepService extends Service {
         notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         Intent pedometerIntent = new Intent();
         pedometerIntent.setComponent(new ComponentName(this, RunningActivity.class));
-        pedometerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pedometerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 pedometerIntent, 0);
         notification.setLatestEventInfo(this, text,
