@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Objects;
 
 /**
  * Created by jiminfan on 2/28/2016.

@@ -16,8 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
+
+import com.dino.ncsu.dinorunner.Objects.Player;
 
 /**
  * Calculates and displays the distance walked.  

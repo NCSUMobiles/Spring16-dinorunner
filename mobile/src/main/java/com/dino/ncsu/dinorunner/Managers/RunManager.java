@@ -1,6 +1,10 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Managers;
 
 import android.util.Log;
+
+import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.Objects.Player;
+import com.dino.ncsu.dinorunner.Objects.Tile;
 
 /**
  * Created by jiminfan on 4/11/2016.

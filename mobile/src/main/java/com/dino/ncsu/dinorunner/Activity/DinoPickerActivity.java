@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

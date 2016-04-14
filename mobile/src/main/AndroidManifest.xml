@@ -21,22 +21,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DinoPickerActivity"
+            android:name=".Activity.DinoPickerActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".TrackPicker"
+            android:name=".Activity.TrackPicker"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_track_picker" />
         <activity
-            android:name=".ItemPickActivity"
+            android:name=".Activity.ItemPickActivity"
             android:configChanges="orientation|screenSize"
             android:label="Pick your items" />
         <activity
-            android:name=".RunningActivity"
+            android:name=".Pedometer.RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running"
             android:launchMode="singleTask"/>
-        <service android:name=".StepService" />
+        <service android:name=".Pedometer.StepService" />
     </application>
 
 </manifest>

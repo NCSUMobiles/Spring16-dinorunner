@@ -1,11 +1,7 @@
-package com.dino.ncsu.dinorunner;
-
-import java.util.Locale;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 import android.app.Service;
-import android.speech.tts.TextToSpeech;
 import android.text.format.Time;
-import android.util.Log;
 
 public class Utils {
     private static final String TAG = "Utils";

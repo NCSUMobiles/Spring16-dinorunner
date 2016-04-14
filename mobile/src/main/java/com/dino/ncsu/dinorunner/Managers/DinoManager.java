@@ -1,4 +1,7 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Managers;
+
+import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.R;
 
 /**
  * Created by Jimin Fan on 4/11/2016.

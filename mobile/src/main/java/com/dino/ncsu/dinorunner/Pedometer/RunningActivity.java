@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +23,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.TextView;
+
+import com.dino.ncsu.dinorunner.MainActivity;
+import com.dino.ncsu.dinorunner.Managers.RunManager;
+import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.Objects.EquippedItems;
+import com.dino.ncsu.dinorunner.Objects.Player;
+import com.dino.ncsu.dinorunner.Objects.Track;
+import com.dino.ncsu.dinorunner.R;
 
 import java.io.IOException;
 import java.text.DecimalFormat;

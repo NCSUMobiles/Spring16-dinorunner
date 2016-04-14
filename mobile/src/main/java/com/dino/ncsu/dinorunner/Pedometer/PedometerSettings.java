@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 import android.content.SharedPreferences;
 
@@ -54,7 +54,7 @@ public class PedometerSettings {
     public void saveServiceRunningWithTimestamp(boolean running) {
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putBoolean("service_running", running);
-        editor.putLong("last_seen", com.dino.ncsu.dinorunner.Utils.currentTimeInMillis());
+        editor.putLong("last_seen", Utils.currentTimeInMillis());
         editor.commit();
     }
 

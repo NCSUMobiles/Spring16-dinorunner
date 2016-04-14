@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Activity;
 
 import android.view.View;
 

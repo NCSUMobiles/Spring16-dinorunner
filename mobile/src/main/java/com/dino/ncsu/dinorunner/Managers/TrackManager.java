@@ -1,7 +1,8 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Managers;
 
-import android.util.DisplayMetrics;
-import android.view.Display;
+import com.dino.ncsu.dinorunner.Objects.Tile;
+import com.dino.ncsu.dinorunner.Objects.Track;
+import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
 

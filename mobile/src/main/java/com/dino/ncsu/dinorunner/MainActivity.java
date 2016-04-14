@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
+import com.dino.ncsu.dinorunner.Activity.TrackPicker;
+
 /**
  * This class holds the necessary functionality for the MainActivity.
  */

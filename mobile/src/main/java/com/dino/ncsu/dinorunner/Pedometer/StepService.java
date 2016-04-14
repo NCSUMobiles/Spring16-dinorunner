@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -36,6 +36,8 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.dino.ncsu.dinorunner.R;
+
 
 /**
  * This is an example of implementing an application service that runs locally
@@ -52,11 +54,11 @@ public class StepService extends Service {
     private PedometerSettings mPedometerSettings;
     private SharedPreferences mState;
     private SharedPreferences.Editor mStateEditor;
-    private com.dino.ncsu.dinorunner.Utils mUtils;
+    private Utils mUtils;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private StepDetector mStepDetector;
-    private com.dino.ncsu.dinorunner.StepDisplayer mStepDisplayer;
+    private StepDisplayer mStepDisplayer;
 
     private PowerManager.WakeLock wakeLock;
     private NotificationManager mNM;
@@ -102,7 +104,7 @@ public class StepService extends Service {
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mReceiver, filter);
 
-        mStepDisplayer = new com.dino.ncsu.dinorunner.StepDisplayer(mPedometerSettings, mUtils);
+        mStepDisplayer = new StepDisplayer(mPedometerSettings, mUtils);
         mStepDisplayer.setSteps(mSteps = mState.getInt("steps", 0));
         mStepDisplayer.addListener(mStepListener);
         mStepDetector.addStepListener(mStepDisplayer);
@@ -189,7 +191,7 @@ public class StepService extends Service {
     /**
      * Forwards pace values from PaceNotifier to the activity.
      */
-    private com.dino.ncsu.dinorunner.StepDisplayer.Listener mStepListener = new com.dino.ncsu.dinorunner.StepDisplayer.Listener() {
+    private StepDisplayer.Listener mStepListener = new StepDisplayer.Listener() {
         public void stepsChanged(int value) {
             mSteps = value;
             passValue();

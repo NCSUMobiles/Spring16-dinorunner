@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 /**
  * Detects steps and notifies all listeners (that implement StepListener).
@@ -44,7 +43,7 @@ public class StepDetector implements SensorEventListener
     private float   mLastDiff[] = new float[3*2];
     private int     mLastMatch = -1;
     
-    private ArrayList<com.dino.ncsu.dinorunner.StepListener> mStepListeners = new ArrayList<com.dino.ncsu.dinorunner.StepListener>();
+    private ArrayList<StepListener> mStepListeners = new ArrayList<StepListener>();
 
     public StepDetector() {
         int h = 480; // TODO: remove this constant
@@ -57,7 +56,7 @@ public class StepDetector implements SensorEventListener
         mLimit = sensitivity; // 1.97  2.96  4.44  6.66  10.00  15.00  22.50  33.75  50.62
     }
 
-    public void addStepListener(com.dino.ncsu.dinorunner.StepListener sl) {
+    public void addStepListener(StepListener sl) {
         mStepListeners.add(sl);
     }
 

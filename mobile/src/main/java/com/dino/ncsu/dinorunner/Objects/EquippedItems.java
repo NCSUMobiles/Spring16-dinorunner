@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Objects;
 
 import java.io.Serializable;
 

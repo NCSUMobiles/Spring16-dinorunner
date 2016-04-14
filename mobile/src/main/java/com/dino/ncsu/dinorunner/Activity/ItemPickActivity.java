@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +15,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
+
+import com.dino.ncsu.dinorunner.Objects.EquippedItems;
+import com.dino.ncsu.dinorunner.R;
+import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
+import com.dino.ncsu.dinorunner.Objects.RunningItem;
 
 import java.io.IOException;
 import java.util.ArrayList;

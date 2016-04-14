@@ -1,5 +1,5 @@
 
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Pedometer;
 
 /**
  * Interface implemented by classes that can handle notifications about steps.

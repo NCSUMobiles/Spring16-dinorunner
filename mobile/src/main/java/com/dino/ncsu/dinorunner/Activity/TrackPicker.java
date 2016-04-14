@@ -1,4 +1,4 @@
-package com.dino.ncsu.dinorunner;
+package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,9 +9,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
+
+import com.dino.ncsu.dinorunner.Managers.DinoManager;
+import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.R;
+import com.dino.ncsu.dinorunner.Objects.Track;
+import com.dino.ncsu.dinorunner.Managers.TrackManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
