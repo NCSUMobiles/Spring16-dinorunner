@@ -1,11 +1,13 @@
 package com.dino.ncsu.dinorunner.Objects;
 
+import java.io.Serializable;
+
 /**
  * Created by jiminfan on 2/28/2016.
  * <p>
  * Singleton Class that contains the necessary information that will pertain to the player
  */
-public class Player {
+public class Player implements Serializable {
     private double avgSpeed; //Average speed of player
     private double boostedStep;    //speed to boost player
 

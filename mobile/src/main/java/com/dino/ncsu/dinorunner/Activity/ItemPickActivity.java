@@ -44,7 +44,7 @@ public class ItemPickActivity extends Activity {
             "No Helmet",
             "Majestic Helmet",
             "Legacy Helmet",
-            "Default Armor",
+            "Leather Straps",
             "Blue Stitched Vest",
             "Flame Walker Vest",
             "Yellow Shirt",
