@@ -92,6 +92,30 @@ public class ItemManager {
                 rarity = 0;
                 break;
             //Trophys
+            case "Copper Ore":
+                imageId = R.mipmap.copper_ore;
+                description = "A lump of Copper Ore";
+                type = 2;
+                sellAmount = 10;
+                buyAmount = 20;
+                rarity = 0;
+                break;
+            case "Tin Ore":
+                imageId = R.mipmap.tin_ore;
+                description = "A lump of Tin Ore";
+                type = 2;
+                sellAmount = 10;
+                buyAmount = 20;
+                rarity = 0;
+                break;
+            case "Iron Ore":
+                imageId = R.mipmap.iron_ore;
+                description = "A lump of Iron Ore";
+                type = 2;
+                sellAmount = 100;
+                buyAmount = 200;
+                rarity = 1;
+                break;
         }
     }
 

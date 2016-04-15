@@ -12,5 +12,8 @@
     <string name="laps">Laps</string>
 
     <string name="notification_subtitle">Counting your steps</string>
+    <string name="title_activity_victory">VictoryActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_victory_">Victory_Activity</string>
 
 </resources>

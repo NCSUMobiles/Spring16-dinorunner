@@ -35,8 +35,19 @@
             android:name=".Pedometer.RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
+
         <service android:name=".Pedometer.StepService" />
+
+        <activity
+            android:name=".Activity.VictoryActivity"
+            android:label="@string/title_activity_victory"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Victory_Activity"
+            android:label="@string/title_activity_victory_"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.Loot_Activity"></activity>
     </application>
 
 </manifest>
