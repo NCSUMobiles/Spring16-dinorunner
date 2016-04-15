@@ -1,6 +1,7 @@
 package com.dino.ncsu.dinorunner.Objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Kevin-Lenovo on 2/29/2016.
@@ -20,6 +21,11 @@ public class Dinosaur implements Serializable {
     private double stunTime; //Dinosaur's time stunned after attacking player
     private boolean stunned; //is dinosaur stunned? If so, speed  = 0
     private double headStart; //How much headstart distance at beginning of race
+//    private ArrayList<Integer> dropChance; //Table of drops, where index = itemENUM, value = chance / 100
+//    private ArrayList<Item> dropTable; //Table of drops, where index = itemENUM, value = Item object (includes amount)
+    private ArrayList<DropTableItem> dropTable;
+
+
 
     private static Dinosaur instance; //Singleton of Dinosaur
 
@@ -32,13 +38,16 @@ public class Dinosaur implements Serializable {
     }
 
     public Dinosaur() {
-
+//        this.dropChance = new ArrayList<Integer>();
+//        this.dropTable = new ArrayList<Item>();
+        this.dropTable = new ArrayList<DropTableItem>();
     }
 
-    public String getNameOfDino() {
-        return nameOfDino;
+    public void clearTables() {
+        dropTable.clear();
     }
 
+    public String getNameOfDino() { return nameOfDino; }
     public void setNameOfDino(String nameOfDino) {
         this.nameOfDino = nameOfDino;
     }
@@ -46,7 +55,6 @@ public class Dinosaur implements Serializable {
     public Integer getImageId() {
         return imageId;
     }
-
     public void setImageId(Integer imageId) {
         this.imageId = imageId;
     }
@@ -54,7 +62,6 @@ public class Dinosaur implements Serializable {
     public void setEnergy(double energy) {
         this.energy = energy;
     }
-
     public double getEnergy() {
         return energy;
     }
@@ -62,7 +69,6 @@ public class Dinosaur implements Serializable {
     public void setEnergyRegen(double energyRegen) {
         this.energyRegen = energyRegen;
     }
-
     public double getEnergyRegen() {
         return energyRegen;
     }
@@ -70,33 +76,37 @@ public class Dinosaur implements Serializable {
     public void setDistance(double distance) {
         this.distance = distance;
     }
-
     public double getDistance() {
         return distance;
     }
 
     public void setAttack(double attack) { this.attack = attack;}
-
     public double getAttack() { return attack; }
 
     public void setStunTime(double stunTime) { this.stunTime = stunTime;}
-
     public double getStunTime() { return stunTime;}
 
     public void setSpeed(double speed) { this.speed = speed; }
-
     public double getSpeed() { return speed; }
 
     public void setMaxSpeed(double maxSpeed) { this.maxSpeed = maxSpeed; }
-
     public double getMaxSpeed() { return maxSpeed; }
 
     public void setStunned(boolean stunned) { this.stunned = stunned;}
-
     public boolean getStunned() { return stunned; }
 
     public void setHeadStart(double headStart) { this.headStart = headStart; }
-
     public double getHeadStart() { return headStart; }
+
+//    public void setDropChance(ArrayList<Integer> dropChance) { this.dropChance = dropChance;}
+//    public ArrayList<Integer> getDropChance() { return dropChance; }
+//
+//    public void setDropTable(ArrayList<Item> dropTable) { this.dropTable = dropTable; }
+//    public ArrayList<Item> getDropTable() { return dropTable; }
+
+    public void setDropTable(ArrayList<DropTableItem> dropTable) { this.dropTable = dropTable; }
+    public ArrayList<DropTableItem> getDropTable() { return dropTable; }
+
+
 
 }

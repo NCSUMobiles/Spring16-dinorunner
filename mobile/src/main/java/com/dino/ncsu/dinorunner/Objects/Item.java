@@ -12,10 +12,14 @@ public class Item implements Serializable {
     private int imageId;
     private String description;
     private int type;
+    private int rarity;
     private int amount;
+    private double sellAmount;
+    private double buyAmount;
 
     private float speedBoost;
     private int healAmount;
+    private float tempSpeedBoost;
 
     public Item (String name,int amount) {
         this.name = name;
@@ -28,6 +32,12 @@ public class Item implements Serializable {
         this.description = ItemManager.getInstance().description;
         this.speedBoost = ItemManager.getInstance().speedBoost;
         this.healAmount = ItemManager.getInstance().healAmount;
+        this.tempSpeedBoost = ItemManager.getInstance().tempSpeedBoost;
+        this.sellAmount = ItemManager.getInstance().sellAmount;
+        this.buyAmount = ItemManager.getInstance().buyAmount;
+        this.rarity = ItemManager.getInstance().rarity;
+
+        ItemManager.getInstance().clearInstance();
     }
 
     public String getName() {return name;}
@@ -50,4 +60,15 @@ public class Item implements Serializable {
 
     public int getHealAmount() { return healAmount;}
     public void setHealAmount(int healAmount) { this.healAmount = healAmount; }
+
+    public double getSellAmount() { return sellAmount;}
+    public void setSellAmount(double sellAmount) { this.sellAmount = sellAmount;}
+
+    public double getBuyAmount() { return buyAmount; }
+    public void getSellAmount(double buyAmount) { this.buyAmount = buyAmount; }
+
+    public float getTempSpeedBoost() { return tempSpeedBoost; }
+    public void setTempSpeedBoost(double tempSpeedBoost) { this.speedBoost = speedBoost; }
+
+    public int getRarity() { return rarity; }
  }

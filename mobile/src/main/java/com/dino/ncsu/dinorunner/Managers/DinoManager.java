@@ -11,6 +11,7 @@ public class DinoManager {
 
     public void setDinos() {
         String name = Dinosaur.getInstance().getNameOfDino();
+        DropTableManager dropTableManager = new DropTableManager();
 
         switch(name) {
             case "Goblin":
@@ -23,6 +24,7 @@ public class DinoManager {
                 Dinosaur.getInstance().setStunTime(5000);
                 Dinosaur.getInstance().setStunned(false);
                 Dinosaur.getInstance().setDistance(0);
+                dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Skeleton Spearman":
                 Dinosaur.getInstance().setNameOfDino("Skeleton Spearman");
