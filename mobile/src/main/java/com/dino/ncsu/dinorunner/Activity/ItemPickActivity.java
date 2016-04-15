@@ -16,19 +16,18 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
-import com.dino.ncsu.dinorunner.Objects.EquippedItems;
-import com.dino.ncsu.dinorunner.R;
+import com.dino.ncsu.dinorunner.Managers.ItemManager;
+import com.dino.ncsu.dinorunner.Objects.Inventory;
+import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
-import com.dino.ncsu.dinorunner.Objects.RunningItem;
+import com.dino.ncsu.dinorunner.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import static android.widget.EditText.OnClickListener;
-import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
 
 /**
  * This class holds the necessary functionality for the ItemPickActivity
@@ -37,9 +36,6 @@ import static com.dino.ncsu.dinorunner.FileOperations.object2Bytes;
  */
 public class ItemPickActivity extends Activity {
     //private variables for this class
-    private byte[] dino;
-    private byte[] map;
-
     private String[] items = new String[]{
             "No Helmet",
             "Majestic Helmet",
@@ -126,6 +122,7 @@ public class ItemPickActivity extends Activity {
     private int[] to = {R.id.image, R.id.name, R.id.desc, R.id.boost};
 
     private ItemListAdapter mListAdapter;
+    static Inventory inventory = Inventory.getInstance();
 
     /**
      * Called when the activity is first created.
@@ -302,38 +299,38 @@ public class ItemPickActivity extends Activity {
                 .setPositiveButton("Run", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            int distance = Integer.parseInt(((EditText) ((AlertDialog) dialog).findViewById(R.id.dist_value)).getText().toString());
+                        int distance = Integer.parseInt(((EditText) ((AlertDialog) dialog).findViewById(R.id.dist_value)).getText().toString());
 
-                            if (distance < 100 || distance > 40000)
-                                distance = ((SeekBar) ((AlertDialog) dialog).findViewById(R.id.distance_picker)).getProgress() + 100;
+                        if (distance < 100 || distance > 40000)
+                            distance = ((SeekBar) ((AlertDialog) dialog).findViewById(R.id.distance_picker)).getProgress() + 100;
 
-                            int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
+                        int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
 
-                            EquippedItems equippedItems = EquippedItems.getInstance();
+                        for (int i = 0; i < 5; i++) {
+                            HashMap<String, String> iMap = mListAdapter.getItem(i);
 
-                            for (int i = 0; i < 5; i++) {
-                                HashMap<String, String> iMap = mListAdapter.getItem(i);
-                                RunningItem item = new RunningItem(iMap.get(from[1]),
-                                        Integer.parseInt(iMap.get(from[0])),
-                                        Double.parseDouble(iMap.get(from[3])));
+                            //EquippedItems.getInstance().setItemAtIndex(i, item);
+                            Item item = new Item(iMap.get(from[1]), 1);
+                            //This will set all of the other values for the item
+                            ItemManager.getInstance().setItemVariables(item);
 
-                                equippedItems.setItemAtIndex(i, item);
-                            }
+//                            Log.d("name", item.getName());
+//                            Log.d("amt", "" + item.getAmount());
+//                            Log.d("descript", item.getDescription());
+//                            Log.d("ItemType", "" + item.getType());
 
-                            Bundle dataBundle = new Bundle();
-                            Intent intent = new Intent(getApplicationContext(), RunningActivity.class);
-                            dataBundle.putByteArray("dinoPicked", dino);
-                            dataBundle.putByteArray("mapPicked", map);
-                            dataBundle.putInt("distancePicked", distance);
-                            dataBundle.putInt("lapsPicked", laps);
-                            dataBundle.putByteArray("itemsPicked", object2Bytes(equippedItems));
-
-                            intent.putExtras(dataBundle);
-                            startActivity(intent);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            inventory.addItem(item, 1);
+//                            Log.d("ItemAdded", "" + inventory.getEquippableItems().size());
+//                            Log.d("MapAdded", "" + inventory.getEquippableItemsMap().size());
                         }
+
+                        Bundle dataBundle = new Bundle();
+                        Intent intent = new Intent(getApplicationContext(), RunningActivity.class);
+                        dataBundle.putInt("distancePicked", distance);
+                        dataBundle.putInt("lapsPicked", laps);
+
+                        intent.putExtras(dataBundle);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -343,18 +340,5 @@ public class ItemPickActivity extends Activity {
                     }
                 })
                 .show();
-    }
-
-    /**
-     * Goes back to the previous activity when the back button is pressed
-     */
-    @Override
-    public void onBackPressed() {
-        Intent dataIntent = new Intent(getApplicationContext(), TrackPicker.class);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("dinoPicked", dino);
-        dataIntent.putExtras(bundle);
-        dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(dataIntent);
     }
 }

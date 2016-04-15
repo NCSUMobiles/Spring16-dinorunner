@@ -97,8 +97,8 @@ public class TrackPicker extends Activity {
         setContentView(R.layout.activity_track_picker);
 
         DisplayMetrics display = this.getResources().getDisplayMetrics();
-        int width = display.widthPixels;
-        int height = display.heightPixels;
+        width = display.widthPixels;
+        height = display.heightPixels;
         scale_width = width / 1080;
         scale_height = height / 1776;
 

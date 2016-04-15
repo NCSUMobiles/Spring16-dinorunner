@@ -35,9 +35,10 @@
             android:name=".Pedometer.RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
-        <service android:name=".Pedometer.StepService" />
+        <service android:name=".Pedometer.StepService" android:stopWithTask="true"/>
 
         <activity
             android:name=".Activity.VictoryActivity"

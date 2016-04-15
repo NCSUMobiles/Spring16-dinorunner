@@ -28,15 +28,13 @@ import android.widget.TextView;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
-import com.dino.ncsu.dinorunner.Objects.EquippedItems;
+import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Objects.Track;
 import com.dino.ncsu.dinorunner.R;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
-
-import static com.dino.ncsu.dinorunner.FileOperations.bytes2Object;
+import java.util.ArrayList;
 
 /**
  * This class holds the necessary functionality for the RunningActivity
@@ -50,7 +48,7 @@ public class RunningActivity extends Activity implements Runnable {
     //Private variables in this class
     private int totalLaps;
     private int lapsDone;
-    private static final String TAG = "DinoTag";
+//    private static final String TAG = "DinoTag";
 
     //Pedometer Stuff
     private SharedPreferences mSettings;
@@ -58,7 +56,7 @@ public class RunningActivity extends Activity implements Runnable {
     private Utils mUtils;
     private long startTime; //Starting Time
 
-    private TextView mStepValueView;
+//    private TextView mStepValueView;
     private TextView mDistanceView;
     private TextView mDistanceLeftView;
     private TextView mSpeedView;
@@ -99,8 +97,7 @@ public class RunningActivity extends Activity implements Runnable {
     private boolean locker = true;
 
     //All Equipment Logic here
-
-    private EquippedItems equipment = EquippedItems.getInstance();
+    private ArrayList<Item> equipment = Player.getInstance().getListOfItems();
 
     //Equipment Location on Canvas
     private float EquipmentPos_X; //640
@@ -133,6 +130,7 @@ public class RunningActivity extends Activity implements Runnable {
     private float equipped_shoes_POS_Y;
 
     private Bitmap map;
+    public static Typeface oldLondon;
     private Bitmap stat_frame;
 
     /**
@@ -157,10 +155,21 @@ public class RunningActivity extends Activity implements Runnable {
         scale_height = height / 1776;
 
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
-        equipped_head = BitmapFactory.decodeResource(getResources(), equipment.getHelmet().getImageId());
-        equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.getChest().getImageId());
-        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.getPants().getImageId());
-        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.getShoes().getImageId());
+//        Log.d("item1", "" + equipment.get(0).getImageId());
+//        Log.d("head", "" + R.mipmap.default_head);
+//        Log.d("item2", "" + equipment.get(1).getImageId());
+//        Log.d("chest", "" + R.mipmap.default_chest);
+//        Log.d("item3", "" + equipment.get(2).getImageId());
+//        Log.d("shirt", "" + R.mipmap.default_shirt);
+//        Log.d("item4", "" + equipment.get(3).getImageId());
+//        Log.d("pants", "" + R.mipmap.default_pants);
+//        Log.d("item5", "" + equipment.get(4).getImageId());
+//        Log.d("shoes", "" + R.mipmap.default_shoes);
+
+        equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
+        equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
+        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.get(3).getImageId());
+        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.get(4).getImageId());
 
         //Bitmap for frame: Track
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
@@ -195,7 +204,7 @@ public class RunningActivity extends Activity implements Runnable {
         surfaceHolder = surfaceView.getHolder();
 
         //load meta data here.
-        Bundle infoBundle = getIntent().getExtras();
+//        Bundle infoBundle = getIntent().getExtras();
         //Steps stuff
         mStepValue = 0;
         startTime = mUtils.currentTimeInMillis();
@@ -216,14 +225,17 @@ public class RunningActivity extends Activity implements Runnable {
 
 
         //Initialize player stats
-        try {
-            Player.getInstance().setListOfItems((EquippedItems) bytes2Object(infoBundle.getByteArray("itemsPicked")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //Player.getInstance().setListOfItems(Inventory.getInstance().getEquippableItems());
 
+        //Old London Text Style
+        oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+
+        mDinoDistanceView.setTypeface(oldLondon);
+        mSpeedView.setTypeface(oldLondon);
+        mHealthView.setTypeface(oldLondon);
+        mDinoSpeedView.setTypeface(oldLondon);
+        mDistanceView.setTypeface(oldLondon);
+        mDistanceLeftView.setTypeface(oldLondon);
 
         thread = new Thread(this);
         thread.start();
@@ -244,7 +256,7 @@ public class RunningActivity extends Activity implements Runnable {
         // Start the service if this is considered to be an application start (last onPause was long ago)
         if (!mIsRunning && mPedometerSettings.isNewStart()) {
             //Log.d("test", "We Tested Step Service");
-            startStepService();
+            //startStepService();
             bindStepService();
         } else if (mIsRunning) {
             bindStepService();
@@ -440,16 +452,6 @@ public class RunningActivity extends Activity implements Runnable {
                 @Override
                 public void run() {
                     DecimalFormat df = new DecimalFormat("#.#");
-
-                    //Old London Text Style
-                    Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
-
-                    mDinoDistanceView.setTypeface(oldLondon);
-                    mSpeedView.setTypeface(oldLondon);
-                    mHealthView.setTypeface(oldLondon);
-                    mDinoSpeedView.setTypeface(oldLondon);
-                    mDistanceView.setTypeface(oldLondon);
-                    mDistanceLeftView.setTypeface(oldLondon);
 
                     //Dino Stuff
                     DinoDistanceValue = RunManager.getInstance().getDistanceFromPlayer();

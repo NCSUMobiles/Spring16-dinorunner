@@ -34,6 +34,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.dino.ncsu.dinorunner.R;
@@ -83,6 +84,7 @@ public class StepService extends Service {
         super.onCreate();
 
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
         showNotification();
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -209,18 +211,22 @@ public class StepService extends Service {
      */
     private void showNotification() {
         CharSequence text = getText(R.string.app_name);
+        CharSequence subtitle = getText(R.string.notification_subtitle);
         Notification notification = new Notification(R.drawable.ic_notification, null,
                 System.currentTimeMillis());
         notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         Intent pedometerIntent = new Intent();
         pedometerIntent.setComponent(new ComponentName(this, RunningActivity.class));
-        pedometerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pedometerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Notification.FLAG_AUTO_CANCEL);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 pedometerIntent, 0);
-        notification.setLatestEventInfo(this, text,
-                getText(R.string.notification_subtitle), contentIntent);
-
-        mNM.notify(R.string.app_name, notification);
+        NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(text)
+                .setAutoCancel(true)
+                .setContentText(subtitle)
+                .setContentIntent(contentIntent);
+        mNM.notify(0, mBuilder.build());
     }
 
 
@@ -255,5 +261,10 @@ public class StepService extends Service {
         wakeLock.acquire();
     }
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        NotificationManager mNM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNM.cancelAll();
+    }
 }
 

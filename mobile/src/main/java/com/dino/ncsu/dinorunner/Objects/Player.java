@@ -1,6 +1,7 @@
 package com.dino.ncsu.dinorunner.Objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by jiminfan on 2/28/2016.
@@ -13,7 +14,7 @@ public class Player implements Serializable {
 
     private double totalWeekDist;
     private double totalMonthDist;
-    private EquippedItems listOfItems; //List of items for player
+    private ArrayList<Item> listOfItems; //List of items for player
     private double distance; //Distance traveled
     private double stepsTraveled; //Steps traveled
     private int currentTile; //Current tile of track player is on
@@ -28,7 +29,7 @@ public class Player implements Serializable {
     private static Player instance; //instance of player
 
     public Player() {
-        this.listOfItems = EquippedItems.getInstance();
+        this.listOfItems = Inventory.getInstance().getEquippableItems();
     }
 
     public double getAvgSpeed() { return avgSpeed; }
@@ -75,22 +76,19 @@ public class Player implements Serializable {
 
     public void setStepsTraveled(double steps) { this.stepsTraveled = steps; }
 
-    public EquippedItems getListOfItems() {
+    public ArrayList<Item> getListOfItems() {
         return listOfItems;
     }
 
-    public void setListOfItems(EquippedItems listOfItems) {
+    public void setListOfItems(ArrayList<Item> listOfItems) {
         this.listOfItems = listOfItems;
         initBoostedSpeed();
     }
 
     public void initBoostedSpeed() {
         this.boostedStep = 0;
-        this.boostedStep += listOfItems.getHelmet().getSpeedBoost();
-        this.boostedStep += listOfItems.getShirt().getSpeedBoost();
-        this.boostedStep += listOfItems.getChest().getSpeedBoost();
-        this.boostedStep += listOfItems.getPants().getSpeedBoost();
-        this.boostedStep += listOfItems.getShoes().getSpeedBoost();
+        for(int j = 0; j < 5; j++)
+            this.boostedStep += listOfItems.get(j).getSpeedBoost();
     }
 
     public double getBoostedStep() {

@@ -1,7 +1,5 @@
 package com.dino.ncsu.dinorunner.Objects;
 
-import com.dino.ncsu.dinorunner.Managers.ItemManager;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +10,7 @@ public class Item implements Serializable {
     private int imageId;
     private String description;
     private int type;
-    private int rarity;
+    public int rarity; //0 - Common 1- Uncommon 2-Rare 3-Epic 4-Ascended 5-Legendary
     private int amount;
     private double sellAmount;
     private double buyAmount;
@@ -24,20 +22,6 @@ public class Item implements Serializable {
     public Item (String name,int amount) {
         this.name = name;
         this.amount = amount;
-
-        //This will set all of the other values for the item
-        ItemManager.getInstance().setItemVariables(name);
-
-        this.imageId = ItemManager.getInstance().imageId;
-        this.description = ItemManager.getInstance().description;
-        this.speedBoost = ItemManager.getInstance().speedBoost;
-        this.healAmount = ItemManager.getInstance().healAmount;
-        this.tempSpeedBoost = ItemManager.getInstance().tempSpeedBoost;
-        this.sellAmount = ItemManager.getInstance().sellAmount;
-        this.buyAmount = ItemManager.getInstance().buyAmount;
-        this.rarity = ItemManager.getInstance().rarity;
-
-        ItemManager.getInstance().clearInstance();
     }
 
     public String getName() {return name;}
@@ -50,10 +34,10 @@ public class Item implements Serializable {
     public void setType(int type) { this.type = type;}
 
     public float getSpeedBoost() {return speedBoost;}
-    public void setSpeedBoost() { this.speedBoost = speedBoost;}
+    public void setSpeedBoost(float speedBoost) { this.speedBoost = speedBoost;}
 
     public int getImageId() { return imageId; }
-    public void setImageId() { this.imageId = imageId; }
+    public void setImageId(int imageId) { this.imageId = imageId; }
 
     public int getAmount() { return amount; }
     public void setAmount(int amount) { this.amount = amount; }
@@ -62,13 +46,14 @@ public class Item implements Serializable {
     public void setHealAmount(int healAmount) { this.healAmount = healAmount; }
 
     public double getSellAmount() { return sellAmount;}
-    public void setSellAmount(double sellAmount) { this.sellAmount = sellAmount;}
+    public void setSellAmount(int sellAmount) { this.sellAmount = sellAmount;}
 
     public double getBuyAmount() { return buyAmount; }
-    public void getSellAmount(double buyAmount) { this.buyAmount = buyAmount; }
+    public void setBuyAmount(int buyAmount) { this.buyAmount = buyAmount; }
 
     public float getTempSpeedBoost() { return tempSpeedBoost; }
-    public void setTempSpeedBoost(double tempSpeedBoost) { this.speedBoost = speedBoost; }
+    public void setTempSpeedBoost(float tempSpeedBoost) { this.tempSpeedBoost = tempSpeedBoost; }
 
+    public void setRarity(int rarity) { this.rarity = rarity; }
     public int getRarity() { return rarity; }
- }
+}
