@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dino.ncsu.dinorunner.Managers.DinoManager;
@@ -40,6 +42,8 @@ public class TrackPicker extends Activity {
     private DisplayMetrics display;
     private int width; //HTC ONE M8 = 1080
     private int height; //HTC ONE M8 = 1776
+
+    public static Typeface oldLondon;
 
     private double[][] probs = {
             {.95, .999},
@@ -101,6 +105,13 @@ public class TrackPicker extends Activity {
         height = display.heightPixels;
         scale_width = width / 1080;
         scale_height = height / 1776;
+
+        //Text Objects:
+        TextView mTitle = (TextView) findViewById(R.id.track_title_view);
+        //Old London Text Style
+        oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+        mTitle.setTypeface(oldLondon);
+
 
 //        Bundle bundle = getIntent().getExtras();
 //        dinoByteArray = bundle.getByteArray("dinoPicked");
