@@ -1,11 +1,13 @@
 package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.R;
 
@@ -47,6 +49,9 @@ public class DinoPickerActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dino_picker);
+        Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+
+        ((TextView)findViewById(R.id.textView)).setTypeface(oldLondon);
 
         // Each row in the list stores dinosaur name, image, and difficulty
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();

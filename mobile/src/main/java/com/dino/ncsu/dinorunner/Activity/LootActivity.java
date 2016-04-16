@@ -28,7 +28,7 @@ import com.dino.ncsu.dinorunner.R;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Loot_Activity extends Activity implements Runnable {
+public class LootActivity extends Activity implements Runnable {
 
     private Bitmap loot_table_view;
     private Bitmap monster;
@@ -59,6 +59,7 @@ public class Loot_Activity extends Activity implements Runnable {
     //Thread information
     private Thread thread;
     private boolean locker = true;
+    private boolean lootCollected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +116,12 @@ public class Loot_Activity extends Activity implements Runnable {
         mGoldLootedView.append(" (+ " + Integer.toString(goldGained.intValue()) + ")");
 
         mItemsLootedView.setText("Items Looted: ");
-        Item item = calculateDropItem();
-        mItemsLootedView.append(item.getAmount() + " " + item.getName());
-        Inventory.getInstance().addItem(item, 1);
-
+        if(!lootCollected) {
+            Item item = calculateDropItem();
+            mItemsLootedView.append(item.getAmount() + " " + item.getName());
+            Inventory.getInstance().addItem(item, 1);
+            lootCollected = true;
+        }
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.loot_end_button);
         thread = new Thread(this);
         thread.start();
@@ -127,8 +130,10 @@ public class Loot_Activity extends Activity implements Runnable {
             @Override
             public void onClick(View v) {
                 thread.interrupt();
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                //finish();
+                Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
+                dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(dataIntent);
             }
         });
 
@@ -205,5 +210,14 @@ public class Loot_Activity extends Activity implements Runnable {
     public void onDestroy() {
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
+    }
+
+    @Override
+    public void onBackPressed() {
+        thread.interrupt();
+        finish();
+        Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
+        dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(dataIntent);
     }
 }

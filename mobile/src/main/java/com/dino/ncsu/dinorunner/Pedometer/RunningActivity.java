@@ -25,7 +25,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
-import com.dino.ncsu.dinorunner.Activity.Loot_Activity;
+import com.dino.ncsu.dinorunner.Activity.LootActivity;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
@@ -610,9 +610,9 @@ public class RunningActivity extends Activity implements Runnable {
         }
         if (x >= 0 && x <= 100 && y >= 100 && y <= 300) {
             stopStepService();
-            this.thread.interrupt();;
-            finish();
-            startActivity(new Intent(getApplicationContext(), Loot_Activity.class));
+            this.thread.interrupt();
+//            finish();
+            startActivity(new Intent(getApplicationContext(), LootActivity.class));
 
         }
         Log.d("Coordinates of Touch: ", "" + x +"," + y);

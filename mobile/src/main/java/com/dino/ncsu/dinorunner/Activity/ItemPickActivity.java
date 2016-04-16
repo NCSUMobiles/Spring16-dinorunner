@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.Managers.ItemManager;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
@@ -134,6 +136,9 @@ public class ItemPickActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_pick);
 
+        Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+
+        ((TextView)findViewById(R.id.textView)).setTypeface(oldLondon);
         //Each row of the list stores item name, image and description
         if (itemList == null) {
             itemList = new ArrayList<>();

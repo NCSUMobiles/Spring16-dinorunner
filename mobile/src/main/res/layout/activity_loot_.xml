@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dino.ncsu.dinorunner.Activity.Loot_Activity">
+    tools:context="com.dino.ncsu.dinorunner.Activity.LootActivity">
 
     <SurfaceView
         android:id="@+id/loot_table_surface"
