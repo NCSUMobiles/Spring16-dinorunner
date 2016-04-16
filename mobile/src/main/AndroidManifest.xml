@@ -12,8 +12,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,23 +23,28 @@
         </activity>
         <activity
             android:name=".Activity.DinoPickerActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.TrackPicker"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_track_picker" />
+            android:label="@string/title_activity_track_picker"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.ItemPickActivity"
             android:configChanges="orientation|screenSize"
-            android:label="Pick your items" />
+            android:label="Pick your items"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Pedometer.RunningActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_running"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
-        <service android:name=".Pedometer.StepService" android:stopWithTask="true"/>
+        <service
+            android:name=".Pedometer.StepService"
+            android:stopWithTask="true" />
 
         <activity
             android:name=".Activity.VictoryActivity"
@@ -48,7 +54,11 @@
             android:name=".Activity.Victory_Activity"
             android:label="@string/title_activity_victory_"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.Loot_Activity"></activity>
+        <activity
+            android:name=".Activity.LootActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

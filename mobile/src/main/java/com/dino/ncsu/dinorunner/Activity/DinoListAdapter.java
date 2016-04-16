@@ -1,6 +1,7 @@
 package com.dino.ncsu.dinorunner.Activity;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHolder> {
     //private variables for this class
-    private Context context;
+    private static Context context;
     private List<HashMap<String, String>> aList;
     private int layoutId;
     private String[] from;
@@ -61,9 +62,13 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
          */
         public ViewHolder(View v) {
             super(v);
+            Typeface oldLondon = Typeface.createFromAsset(context.getAssets(), "fonts/Blackwood Castle.ttf");
+
             iView = (ImageView) v.findViewById(to[0]);
             nameView = (TextView) v.findViewById(to[1]);
+            nameView.setTypeface(oldLondon);
             descView = (TextView) v.findViewById(to[2]);
+            descView.setTypeface(oldLondon);
         }
     }
 
