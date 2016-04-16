@@ -18,7 +18,7 @@ public class DropTableManager {
                 Dinosaur.getInstance().clearTables();;
                 ArrayList<DropTableItem> temp = new ArrayList<DropTableItem>();
                 temp = Dinosaur.getInstance().getDropTable();
-                temp.add(new DropTableItem("Fresh Apple", 1, 1, 100));
+                temp.add(new DropTableItem("Fresh Apple", 1, 1, 1000));
                 Dinosaur.getInstance().setDropTable(temp);
                 break;
         }

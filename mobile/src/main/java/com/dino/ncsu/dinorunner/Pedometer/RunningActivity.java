@@ -281,7 +281,7 @@ public class RunningActivity extends Activity implements Runnable {
     protected void onPause() {
         //Log.d("test", "WE PAUSED");
         if (mIsRunning) {
-            // unbindStepService();
+            //unbindStepService();
         }
         if (mQuitting) {
             mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
@@ -593,12 +593,11 @@ public class RunningActivity extends Activity implements Runnable {
         //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 
-//    @Override
-//    public void onDestroy() {
-//        unbindStepService();
-//        super.onDestroy();
-//        //Log.d(TAG, "onDestroy() called");
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //Log.d(TAG, "onDestroy() called");
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -611,9 +610,10 @@ public class RunningActivity extends Activity implements Runnable {
         }
         if (x >= 0 && x <= 100 && y >= 100 && y <= 300) {
             stopStepService();
-            Intent i = new Intent(this.getApplicationContext(), Loot_Activity.class);
-            startActivity(i);
+            this.thread.interrupt();;
             finish();
+            startActivity(new Intent(getApplicationContext(), Loot_Activity.class));
+
         }
         Log.d("Coordinates of Touch: ", "" + x +"," + y);
         return false;

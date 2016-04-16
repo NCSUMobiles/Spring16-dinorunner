@@ -13,6 +13,7 @@
         android:text="Pick your items"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:textColor="@color/light_blue" />
 
     <android.support.v7.widget.RecyclerView
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="23dp"
         android:clickable="true"/>
 
@@ -32,6 +34,7 @@
         android:src="@mipmap/runman"
         android:visibility="visible"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

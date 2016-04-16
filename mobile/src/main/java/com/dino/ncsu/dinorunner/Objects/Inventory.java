@@ -21,6 +21,8 @@ public class Inventory implements Serializable {
     private ArrayList<String> equippableItemsMap = new ArrayList<>();
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
 
+    private double goldAmount;
+
     public Inventory() {
     }
 
@@ -223,5 +225,8 @@ public class Inventory implements Serializable {
         Log.d("test", "We failed to add Item for some reason.");
         return false;
     }
+
+    public double getGoldAmount() { return goldAmount; }
+    public void setGoldAmount(double goldAmount) { this.goldAmount = goldAmount; }
 
 }

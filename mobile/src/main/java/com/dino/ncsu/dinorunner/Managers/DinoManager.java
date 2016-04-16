@@ -17,7 +17,7 @@ public class DinoManager {
             case "Goblin":
                 Dinosaur.getInstance().setNameOfDino("Goblin");
                 Dinosaur.getInstance().setHeadStart(10);
-                Dinosaur.getInstance().setImageId(R.mipmap.goblin);
+                Dinosaur.getInstance().setImageId(R.mipmap.goblin_icon);
                 Dinosaur.getInstance().setAttack(5);
                 Dinosaur.getInstance().setMaxSpeed(.1);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());

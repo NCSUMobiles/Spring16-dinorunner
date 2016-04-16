@@ -9,11 +9,71 @@
         android:id="@+id/loot_table_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Monster: "
+        android:id="@+id/monster_slain_text"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="40dp"
+        android:layout_marginBottom="221dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Experience: "
+        android:id="@+id/experience_loot"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="40dp"
+        android:layout_marginTop="39dp"
+        android:layout_alignTop="@+id/monster_slain_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Gold Loot: "
+        android:id="@+id/gold_loot"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="40dp"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/experience_loot"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Item Looted:"
+        android:id="@+id/item_loot"
+        android:paddingLeft="40dp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/gold_loot"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_marginTop="24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loot_end_button"
+        android:tint="@color/white"
+        android:src="@mipmap/runman"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -25,7 +25,7 @@ public class DropTableItem {
     public void setDropChance(int dropChance) { this.dropChance = dropChance; }
 
     public double getMaxAmount() { return maxAmount; }
-    public void setMaxAmount(double maxAmount) { this.maxAmount = maxAmount; }
+    public void setMaxAmount(double maxAmount) { this.maxAmount = maxAmount;}
 
     public double getMinAmount() { return minAmount; }
     public void setMinAmount(double minAmount) { this.minAmount = minAmount; }

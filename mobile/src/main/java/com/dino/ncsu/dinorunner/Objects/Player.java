@@ -20,8 +20,9 @@ public class Player implements Serializable {
     private int currentTile; //Current tile of track player is on
     private String playerName; //Player name
     private double mStepLength = 30.48; //Player Step Length = .3048
-    private double health = 100;
     private double maxHealth = 100;
+    private double health = maxHealth;
+    private double experience;
     private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
 
@@ -135,4 +136,7 @@ public class Player implements Serializable {
     public int getCurrentTile() { return currentTile; }
 
     public void setCurrentTile(int currentTile) { this.currentTile = currentTile; }
+
+    public double getExperience() { return experience; }
+    public void setExperience(double experience) { this.experience = experience; }
 }
