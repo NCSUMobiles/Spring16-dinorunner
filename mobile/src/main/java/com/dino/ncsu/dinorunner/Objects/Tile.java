@@ -19,10 +19,10 @@ public class Tile {
         this.dirY = dirY;
     }
 
-    private void setX(float x) {
+    public void setX(float x) {
         this.x = x;
     }
-    private float getX() {
+    public float getX() {
         return x;
     }
 
