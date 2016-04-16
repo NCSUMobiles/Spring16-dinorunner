@@ -24,7 +24,9 @@ public class Dinosaur implements Serializable {
 //    private ArrayList<Integer> dropChance; //Table of drops, where index = itemENUM, value = chance / 100
 //    private ArrayList<Item> dropTable; //Table of drops, where index = itemENUM, value = Item object (includes amount)
     private ArrayList<DropTableItem> dropTable;
-
+    private double minGold;
+    private double maxGold;
+    private double experience;
 
 
     private static Dinosaur instance; //Singleton of Dinosaur
@@ -107,6 +109,13 @@ public class Dinosaur implements Serializable {
     public void setDropTable(ArrayList<DropTableItem> dropTable) { this.dropTable = dropTable; }
     public ArrayList<DropTableItem> getDropTable() { return dropTable; }
 
+    public void setMinGold(double minGold) { this.minGold = minGold; }
+    public double getMinGold() { return minGold; }
 
+    public void setMaxGold(double maxGold) { this.maxGold = maxGold; }
+    public double getMaxGold() { return maxGold; }
+
+    public void setExperience(double experience) { this.experience = experience; }
+    public double getExperience() { return experience; }
 
 }

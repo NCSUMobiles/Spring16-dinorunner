@@ -24,6 +24,9 @@ public class DinoManager {
                 Dinosaur.getInstance().setStunTime(5000);
                 Dinosaur.getInstance().setStunned(false);
                 Dinosaur.getInstance().setDistance(0);
+                Dinosaur.getInstance().setMinGold(1);
+                Dinosaur.getInstance().setMaxGold(5);
+                Dinosaur.getInstance().setExperience(15);
                 dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Skeleton Spearman":

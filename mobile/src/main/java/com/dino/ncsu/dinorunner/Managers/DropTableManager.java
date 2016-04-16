@@ -15,7 +15,7 @@ public class DropTableManager {
         //Sets drop table for each Dinosaur
         switch(name) {
             case "Goblin":
-                Dinosaur.getInstance().clearTables();
+                Dinosaur.getInstance().clearTables();;
                 ArrayList<DropTableItem> temp = new ArrayList<DropTableItem>();
                 temp = Dinosaur.getInstance().getDropTable();
                 temp.add(new DropTableItem("Fresh Apple", 1, 1, 100));

@@ -25,6 +25,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
+import com.dino.ncsu.dinorunner.Activity.Loot_Activity;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
@@ -592,12 +593,12 @@ public class RunningActivity extends Activity implements Runnable {
         //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 
-    @Override
-    public void onDestroy() {
-        unbindStepService();
-        super.onDestroy();
-        //Log.d(TAG, "onDestroy() called");
-    }
+//    @Override
+//    public void onDestroy() {
+//        unbindStepService();
+//        super.onDestroy();
+//        //Log.d(TAG, "onDestroy() called");
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -607,6 +608,12 @@ public class RunningActivity extends Activity implements Runnable {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
+        }
+        if (x >= 0 && x <= 100 && y >= 100 && y <= 300) {
+            stopStepService();
+            Intent i = new Intent(this.getApplicationContext(), Loot_Activity.class);
+            startActivity(i);
+            finish();
         }
         Log.d("Coordinates of Touch: ", "" + x +"," + y);
         return false;
