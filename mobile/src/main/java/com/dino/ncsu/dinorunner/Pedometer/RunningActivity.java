@@ -26,6 +26,7 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.Activity.Loot_Activity;
+import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
@@ -133,6 +134,8 @@ public class RunningActivity extends Activity implements Runnable {
     private Bitmap map;
     public static Typeface oldLondon;
     private Bitmap stat_frame;
+
+    private DrawSprites drawSprites = null;
 
     /**
      * Called when the activity is first created.
@@ -510,6 +513,11 @@ public class RunningActivity extends Activity implements Runnable {
             canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
             drawEquipment(canvas);
             drawMap(canvas);
+
+            if(drawSprites == null) {
+                drawSprites = new DrawSprites(canvas, getResources());
+            }
+            drawSprites.draw();
         }
     }
 
@@ -587,6 +595,7 @@ public class RunningActivity extends Activity implements Runnable {
         lapsDone = 0;
         totalLaps = infoBundle.getInt("lapsPicked");
         TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
+        Track.getInstance().setTotalDistance(TotalDistance);
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
         Player.getInstance().setDistance(0);

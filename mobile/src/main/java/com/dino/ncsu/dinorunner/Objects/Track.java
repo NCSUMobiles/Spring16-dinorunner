@@ -13,10 +13,11 @@ public class Track implements Serializable {
     private String trackName;
     private int trackImageId;
     private ArrayList<Tile> tileList;
-    private double totalDistance;
+    private double totalDistance;       //the total distance of track (in meter)
+    private float totalLength;         //the total length of track (in pixel)
 
     private Track() {
-
+        tileList = new ArrayList<Tile>();
     }
 
     public void setTrackName(String trackName) { this.trackName = trackName; }
@@ -31,6 +32,17 @@ public class Track implements Serializable {
 
     public ArrayList<Tile> getTileList() { return tileList; }
 
+    public void setTotalDistance(double totalDistance) {this.totalDistance = totalDistance;}
+
+    public double getTotalDistance() {return totalDistance;}
+
+    public float getTotalLength() {
+        totalLength = 0;
+        for(int i = 0; i < tileList.size(); i++) {
+            totalLength += tileList.get(i).getLength();
+        }
+        return totalLength;
+    }
 
     public static synchronized Track getInstance() {
         if (instance == null) {
