@@ -32,21 +32,21 @@ public class TrackManager {
             case R.mipmap.track1:
                 ArrayList<Tile> tiles = new ArrayList<Tile>();
 
-                tiles.add(new Tile(193 * scale_width, 155 * scale_height, "dirt"));
+                tiles.add(new Tile(193 * scale_width, 155 * scale_height, "dirt", 1, 0));
 
-                tiles.add(new Tile(552 * scale_width, 155 * scale_height, "dirt"));
+                tiles.add(new Tile(552 * scale_width, 155 * scale_height, "dirt", 0, -1));
 
-                tiles.add(new Tile(552 * scale_width, 364 * scale_height, "dirt"));
+                tiles.add(new Tile(552 * scale_width, 364 * scale_height, "dirt", 1, 0));
 
-                tiles.add(new Tile(921 * scale_width, 364 * scale_height, "dirt"));
+                tiles.add(new Tile(921 * scale_width, 364 * scale_height, "dirt", 0, -1));
 
-                tiles.add(new Tile(921 * scale_width, 902 * scale_height, "dirt"));
+                tiles.add(new Tile(921 * scale_width, 902 * scale_height, "dirt", -1, 0));
 
-                tiles.add(new Tile(573 * scale_width, 902 * scale_height, "dirt"));
+                tiles.add(new Tile(573 * scale_width, 902 * scale_height, "dirt", 0, 1));
 
-                tiles.add(new Tile(573 * scale_width, 664 * scale_height, "dirt"));
+                tiles.add(new Tile(573 * scale_width, 664 * scale_height, "dirt", -1, 0));
 
-                tiles.add(new Tile(193 * scale_width, 664 * scale_height, "dirt"));
+                tiles.add(new Tile(193 * scale_width, 664 * scale_height, "dirt", 0, 1));
         }
     }
 }
