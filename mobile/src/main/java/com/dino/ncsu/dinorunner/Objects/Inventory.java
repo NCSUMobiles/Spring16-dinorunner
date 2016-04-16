@@ -15,11 +15,13 @@ public class Inventory implements Serializable {
     private ArrayList<Item> consumableItems = new ArrayList<>();
     private ArrayList<Item> equippableItems = new ArrayList<>();
     private ArrayList<Item> trophyItems = new ArrayList<>();
+    private ArrayList<Item> equippeditems = new ArrayList<>();
 
     //Used for reference.check for item existance ONLY
     private ArrayList<String> consumableItemsMap = new ArrayList<>();
     private ArrayList<String> equippableItemsMap = new ArrayList<>();
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
+    private ArrayList<Item> equippedItemsMap = new ArrayList<>();
 
     private double goldAmount;
 
