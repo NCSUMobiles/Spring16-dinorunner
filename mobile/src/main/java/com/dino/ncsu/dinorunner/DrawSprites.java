@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -22,8 +24,6 @@ public class DrawSprites {
 
     float playerX = 0;
     float playerY = 0;
-    float playerDirX = 0;
-    float playerDirY = 0;
 
     float dinoX = 0;
     float dinoY = 0;
@@ -32,6 +32,10 @@ public class DrawSprites {
 
     int dinoTileId = 0;
     List<Tile> trackTiles = null;
+    float distancePerPixel = 0;
+
+    long lastTime = 0;
+    long deltaTime = 0;
 
     public DrawSprites(Canvas canvas, Resources resources) {
 
@@ -43,21 +47,30 @@ public class DrawSprites {
 
         playerX = startTile.getX();
         playerY = startTile.getY();
-        playerDirX = startTile.getDirX();
-        playerDirY = startTile.getDirY();
+
 
         dinoX = startTile.getX();
         dinoY = startTile.getY();
         dinoDirX = startTile.getDirX();
         dinoDirY = startTile.getDirY();
+
+        distancePerPixel = (float) (Track.getInstance().getTotalDistance() /
+                Track.getInstance().getTotalLength());
     }
 
     public void draw() {
+        long curTime = System.currentTimeMillis();
+        deltaTime = curTime - lastTime;
+        lastTime = curTime;
+
         checkTilesDino();
 
         drawDinosaur();
 
         drawPlayer();
+
+        //test
+        drawTiles();
     }
 
     private void checkTilesDino() {
@@ -87,9 +100,6 @@ public class DrawSprites {
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
         canvas.drawBitmap(b, playerX - 50, playerY - 150, null);
 
-        float distancePerPixel = (float) (Track.getInstance().getTotalDistance() /
-                Track.getInstance().getTotalLength());
-
         float playerDistance = (float) Player.getInstance().getDistance();
         for(int i = 0; i < trackTiles.size(); i++) {
             Tile tile = trackTiles.get(i);
@@ -105,7 +115,7 @@ public class DrawSprites {
         }
 
         //System.out.println("======= Player Position ============ " + playerX + ", " + playerY);
-        System.out.println("======= Player Diatance ============ " + playerDistance);
+        //System.out.println("======= Player Diatance ============ " + playerDistance);
     }
 
     private void drawDinosaur() {
@@ -113,12 +123,23 @@ public class DrawSprites {
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
         canvas.drawBitmap(b, dinoX - 50, dinoY - 150, null);
 
-        dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() * 50;
-        dinoY += dinoDirY * Dinosaur.getInstance().getSpeed() * 50;
+        //if(Dinosaur.getInstance().getStunned() == false) {
+        if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
+            dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
+            dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;;
+        }
     }
 
     private boolean matchDirection(float aX, float aY, float bX, float bY) {
         return (Math.abs(aX - bX) < 0.0001 && Math.abs(aY - bY) < 0.0001);
+    }
+
+    private void drawTiles() {
+        Paint p = new Paint();
+        p.setColor(Color.RED);
+        for(int i=0;i<trackTiles.size();i++) {
+            canvas.drawCircle(trackTiles.get(i).getX(), trackTiles.get(i).getY(), 8, p);
+        }
     }
 
 }
