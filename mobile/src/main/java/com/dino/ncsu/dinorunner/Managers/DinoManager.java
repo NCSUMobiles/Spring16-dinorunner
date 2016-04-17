@@ -19,7 +19,7 @@ public class DinoManager {
                 Dinosaur.getInstance().setHeadStart(10);
                 Dinosaur.getInstance().setImageId(R.mipmap.goblin_icon);
                 Dinosaur.getInstance().setAttack(5);
-                Dinosaur.getInstance().setMaxSpeed(.1);
+                Dinosaur.getInstance().setMaxSpeed(.5);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
                 Dinosaur.getInstance().setStunTime(5000);
                 Dinosaur.getInstance().setStunned(false);
