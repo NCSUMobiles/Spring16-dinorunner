@@ -56,6 +56,8 @@ public class DrawSprites {
 
         distancePerPixel = (float) (Track.getInstance().getTotalDistance() /
                 Track.getInstance().getTotalLength());
+
+        lastTime = System.currentTimeMillis();
     }
 
     public void draw() {
@@ -123,11 +125,13 @@ public class DrawSprites {
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
         canvas.drawBitmap(b, dinoX - 50, dinoY - 150, null);
 
-        //if(Dinosaur.getInstance().getStunned() == false) {
-        if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
+        if(Dinosaur.getInstance().getStunned() == false) {
+        //if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
             dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
             dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;;
         }
+
+        //System.out.println("======= Dinosaur Position ============ " + dinoX + ", " + dinoY + ", " + distancePerPixel + ", " + deltaTime);
     }
 
     private boolean matchDirection(float aX, float aY, float bX, float bY) {
