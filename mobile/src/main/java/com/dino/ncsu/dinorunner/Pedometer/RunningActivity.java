@@ -260,7 +260,7 @@ public class RunningActivity extends Activity implements Runnable {
         // Start the service if this is considered to be an application start (last onPause was long ago)
         if (!mIsRunning && mPedometerSettings.isNewStart()) {
             //Log.d("test", "We Tested Step Service");
-            //startStepService();
+            startStepService();
             bindStepService();
         } else if (mIsRunning) {
             bindStepService();
