@@ -58,7 +58,7 @@ public class RunningActivity extends Activity implements Runnable {
     private Utils mUtils;
     private long startTime; //Starting Time
 
-//    private TextView mStepValueView;
+    //    private TextView mStepValueView;
     private TextView mDistanceView;
     private TextView mDistanceLeftView;
     private TextView mSpeedView;
@@ -346,12 +346,15 @@ public class RunningActivity extends Activity implements Runnable {
 
     private void unbindStepService() {
         unbindService(mConnection);
+        Log.d("servicetag","unbinded service");
     }
 
     private void stopStepService() {
         if (mService != null) {
             stopService(new Intent(RunningActivity.this,
                     StepService.class));
+
+            Log.d("servicetag","stopped service");
         }
         mIsRunning = false;
     }
@@ -503,6 +506,8 @@ public class RunningActivity extends Activity implements Runnable {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
             dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            this.thread.interrupt();
+            finish();
             startActivity(dataIntent);
         }
     }
@@ -514,7 +519,7 @@ public class RunningActivity extends Activity implements Runnable {
             drawEquipment(canvas);
             drawMap(canvas);
 
-            if(drawSprites == null) {
+            if (drawSprites == null) {
                 drawSprites = new DrawSprites(canvas, getResources());
             }
             drawSprites.draw();
@@ -574,6 +579,8 @@ public class RunningActivity extends Activity implements Runnable {
                                 //Check items are consumed by user
                                 Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                thread.interrupt();
+                                finish();
                                 startActivity(dataIntent);
                             }
                         })
@@ -604,27 +611,28 @@ public class RunningActivity extends Activity implements Runnable {
 
     @Override
     public void onDestroy() {
+        unbindStepService();
+        stopStepService();
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getX();
-        int y = (int)event.getY();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
         }
         if (x >= 0 && x <= 100 && y >= 100 && y <= 300) {
-            stopStepService();
             this.thread.interrupt();
-//            finish();
+            finish();
             startActivity(new Intent(getApplicationContext(), LootActivity.class));
 
         }
-        Log.d("Coordinates of Touch: ", "" + x +"," + y);
+        Log.d("Coordinates of Touch: ", "" + x + "," + y);
         return false;
     }
 }

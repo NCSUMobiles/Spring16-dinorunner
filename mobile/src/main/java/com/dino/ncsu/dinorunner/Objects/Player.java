@@ -22,7 +22,7 @@ public class Player implements Serializable {
     private double mStepLength = 30.48; //Player Step Length = .3048
     private double maxHealth = 100;
     private double health = maxHealth;
-    private double experience;
+    private int experience;
     private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
 
@@ -30,8 +30,7 @@ public class Player implements Serializable {
     private static Player instance; //instance of player
 
     public Player() {
-        this.listOfItems = Inventory.getInstance().getEquippableItems();
-    }
+        this.listOfItems = Inventory.getInstance().getEquippableItems();}
 
     public double getAvgSpeed() { return avgSpeed; }
 
@@ -137,6 +136,6 @@ public class Player implements Serializable {
 
     public void setCurrentTile(int currentTile) { this.currentTile = currentTile; }
 
-    public double getExperience() { return experience; }
-    public void setExperience(double experience) { this.experience = experience; }
+    public int getExperience() { return experience; }
+    public void setExperience(int experience) { this.experience = experience; }
 }

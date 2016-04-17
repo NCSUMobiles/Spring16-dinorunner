@@ -105,7 +105,7 @@ public class DrawSprites {
         }
 
         //System.out.println("======= Player Position ============ " + playerX + ", " + playerY);
-        System.out.println("======= Player Diatance ============ " + playerDistance);
+//        Log.d("Player Distance ===", "" + playerDistance);
     }
 
     private void drawDinosaur() {

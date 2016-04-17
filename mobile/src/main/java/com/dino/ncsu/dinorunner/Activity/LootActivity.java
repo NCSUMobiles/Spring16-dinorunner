@@ -2,6 +2,7 @@ package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -61,6 +62,12 @@ public class LootActivity extends Activity implements Runnable {
     private boolean locker = true;
     private boolean lootCollected = false;
 
+    private SharedPreferences preferenceSettings;
+    private SharedPreferences.Editor preferenceEditor;
+
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String PREFERENCE_FILE = "_DinoRunnerUserData";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,6 +79,9 @@ public class LootActivity extends Activity implements Runnable {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loot_);
+
+        preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+        preferenceEditor = preferenceSettings.edit();
 
         surfaceView = (SurfaceView) findViewById(R.id.loot_table_surface);
         surfaceHolder = surfaceView.getHolder();
@@ -98,22 +108,29 @@ public class LootActivity extends Activity implements Runnable {
 
         mExperienceView.setTextColor(Color.parseColor("#ffc0cb"));
         mExperienceView.setText("Experience: ");
-        Double experienceGained = Dinosaur.getInstance().getExperience();
-        Player.getInstance().setExperience(Player.getInstance().getExperience() + experienceGained);
-        Double experience = Player.getInstance().getExperience();
-        mExperienceView.append(Integer.toString(experience.intValue()));
+        int experienceGained = Dinosaur.getInstance().getExperience();
+        int currentXP = preferenceSettings.getInt("_xp", 0);
+        int currentGold = preferenceSettings.getInt("_gold", 0);
+        Player.getInstance().setExperience(currentXP + experienceGained);
+
+        int experience = Player.getInstance().getExperience();
+        mExperienceView.append(Integer.toString(experience));
         mExperienceView.setTextColor(Color.parseColor("#00cd00"));
-        mExperienceView.append(" (+" + Integer.toString(experienceGained.intValue()) + ")");
+        mExperienceView.append(" (+" + Integer.toString(experienceGained) + ")");
 
         mGoldLootedView.setTextColor(Color.parseColor("#FFFFFF"));
         mGoldLootedView.setText("Gold: ");
         mGoldLootedView.setTextColor(Color.parseColor("#e5e500"));
-        Double goldGained = calculateRandom(Dinosaur.getInstance().getMinGold(), Dinosaur.getInstance().getMaxGold());
-        Inventory.getInstance().setGoldAmount(goldGained + Inventory.getInstance().getGoldAmount());
-        Double gold = Inventory.getInstance().getGoldAmount();
-        mGoldLootedView.append(Integer.toString(gold.intValue()));
+        double goldGained = calculateRandom(Dinosaur.getInstance().getMinGold(), Dinosaur.getInstance().getMaxGold());
+        Inventory.getInstance().setGoldAmount(((int) goldGained) + currentGold);
+        int gold = Inventory.getInstance().getGoldAmount();
+        mGoldLootedView.append(Integer.toString(gold));
         mGoldLootedView.setTextColor(Color.parseColor("#00cd00"));
-        mGoldLootedView.append(" (+ " + Integer.toString(goldGained.intValue()) + ")");
+        mGoldLootedView.append(" (+" + Integer.toString((int)goldGained) + ")");
+
+        //Preference edit to save player stats
+        preferenceEditor.putInt("_xp", Player.getInstance().getExperience());
+        preferenceEditor.putInt("_gold", gold);
 
         mItemsLootedView.setText("Items Looted: ");
         if(!lootCollected) {
@@ -122,6 +139,8 @@ public class LootActivity extends Activity implements Runnable {
             Inventory.getInstance().addItem(item, 1);
             lootCollected = true;
         }
+
+        preferenceEditor.commit();
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.loot_end_button);
         thread = new Thread(this);
         thread.start();
@@ -130,7 +149,7 @@ public class LootActivity extends Activity implements Runnable {
             @Override
             public void onClick(View v) {
                 thread.interrupt();
-                //finish();
+                finish();
                 Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
                 dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(dataIntent);
