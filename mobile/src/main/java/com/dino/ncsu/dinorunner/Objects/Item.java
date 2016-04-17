@@ -11,6 +11,7 @@ public class Item implements Serializable {
     private String description;
     private int type;
     public int rarity; //0 - Common 1- Uncommon 2-Rare 3-Epic 4-Ascended 5-Legendary
+    public String equipSlot; //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, PANTS, SHOES, CAPE
     private int amount;
     private double sellAmount;
     private double buyAmount;
@@ -56,4 +57,7 @@ public class Item implements Serializable {
 
     public void setRarity(int rarity) { this.rarity = rarity; }
     public int getRarity() { return rarity; }
+    
+    public void setEquipSlot(String equipSlot) { this.equipSlot = equipSlot; }
+    public String getEquipSlot() { return equipSlot; }
 }

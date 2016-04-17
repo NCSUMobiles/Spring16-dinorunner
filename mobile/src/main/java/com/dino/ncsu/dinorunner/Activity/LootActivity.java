@@ -123,14 +123,14 @@ public class LootActivity extends Activity implements Runnable {
         mGoldLootedView.setTextColor(Color.parseColor("#e5e500"));
         double goldGained = calculateRandom(Dinosaur.getInstance().getMinGold(), Dinosaur.getInstance().getMaxGold());
         Inventory.getInstance().setGoldAmount(((int) goldGained) + currentGold);
-        int gold = Inventory.getInstance().getGoldAmount();
-        mGoldLootedView.append(Integer.toString(gold));
+        Double gold = Inventory.getInstance().getGoldAmount();
+        mGoldLootedView.append(Integer.toString(gold.intValue()));
         mGoldLootedView.setTextColor(Color.parseColor("#00cd00"));
         mGoldLootedView.append(" (+" + Integer.toString((int)goldGained) + ")");
 
         //Preference edit to save player stats
         preferenceEditor.putInt("_xp", Player.getInstance().getExperience());
-        preferenceEditor.putInt("_gold", gold);
+        preferenceEditor.putInt("_gold", gold.intValue());
 
         mItemsLootedView.setText("Items Looted: ");
         if(!lootCollected) {

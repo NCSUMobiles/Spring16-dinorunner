@@ -41,6 +41,7 @@ public class ItemManager {
                 item.setSellAmount(12);
                 item.setBuyAmount(24);
                 item.setRarity(0);
+                item.setEquipSlot("HEAD");
                 break;
             case "Leather Straps":
                 item.setImageId(R.mipmap.default_chest);
@@ -49,6 +50,7 @@ public class ItemManager {
                 item.setSellAmount(12);
                 item.setBuyAmount(24);
                 item.setRarity(0);
+                item.setEquipSlot("CHEST");
                 break;
             case "Blue Stiched Vest":
                 item.setImageId(R.mipmap.stitched_shirt_blue);
@@ -58,6 +60,7 @@ public class ItemManager {
                 item.setSellAmount(100);
                 item.setBuyAmount(200);
                 item.setRarity(1);
+                item.setEquipSlot("CHEST");
                 break;
             case "FlameWalker Vest":
                 item.setImageId(R.mipmap.cloak_of_flames);
@@ -67,6 +70,7 @@ public class ItemManager {
                 item.setSellAmount(5000);
                 item.setBuyAmount(10000);
                 item.setRarity(3);
+                item.setEquipSlot("CHEST");
                 break;
             case "Yellow Shirt":
                 item.setImageId(R.mipmap.default_shirt);
@@ -75,6 +79,7 @@ public class ItemManager {
                 item.setSellAmount(1);
                 item.setBuyAmount(5);
                 item.setRarity(0);
+                item.setEquipSlot("SHIRT");
                 break;
             case "Brown Pants":
                 item.setImageId(R.mipmap.default_pants);
@@ -83,6 +88,7 @@ public class ItemManager {
                 item.setSellAmount(1);
                 item.setBuyAmount(5);
                 item.setRarity(0);
+                item.setEquipSlot("PANTS");
                 break;
             case "Old Black Boots":
                 item.setImageId(R.mipmap.default_shoes);
@@ -91,6 +97,7 @@ public class ItemManager {
                 item.setSellAmount(1);
                 item.setBuyAmount(5);
                 item.setRarity(0);
+                item.setEquipSlot("SHOES");
                 break;
             //Trophys
             case "Copper Ore":

@@ -21,9 +21,9 @@ public class Inventory implements Serializable {
     private ArrayList<String> consumableItemsMap = new ArrayList<>();
     private ArrayList<String> equippableItemsMap = new ArrayList<>();
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
-    private ArrayList<Item> equippedItemsMap = new ArrayList<>();
+    private ArrayList<String> equippedItemsMap = new ArrayList<>();
 
-    private int goldAmount;
+    private double goldAmount;
 
     public Inventory() {
     }
@@ -55,9 +55,11 @@ public class Inventory implements Serializable {
         return trophyItems;
     }
 
-    public ArrayList<String> getTrophyItemsMap() {
-        return trophyItemsMap;
-    }
+    public ArrayList<String> getTrophyItemsMap() { return trophyItemsMap; }
+
+    public ArrayList<Item> getEquippeditems() { return equippeditems; }
+
+    public ArrayList<String>  getEquippedItemsMap() { return equippedItemsMap; }
 
     public boolean addItem(Item item, int amount) {
         switch (item.getType()) {
@@ -228,7 +230,7 @@ public class Inventory implements Serializable {
         return false;
     }
 
-    public int getGoldAmount() { return goldAmount; }
-    public void setGoldAmount(int goldAmount) { this.goldAmount = goldAmount; }
+    public double getGoldAmount() { return goldAmount; }
+    public void setGoldAmount(double goldAmount) { this.goldAmount = goldAmount; }
 
 }
