@@ -23,7 +23,7 @@ public class Inventory implements Serializable {
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
     private ArrayList<Item> equippedItemsMap = new ArrayList<>();
 
-    private double goldAmount;
+    private int goldAmount;
 
     public Inventory() {
     }
@@ -228,7 +228,7 @@ public class Inventory implements Serializable {
         return false;
     }
 
-    public double getGoldAmount() { return goldAmount; }
-    public void setGoldAmount(double goldAmount) { this.goldAmount = goldAmount; }
+    public int getGoldAmount() { return goldAmount; }
+    public void setGoldAmount(int goldAmount) { this.goldAmount = goldAmount; }
 
 }

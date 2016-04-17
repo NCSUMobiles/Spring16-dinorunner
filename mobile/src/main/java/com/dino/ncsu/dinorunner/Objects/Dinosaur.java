@@ -26,7 +26,7 @@ public class Dinosaur implements Serializable {
     private ArrayList<DropTableItem> dropTable;
     private double minGold;
     private double maxGold;
-    private double experience;
+    private int experience;
 
 
     private static Dinosaur instance; //Singleton of Dinosaur
@@ -115,7 +115,7 @@ public class Dinosaur implements Serializable {
     public void setMaxGold(double maxGold) { this.maxGold = maxGold; }
     public double getMaxGold() { return maxGold; }
 
-    public void setExperience(double experience) { this.experience = experience; }
-    public double getExperience() { return experience; }
+    public void setExperience(int experience) { this.experience = experience; }
+    public int getExperience() { return experience; }
 
 }
