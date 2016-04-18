@@ -16,7 +16,7 @@ public class DinoManager {
         switch(name) {
             case "Goblin":
                 Dinosaur.getInstance().setNameOfDino("Goblin");
-                Dinosaur.getInstance().setHeadStart(10);
+                Dinosaur.getInstance().setHeadStart(3);
                 Dinosaur.getInstance().setImageId(R.mipmap.goblin_icon);
                 Dinosaur.getInstance().setAttack(5);
                 Dinosaur.getInstance().setMaxSpeed(.5);
@@ -39,6 +39,10 @@ public class DinoManager {
                 Dinosaur.getInstance().setStunTime(7000);
                 Dinosaur.getInstance().setStunned(false);
                 Dinosaur.getInstance().setDistance(0);
+                Dinosaur.getInstance().setMinGold(15);
+                Dinosaur.getInstance().setMaxGold(30);
+                Dinosaur.getInstance().setExperience(90);
+                dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Forest Giant":
                 Dinosaur.getInstance().setNameOfDino("Forest Giant");

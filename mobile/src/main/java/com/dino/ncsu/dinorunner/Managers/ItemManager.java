@@ -21,6 +21,11 @@ public class ItemManager {
      * @param item The reference to the item we watn to modify
      */
     public void setItemVariables(Item item) {
+        item.setEquipSlot("NA");
+        item.setHealAmount(0);
+        item.setTempSpeedBoost(0);
+        item.setSpeedBoost(0);
+        item.setVisible(true);
         switch(item.getName()) {
             //Consumables
             case "Fresh Apple":
@@ -32,10 +37,10 @@ public class ItemManager {
                 item.setSellAmount(5);
                 item.setRarity(0);
                 break;
-            //Equippables
-            case "No Helmet":
-                item.setImageId(R.mipmap.default_head);
-                item.setDescription("Who needs helmets?. No boost to your speed");
+            //Equippable Head Items
+            case "Leather Bandanna":
+                item.setImageId(R.mipmap.leather_bandanna);
+                item.setDescription("Makes you look like a monk. No boost to your speed");
                 item.setType(1);
                 item.setSpeedBoost(0);
                 item.setSellAmount(12);
@@ -43,9 +48,31 @@ public class ItemManager {
                 item.setRarity(0);
                 item.setEquipSlot("HEAD");
                 break;
+            case "No Head Item":
+                item.setImageId(R.mipmap.default_head);
+                item.setDescription("Who needs helmets?");
+                item.setType(1);
+                item.setSpeedBoost(0);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("HEAD");
+                item.setVisible(false);
+                break;
+            //Equippable Chest Item
+            case "No Chest Item":
+                item.setImageId(R.mipmap.default_armor);
+                item.setDescription("Who needs armor?");
+                item.setType(1);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("CHEST");
+                item.setVisible(false);
+                break;
             case "Leather Straps":
-                item.setImageId(R.mipmap.default_chest);
-                item.setDescription("Too bad this hot bod won't scare away the monsters. No boost to your speed");
+                item.setImageId(R.mipmap.leather_straps);
+                item.setDescription("Better than no armor. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(12);
                 item.setBuyAmount(24);
@@ -72,8 +99,19 @@ public class ItemManager {
                 item.setRarity(3);
                 item.setEquipSlot("CHEST");
                 break;
-            case "Yellow Shirt":
+            //Equippable Shirts
+            case "No Shirt Item":
                 item.setImageId(R.mipmap.default_shirt);
+                item.setDescription("Who needs undergarments?");
+                item.setType(1);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("SHIRT");
+                item.setVisible(false);
+                break;
+            case "Yellow Shirt":
+                item.setImageId(R.mipmap.yellow_shirt);
                 item.setDescription("Standard Yellow shirt. Havn't been washed in days. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
@@ -81,23 +119,43 @@ public class ItemManager {
                 item.setRarity(0);
                 item.setEquipSlot("SHIRT");
                 break;
-            case "Brown Pants":
+            //Equippable Pants
+            case "No Leg Item":
                 item.setImageId(R.mipmap.default_pants);
+                item.setDescription("Breezy!");
+                item.setType(1);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("LEGS");
+                break;
+            case "Brown Pants":
+                item.setImageId(R.mipmap.brown_pants);
                 item.setDescription("Was brown its original color? Who knows. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
                 item.setBuyAmount(5);
                 item.setRarity(0);
-                item.setEquipSlot("PANTS");
+                item.setEquipSlot("LEGS");
+                break;
+            //Equippable Boots
+            case "No Feet Item":
+                item.setImageId(R.mipmap.default_shoes);
+                item.setDescription("Ouch!");
+                item.setType(1);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("FEET");
                 break;
             case "Old Black Boots":
-                item.setImageId(R.mipmap.default_shoes);
+                item.setImageId(R.mipmap.black_boots);
                 item.setDescription("A pair of stinky black boots. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
                 item.setBuyAmount(5);
                 item.setRarity(0);
-                item.setEquipSlot("SHOES");
+                item.setEquipSlot("FEET");
                 break;
             //Trophys
             case "Copper Ore":
@@ -126,12 +184,4 @@ public class ItemManager {
                 break;
         }
     }
-
-//    //Sets Manager's values back to original values
-//    //Reset any variable that is NOT somethign set by all items
-//    public void clearInstance() {
-//        speedBoost = 0;
-//        tempSpeedBoost = 0;
-//        healAmount = 0;
-//    }
 }

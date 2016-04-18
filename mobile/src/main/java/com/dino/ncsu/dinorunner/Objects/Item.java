@@ -1,5 +1,7 @@
 package com.dino.ncsu.dinorunner.Objects;
 
+import com.dino.ncsu.dinorunner.Managers.ItemManager;
+
 import java.io.Serializable;
 
 /**
@@ -19,6 +21,8 @@ public class Item implements Serializable {
     private float speedBoost;
     private int healAmount;
     private float tempSpeedBoost;
+
+    private boolean isVisible = true;
 
     public Item (String name,int amount) {
         this.name = name;
@@ -60,4 +64,7 @@ public class Item implements Serializable {
     
     public void setEquipSlot(String equipSlot) { this.equipSlot = equipSlot; }
     public String getEquipSlot() { return equipSlot; }
-}
+
+    public void setVisible(boolean isVisible) { this.isVisible = isVisible; }
+    public boolean getVisible() { return isVisible; }
+ }

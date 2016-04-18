@@ -46,7 +46,9 @@ public class Dinosaur implements Serializable {
     }
 
     public void clearTables() {
-        dropTable.clear();
+        synchronized (dropTable) {
+            dropTable.clear();
+        }
     }
 
     public String getNameOfDino() { return nameOfDino; }

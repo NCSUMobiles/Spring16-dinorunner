@@ -11,14 +11,19 @@ import java.util.ArrayList;
 public class DropTableManager {
 
     public void setDropTable(String name) {
-
+        ArrayList<DropTableItem> temp;
         //Sets drop table for each Dinosaur
         switch(name) {
             case "Goblin":
-                Dinosaur.getInstance().clearTables();;
-                ArrayList<DropTableItem> temp = new ArrayList<DropTableItem>();
+                Dinosaur.getInstance().clearTables();
                 temp = Dinosaur.getInstance().getDropTable();
                 temp.add(new DropTableItem("Fresh Apple", 1, 1, 1000));
+                Dinosaur.getInstance().setDropTable(temp);
+                break;
+            case "Skeleton Spearman":
+                Dinosaur.getInstance().clearTables();
+                temp = Dinosaur.getInstance().getDropTable();
+                temp.add(new DropTableItem("Copper Ore", 1, 1, 1000));
                 Dinosaur.getInstance().setDropTable(temp);
                 break;
         }

@@ -1,11 +1,13 @@
 package com.dino.ncsu.dinorunner.Objects;
 
+import com.dino.ncsu.dinorunner.Managers.NewGameManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by jiminfan on 2/28/2016.
- * <p>
+ * <p/>
  * Singleton Class that contains the necessary information that will pertain to the player
  */
 public class Player implements Serializable {
@@ -25,20 +27,26 @@ public class Player implements Serializable {
     private int experience;
     private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
+    private boolean isNewGame = true;
 
 
     private static Player instance; //instance of player
 
     public Player() {
-        this.listOfItems = Inventory.getInstance().getEquippableItems();}
+        this.listOfItems = Inventory.getInstance().getEquippableItems();
+    }
 
-    public double getAvgSpeed() { return avgSpeed; }
+    public double getAvgSpeed() {
+        return avgSpeed;
+    }
 
     public void setAvgSpeed(double avgSpeed) {
         this.avgSpeed = avgSpeed;
     }
 
-    public double getTotalSpeed() { return avgSpeed + boostedStep; }
+    public double getTotalSpeed() {
+        return avgSpeed + boostedStep;
+    }
 
     public double getTotalWeekDist() {
         return totalWeekDist;
@@ -72,9 +80,13 @@ public class Player implements Serializable {
         this.distance = distance;
     }
 
-    public double getStepsTraveled() { return stepsTraveled; }
+    public double getStepsTraveled() {
+        return stepsTraveled;
+    }
 
-    public void setStepsTraveled(double steps) { this.stepsTraveled = steps; }
+    public void setStepsTraveled(double steps) {
+        this.stepsTraveled = steps;
+    }
 
     public ArrayList<Item> getListOfItems() {
         return listOfItems;
@@ -87,7 +99,7 @@ public class Player implements Serializable {
 
     public void initBoostedSpeed() {
         this.boostedStep = 0;
-        for(int j = 0; j < 5; j++)
+        for (int j = 0; j < 8; j++)
             this.boostedStep += listOfItems.get(j).getSpeedBoost();
     }
 
@@ -107,17 +119,24 @@ public class Player implements Serializable {
         this.health = health;
     }
 
-    public void setmStepLength(double mStepLength) {this.mStepLength = mStepLength;}
+    public void setmStepLength(double mStepLength) {
+        this.mStepLength = mStepLength;
+    }
 
     public double getTotalStepLength() {
         totalStepLength = mStepLength + boostedStep;
         return totalStepLength;
     }
 
-    public boolean getMetric() {return true;}
+    public boolean getMetric() {
+        return true;
+    }
 
 
-    public void setMetric(boolean isMetric) {this.isMetric = isMetric;}
+    public void setMetric(boolean isMetric) {
+        this.isMetric = isMetric;
+    }
+
     //Gets instance of player singleton
     public static Player getInstance() {
         if (instance == null) {
@@ -130,12 +149,39 @@ public class Player implements Serializable {
         return maxHealth;
     }
 
-    public void setMaxHealth(double maxHealth) { this.maxHealth = maxHealth;}
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
+    }
 
-    public int getCurrentTile() { return currentTile; }
+    public int getCurrentTile() {
+        return currentTile;
+    }
 
-    public void setCurrentTile(int currentTile) { this.currentTile = currentTile; }
+    public void setCurrentTile(int currentTile) {
+        this.currentTile = currentTile;
+    }
 
-    public int getExperience() { return experience; }
-    public void setExperience(int experience) { this.experience = experience; }
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public boolean getIsNewGame() {
+        return isNewGame;
+    }
+
+    public void setIsNewGame(boolean isNewGame) {
+        this.isNewGame = isNewGame;
+    }
+
+    public void checkNewGame() {
+        if (this.isNewGame) {
+            Inventory.getInstance().clearInventory();
+            NewGameManager.getInstance().setDefaults();
+            this.isNewGame = false;
+        }
+    }
 }

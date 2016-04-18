@@ -60,7 +60,7 @@ public class ItemPickActivity extends Activity {
             R.mipmap.default_head,
             R.mipmap.runman,
             R.mipmap.runman,
-            R.mipmap.default_chest,
+            R.mipmap.default_armor,
             R.mipmap.stitched_shirt_blue,
             R.mipmap.cloak_of_flames,
             R.mipmap.default_shirt,
@@ -315,16 +315,16 @@ public class ItemPickActivity extends Activity {
                             HashMap<String, String> iMap = mListAdapter.getItem(i);
 
                             //EquippedItems.getInstance().setItemAtIndex(i, item);
-                            Item item = new Item(iMap.get(from[1]), 1);
-                            //This will set all of the other values for the item
-                            ItemManager.getInstance().setItemVariables(item);
+//                            Item item = new Item(iMap.get(from[1]), 1);
+//                            //This will set all of the other values for the item
+//                            ItemManager.getInstance().setItemVariables(item);
 
 //                            Log.d("name", item.getName());
 //                            Log.d("amt", "" + item.getAmount());
 //                            Log.d("descript", item.getDescription());
 //                            Log.d("ItemType", "" + item.getType());
 
-                            inventory.addItem(item, 1);
+                            inventory.addItem(iMap.get(from[1]), 1);
 //                            Log.d("ItemAdded", "" + inventory.getEquippableItems().size());
 //                            Log.d("MapAdded", "" + inventory.getEquippableItemsMap().size());
                         }

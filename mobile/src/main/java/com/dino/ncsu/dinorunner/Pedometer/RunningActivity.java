@@ -172,8 +172,8 @@ public class RunningActivity extends Activity implements Runnable {
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
-        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.get(3).getImageId());
-        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.get(4).getImageId());
+        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.get(2).getImageId());
+        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.get(3).getImageId());
 
         //Bitmap for frame: Track
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());

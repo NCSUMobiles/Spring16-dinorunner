@@ -136,7 +136,7 @@ public class LootActivity extends Activity implements Runnable {
         if(!lootCollected) {
             Item item = calculateDropItem();
             mItemsLootedView.append(item.getAmount() + " " + item.getName());
-            Inventory.getInstance().addItem(item, 1);
+            Inventory.getInstance().addItem(item.getName(), 1);
             lootCollected = true;
         }
 
