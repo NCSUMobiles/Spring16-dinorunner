@@ -59,6 +59,18 @@ public class ItemManager {
                 item.setEquipSlot("HEAD");
                 item.setVisible(false);
                 break;
+            //Equippable Shoulder Item
+            case "No Shoulder Item":
+                item.setImageId(R.mipmap.default_shirt);
+                item.setDescription("No shoulder pads, no problem!");
+                item.setType(1);
+                item.setSpeedBoost(0);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("SHOULDERS");
+                item.setVisible(false);
+                break;
             //Equippable Chest Item
             case "No Chest Item":
                 item.setImageId(R.mipmap.default_armor);
@@ -119,6 +131,18 @@ public class ItemManager {
                 item.setRarity(0);
                 item.setEquipSlot("SHIRT");
                 break;
+            //Equippable Gloves:
+            case "No Gloves Item":
+                item.setImageId(R.mipmap.default_shirt);
+                item.setDescription("Who needs gloves?");
+                item.setType(1);
+                item.setSpeedBoost(0);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("GLOVES");
+                item.setVisible(false);
+                break;
             //Equippable Pants
             case "No Leg Item":
                 item.setImageId(R.mipmap.default_pants);
@@ -156,6 +180,18 @@ public class ItemManager {
                 item.setBuyAmount(5);
                 item.setRarity(0);
                 item.setEquipSlot("FEET");
+                break;
+            //Equippable Cape
+            case "No Cape Item":
+                item.setImageId(R.mipmap.default_shirt);
+                item.setDescription("Who needs helmets?");
+                item.setType(1);
+                item.setSpeedBoost(0);
+                item.setSellAmount(0);
+                item.setBuyAmount(0);
+                item.setRarity(0);
+                item.setEquipSlot("HEAD");
+                item.setVisible(false);
                 break;
             //Trophys
             case "Copper Ore":

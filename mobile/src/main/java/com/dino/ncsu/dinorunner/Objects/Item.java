@@ -13,7 +13,7 @@ public class Item implements Serializable {
     private String description;
     private int type;
     public int rarity; //0 - Common 1- Uncommon 2-Rare 3-Epic 4-Ascended 5-Legendary
-    public String equipSlot; //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, PANTS, SHOES, CAPE
+    public String equipSlot; //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, LEGS, SHOES, CAPE
     private int amount;
     private double sellAmount;
     private double buyAmount;

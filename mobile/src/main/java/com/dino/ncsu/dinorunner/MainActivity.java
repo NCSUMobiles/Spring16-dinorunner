@@ -3,6 +3,7 @@ package com.dino.ncsu.dinorunner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Button;
 
 import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
 import com.dino.ncsu.dinorunner.Activity.TrackPicker;
+import com.dino.ncsu.dinorunner.Objects.Inventory;
+import com.dino.ncsu.dinorunner.Objects.Player;
 
 /**
  * This class holds the necessary functionality for the MainActivity.
@@ -26,6 +29,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        Player.getInstance().checkNewGame();
+        Inventory.getInstance().addItem("Old Black Boots", 1);
+        Inventory.getInstance().addItem("Yellow Shirt", 5);
+        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
+        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());
+        Log.d("test", "Equipped Item size: " + Inventory.getInstance().getEquippedItems().size());
+        for (int i = 0; i < Inventory.getInstance().getEquippableItemsMap().size(); i++) {
+            Log.d("test", "Array of Equips: " + Inventory.getInstance().getEquippableItemsMap().get(i));
+        }
+
 
         Button runButton = (Button) findViewById(R.id.run_button);
         runButton.setOnClickListener(new View.OnClickListener() {

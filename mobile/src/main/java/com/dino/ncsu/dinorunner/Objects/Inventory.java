@@ -65,10 +65,12 @@ public class Inventory implements Serializable {
     public ArrayList<Item> getEquippedItems() {
         return equippedItems;
     }
+    public void setEquippedItems(ArrayList<Item> equippedItems) { this.equippedItems = equippedItems; }
 
     public ArrayList<String> getEquippedItemsMap() {
         return equippedItemsMap;
     }
+    public void setEquippedItemsMap(ArrayList<String> equippableItemsMap) { this.equippedItemsMap = equippedItemsMap; }
 
     public ArrayList<String> getDefaultItemsMap() {
         return defaultItemsMap;
@@ -119,6 +121,7 @@ public class Inventory implements Serializable {
                         equippableItemsMap.add(item.getName()); //update reference inventory
                         //Log.d("Line 98", "" + equippableItems.size());
                     }
+                    //Log.d("test", "We successfully added " + item.getName());
                     return true;
                 }
             case 2: //Trophy
@@ -258,7 +261,7 @@ public class Inventory implements Serializable {
                 addItem(itemName, 1);
                 break;
             case "HEAD":
-                if (equippedItems.get(0) != null) {
+                if ((equippedItems.get(0) != null)) {
                     addItem(equippedItems.get(0).getName(), 1);
                 }
                 synchronized (equippedItems) {

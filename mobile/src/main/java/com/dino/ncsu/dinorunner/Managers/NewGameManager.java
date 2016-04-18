@@ -1,10 +1,13 @@
 package com.dino.ncsu.dinorunner.Managers;
 
+import android.util.Log;
+
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Jimin Fan on 4/18/2016.
@@ -34,15 +37,23 @@ public class NewGameManager {
     }
 
     public void setEquipmentDefaults() {
-        String[] defaultItems = {"No Head Item",
+        ArrayList<String> defaultItemsMap = new ArrayList<String>(Arrays.asList("No Head Item",
+                "No Shoulder Item",
                 "No Chest Item",
                 "No Shirt Item",
+                "No Gloves Item",
                 "No Leg Item",
-                "No Feet Item"};
+                "No Feet Item",
+                "No Cape Item"));
 
-        for (int i = 0; i < defaultItems.length; i++) {
-            Inventory.getInstance().equipItem(defaultItems[i]);
+        Inventory.getInstance().setEquippedItemsMap(defaultItemsMap);
+        ArrayList<Item> defaultItems = new ArrayList<Item>();
+        for (int i = 0; i < defaultItemsMap.size(); i++) {
+            Item item = new Item(defaultItemsMap.get(i), 1);
+            ItemManager.getInstance().setItemVariables(item);
+            defaultItems.add(item);
         }
+        Inventory.getInstance().setEquippedItems(defaultItems);
 
     }
 
