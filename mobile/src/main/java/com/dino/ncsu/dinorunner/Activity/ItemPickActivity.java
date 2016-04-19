@@ -18,7 +18,6 @@ import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.dino.ncsu.dinorunner.Managers.ItemManager;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
@@ -62,7 +61,7 @@ public class ItemPickActivity extends Activity {
         ArrayList<Item> temp = Inventory.getInstance().getEquippableItems();
         //Sets all individual equipment arraylists
         for (int i = 0; i < temp.size(); i++) {
-            switch(temp.get(i).getEquipSlot()) {
+            switch (temp.get(i).getEquipSlot()) {
                 case "HEAD":
                     if ((temp.get(i).getName() == "No Head Item") && helms.size() != 0) {
                         Item tempItem = temp.get(0);
@@ -152,7 +151,7 @@ public class ItemPickActivity extends Activity {
 
     private ArrayList<String> desc = new ArrayList<String>();
 
-    private ArrayList<Float> boosts  = new ArrayList<Float>();
+    private ArrayList<Float> boosts = new ArrayList<Float>();
 
     private String[] itemTypes = new String[]{"Choose your Helmet", "Choose your Shoulder Item", "Choose your Armor", "Choose your Shirt", "Choose your Gloves", "Choose your Pants", "Choose your Shoes", "Choose your Cape"};
 
@@ -186,7 +185,7 @@ public class ItemPickActivity extends Activity {
         defaultIndices = Arrays.asList(0, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex);
         Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
 
-        ((TextView)findViewById(R.id.textView)).setTypeface(oldLondon);
+        ((TextView) findViewById(R.id.textView)).setTypeface(oldLondon);
         //Each row of the list stores item name, image and description
         if (itemList == null) {
             itemList = new ArrayList<>();

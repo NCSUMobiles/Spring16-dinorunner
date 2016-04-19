@@ -3,7 +3,6 @@ package com.dino.ncsu.dinorunner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,13 +32,16 @@ public class MainActivity extends AppCompatActivity {
         Player.getInstance().checkNewGame();
         Inventory.getInstance().addItem("Old Black Boots", 1);
         Inventory.getInstance().addItem("Yellow Shirt", 5);
-        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
-        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());
-        Log.d("test", "Equipped Item size: " + Inventory.getInstance().getEquippedItems().size());
-        for (int i = 0; i < Inventory.getInstance().getEquippableItemsMap().size(); i++) {
-            Log.d("test", "Array of Equips: " + Inventory.getInstance().getEquippableItemsMap().get(i));
-        }
-
+//        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
+//        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());
+//        Log.d("test", "Equipped Item size: " + Inventory.getInstance().getEquippedItems().size());
+//        for (int i = 0; i < Inventory.getInstance().getEquippableItemsMap().size(); i++) {
+//            Log.d("test", "Array of Equips: " + Inventory.getInstance().getEquippableItemsMap().get(i));
+//        }
+//
+//        for(int j = 0; j < Inventory.getInstance().getEquippedItemsMap().size(); j++) {
+//            Log.d("test", "Array of Equipped items: " + Inventory.getInstance().getEquippedItemsMap().get(j));
+//        }
 
         Button runButton = (Button) findViewById(R.id.run_button);
         runButton.setOnClickListener(new View.OnClickListener() {

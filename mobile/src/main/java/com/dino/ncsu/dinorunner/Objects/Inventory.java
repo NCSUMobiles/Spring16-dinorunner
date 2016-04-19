@@ -70,7 +70,7 @@ public class Inventory implements Serializable {
     public ArrayList<String> getEquippedItemsMap() {
         return equippedItemsMap;
     }
-    public void setEquippedItemsMap(ArrayList<String> equippableItemsMap) { this.equippedItemsMap = equippedItemsMap; }
+    public void setEquippedItemsMap(ArrayList<String> equippedItemsMap) { this.equippedItemsMap = equippedItemsMap; }
 
     public ArrayList<String> getDefaultItemsMap() {
         return defaultItemsMap;
