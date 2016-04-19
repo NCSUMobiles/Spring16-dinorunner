@@ -136,6 +136,8 @@ public class RunningActivity extends Activity implements Runnable {
     private Bitmap stat_frame;
 
     private DrawSprites drawSprites = null;
+    private Bitmap equipped_shirt;
+    private int equipped_shirt_POS_Y;
 
     /**
      * Called when the activity is first created.
@@ -172,8 +174,9 @@ public class RunningActivity extends Activity implements Runnable {
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
-        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.get(2).getImageId());
-        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.get(3).getImageId());
+        equipped_shirt = BitmapFactory.decodeResource(getResources(), equipment.get(2).getImageId());
+        equipped_pants = BitmapFactory.decodeResource(getResources(), equipment.get(3).getImageId());
+        equipped_shoes = BitmapFactory.decodeResource(getResources(), equipment.get(4).getImageId());
 
         //Bitmap for frame: Track
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
@@ -189,6 +192,9 @@ public class RunningActivity extends Activity implements Runnable {
 
         if (equipped_chest != null && Math.round(equipped_chest.getWidth() * scale_width) != 0 && Math.round(equipped_chest.getHeight() * scale_height) != 0)
             equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
+
+        if (equipped_shirt != null && Math.round(equipped_shirt.getWidth() * scale_width) != 0 && Math.round(equipped_shirt.getHeight() * scale_height) != 0)
+            equipped_shirt = Bitmap.createScaledBitmap(equipped_shirt, Math.round(equipped_shirt.getWidth() * scale_width), Math.round(equipped_shirt.getHeight() * scale_height), false);
 
         if (equipped_pants != null && Math.round(equipped_pants.getWidth() * scale_width) != 0 && Math.round(equipped_pants.getHeight() * scale_height) != 0)
             equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
@@ -537,12 +543,14 @@ public class RunningActivity extends Activity implements Runnable {
 
         equipped_head_POS_Y = equipped_head.getHeight();
         equipped_chest_POS_Y = equipped_head.getHeight();
+        equipped_shirt_POS_Y = equipped_head.getHeight();
         equipped_pants_POS_Y = equipped_chest.getHeight() + equipped_head.getHeight();
         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
 
         //Draws equipment screen
         canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
+        canvas.drawBitmap(equipped_shirt, EquipmentPos_X, EquipmentPos_Y + equipped_shirt_POS_Y, paint);
         canvas.drawBitmap(equipped_chest, EquipmentPos_X, EquipmentPos_Y + equipped_chest_POS_Y, paint);
         canvas.drawBitmap(equipped_pants, EquipmentPos_X, EquipmentPos_Y + equipped_pants_POS_Y, paint);
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);

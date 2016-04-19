@@ -18,6 +18,25 @@ import com.dino.ncsu.dinorunner.Objects.Player;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private String[] items = new String[]{
+            "No Head Item",
+            "Majestic Helmet",
+            "Legacy Helmet",
+            "Leather Straps",
+            "Blue Stitched Vest",
+            "Flame Walker Vest",
+            "Yellow Shirt",
+            "Majestic Shirt",
+            "Epic Shirt",
+            "Brown Pants",
+            "Epic Pants",
+            "Legacy Pants",
+            "Old Black Boots",
+            "Fast Shoes",
+            "Ultimate Shoes"
+    };
+
+
     /**
      * Called when the activity is first created.
      *
@@ -30,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Player.getInstance().checkNewGame();
-        Inventory.getInstance().addItem("Old Black Boots", 1);
-        Inventory.getInstance().addItem("Yellow Shirt", 5);
+
+        for(int i = 0; i < items.length; i++)
+            Inventory.getInstance().addItem(items[i], 1);
+
 //        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
 //        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());
 //        Log.d("test", "Equipped Item size: " + Inventory.getInstance().getEquippedItems().size());
