@@ -17,13 +17,13 @@ public class Inventory implements Serializable {
     private ArrayList<Item> consumableItems = new ArrayList<>();
     private ArrayList<Item> equippableItems = new ArrayList<>();
     private ArrayList<Item> trophyItems = new ArrayList<>();
-    private ArrayList<Item> equippedItems = new ArrayList<>();
+    private Item[] equippedItems = new Item[8];
 
     //Used for reference.check for item existance ONLY
     private ArrayList<String> consumableItemsMap = new ArrayList<>();
     private ArrayList<String> equippableItemsMap = new ArrayList<>();
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
-    private ArrayList<String> equippedItemsMap = new ArrayList<>();
+    private String[] equippedItemsMap = new String[8];
     private ArrayList<String> defaultItemsMap = new ArrayList<>();
 
     private double goldAmount;
@@ -62,15 +62,23 @@ public class Inventory implements Serializable {
         return trophyItemsMap;
     }
 
-    public ArrayList<Item> getEquippedItems() {
+    public Item[] getEquippedItems() {
         return equippedItems;
     }
-    public void setEquippedItems(ArrayList<Item> equippedItems) { this.equippedItems = equippedItems; }
+    public void setEquippedItems(Item[] equippedItemsTemp) {
+        synchronized (equippedItems) {
+            equippedItems = equippedItemsTemp;
+        }
+    }
 
-    public ArrayList<String> getEquippedItemsMap() {
+    public String[] getEquippedItemsMap() {
         return equippedItemsMap;
     }
-    public void setEquippedItemsMap(ArrayList<String> equippedItemsMap) { this.equippedItemsMap = equippedItemsMap; }
+    public void setEquippedItemsMap(String[] equippedItemsMapTemp) {
+        synchronized (equippedItemsMap) {
+            equippedItemsMap = equippedItemsMapTemp;
+        }
+    }
 
     public ArrayList<String> getDefaultItemsMap() {
         return defaultItemsMap;
@@ -261,74 +269,106 @@ public class Inventory implements Serializable {
                 addItem(itemName, 1);
                 break;
             case "HEAD":
-                if ((equippedItems.get(0) != null)) {
-                    addItem(equippedItems.get(0).getName(), 1);
+                if ((equippedItems[0] != null)) {
+                    addItem(equippedItems[0].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(0, item);
+                    equippedItems[0] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[0] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "SHOULDERS":
-                if (equippedItems.get(1) != null) {
-                    addItem(equippedItems.get(1).getName(), 1);
+                if (equippedItems[1] != null) {
+                    addItem(equippedItems[1].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(1, item);
+                    equippedItems[1] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[1] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "CHEST":
-                if (equippedItems.get(2) != null) {
-                    addItem(equippedItems.get(2).getName(), 1);
+                if (equippedItems[2] != null) {
+                    addItem(equippedItems[2].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(2, item);
+                    equippedItems[2] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[2] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "SHIRT":
-                if (equippedItems.get(3) != null) {
-                    addItem(equippedItems.get(3).getName(), 1);
+                if (equippedItems[3] != null) {
+                    addItem(equippedItems[3].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(3, item);
+                    equippedItems[3] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[3] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "GLOVES":
-                if (equippedItems.get(4) != null) {
-                    addItem(equippedItems.get(4).getName(), 1);
+                if (equippedItems[4] != null) {
+                    addItem(equippedItems[4].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(4, item);
+                    equippedItems[4] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[4] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "LEGS":
-                if (equippedItems.get(5) != null) {
-                    addItem(equippedItems.get(5).getName(), 1);
+                if (equippedItems[5] != null) {
+                    addItem(equippedItems[5].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(5, item);
+                    equippedItems[5] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[5] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "FEET":
-                if (equippedItems.get(6) != null) {
-                    addItem(equippedItems.get(6).getName(), 1);
+                if (equippedItems[6] != null) {
+                    addItem(equippedItems[6].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(6, item);
+                    equippedItems[6] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[6] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "CAPE":
-                if (equippedItems.get(7) != null) {
-                    addItem(equippedItems.get(7).getName(), 1);
+                if (equippedItems[7] != null) {
+                    addItem(equippedItems[7].getName(), 1);
                 }
                 synchronized (equippedItems) {
-                    equippedItems.set(7, item);
+                    equippedItems[7] = item;
+                }
+
+                synchronized (equippedItemsMap) {
+                    equippedItemsMap[7] = item.getName();
                 }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
@@ -359,7 +399,7 @@ public class Inventory implements Serializable {
         }
 
         synchronized(equippedItems) {
-            equippedItems.clear();
+            equippedItems = new Item[8];
         }
 
         synchronized (consumableItemsMap) {
@@ -374,7 +414,7 @@ public class Inventory implements Serializable {
         }
 
         synchronized (equippedItemsMap) {
-            equippedItemsMap.clear();
+            equippedItemsMap = new String[8];
         }
 
         synchronized (defaultItemsMap) {
