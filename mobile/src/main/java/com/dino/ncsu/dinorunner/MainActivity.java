@@ -19,21 +19,11 @@ import com.dino.ncsu.dinorunner.Objects.Player;
 public class MainActivity extends AppCompatActivity {
 
     private String[] items = new String[]{
-            "No Head Item",
-            "Majestic Helmet",
-            "Legacy Helmet",
-            "Leather Straps",
             "Blue Stitched Vest",
             "Flame Walker Vest",
-            "Yellow Shirt",
-            "Majestic Shirt",
-            "Epic Shirt",
             "Brown Pants",
-            "Epic Pants",
-            "Legacy Pants",
             "Old Black Boots",
-            "Fast Shoes",
-            "Ultimate Shoes"
+            "Yellow Shirt"
     };
 
 
@@ -50,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         Player.getInstance().checkNewGame();
 
-        for(int i = 0; i < items.length; i++)
+        for(int i = 0; i < items.length; i++) {
             Inventory.getInstance().addItem(items[i], 1);
+        }
+
 
 //        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
 //        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());

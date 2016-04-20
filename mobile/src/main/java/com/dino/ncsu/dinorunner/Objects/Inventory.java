@@ -373,7 +373,7 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
         }
-        Log.d("test", "We successfully equiped Item");
+        Log.d("test", "We unsuccessfully equipped Item");
         return false;
     }
 

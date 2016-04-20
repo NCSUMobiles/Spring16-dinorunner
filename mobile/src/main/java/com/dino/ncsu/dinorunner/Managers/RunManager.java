@@ -39,14 +39,13 @@ public class RunManager {
             Dinosaur.getInstance().setSpeed(0);
 
             if (delta > Dinosaur.getInstance().getStunTime()) {
-                lastStunnedTime = System.currentTimeMillis();
                 Dinosaur.getInstance().setStunned(false);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
             }
         } else if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
             Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
         } else {
-            //lastStunnedTime = System.currentTimeMillis();
+            lastStunnedTime = System.currentTimeMillis();
         }
     }
 

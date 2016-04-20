@@ -61,7 +61,7 @@ public class ItemManager {
                 break;
             //Equippable Shoulder Item
             case "No Shoulder Item":
-                item.setImageId(R.mipmap.default_shirt);
+                item.setImageId(R.mipmap.default_shoulders);
                 item.setDescription("No shoulder pads, no problem!");
                 item.setType(1);
                 item.setSpeedBoost(0);

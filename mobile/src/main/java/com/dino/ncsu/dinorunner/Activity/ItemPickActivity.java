@@ -42,236 +42,164 @@ import static android.widget.EditText.OnClickListener;
  */
 public class ItemPickActivity extends Activity {
     //private variables for this class
-//    private ArrayList<Item> helms = new ArrayList<Item>();
-//    private ArrayList<Item> shoulders = new ArrayList<Item>();
-//    private ArrayList<Item> chests = new ArrayList<Item>();
-//    private ArrayList<Item> shirts = new ArrayList<Item>();
-//    private ArrayList<Item> gloves = new ArrayList<Item>();
-//    private ArrayList<Item> legs = new ArrayList<Item>();
-//    private ArrayList<Item> feet = new ArrayList<Item>();
-//    private ArrayList<Item> cape = new ArrayList<Item>();
-//
-//    private int helmIndex;
-//    private int shouldersIndex;
-//    private int chestsIndex;
-//    private int shirtsIndex;
-//    private int glovesIndex;
-//    private int legIndex;
-//    private int feetIndex;
-//    private int capeIndex;
-//
-//    ArrayList<String> items = new ArrayList<String>();
-//
-//    public void setItemLists() {
-//        ArrayList<Item> temp = Inventory.getInstance().getEquippableItems();
-//        //Sets all individual equipment arraylists
-//        for (int i = 0; i < temp.size(); i++) {
-//            switch (temp.get(i).getEquipSlot()) {
-//                case "HEAD":
-//                    if ((temp.get(i).getName() == "No Head Item") && helms.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        helms.set(0, temp.get(i));
-//                        helms.set(i, tempItem);
-//                    }
-//                    helms.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "SHOULDERS":
-//                    if ((temp.get(i).getName() == "No Shoulder Item") && shoulders.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        shoulders.set(0, temp.get(i));
-//                        shoulders.set(i, tempItem);
-//                    }
-//                    shoulders.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "CHEST":
-//                    if ((temp.get(i).getName() == "No Chest Item") && chests.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        chests.set(0, temp.get(i));
-//                        chests.set(i, tempItem);
-//                    }
-//                    shoulders.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "SHIRT":
-//                    if ((temp.get(i).getName() == "No Shirt Item") && shirts.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        shirts.set(0, temp.get(i));
-//                        shirts.set(i, tempItem);
-//                    }
-//                    shirts.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "GLOVES":
-//                    if ((temp.get(i).getName() == "No Gloves Item") && gloves.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        gloves.set(0, temp.get(i));
-//                        gloves.set(i, tempItem);
-//                    }
-//                    gloves.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "LEGS":
-//                    if ((temp.get(i).getName() == "No Leg Item") && legs.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        legs.set(0, temp.get(i));
-//                        legs.set(i, tempItem);
-//                    }
-//                    legs.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "FEET":
-//                    if ((temp.get(i).getName() == "No Feet Item") && feet.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        feet.set(0, temp.get(i));
-//                        feet.set(i, tempItem);
-//                    }
-//                    feet.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//                case "CAPE":
-//                    if ((temp.get(i).getName() == "No Cape Item") && cape.size() != 0) {
-//                        Item tempItem = temp.get(0);
-//                        cape.set(0, temp.get(i));
-//                        cape.set(i, tempItem);
-//                    }
-//                    cape.add(temp.get(i));
-//                    imageId.add(temp.get(i).getImageId());
-//                    desc.add(temp.get(i).getDescription());
-//                    boosts.add(temp.get(i).getSpeedBoost());
-//                    items.add(temp.get(i).getName());
-//                    break;
-//            }
-//
-//        }
-//        //Sets indexs for Index array
-//        shouldersIndex = helmIndex;
-//        chestsIndex += shouldersIndex;
-//        shirtsIndex += chestsIndex;
-//        glovesIndex += shirtsIndex;
-//        legIndex += glovesIndex;
-//        feetIndex += legIndex;
-//        capeIndex += feetIndex;
-//
-//
-//
+    private ArrayList<Item> helms = new ArrayList<Item>();
+    private ArrayList<Item> shoulders = new ArrayList<Item>();
+    private ArrayList<Item> chests = new ArrayList<Item>();
+    private ArrayList<Item> shirts = new ArrayList<Item>();
+    private ArrayList<Item> gloves = new ArrayList<Item>();
+    private ArrayList<Item> legs = new ArrayList<Item>();
+    private ArrayList<Item> feet = new ArrayList<Item>();
+    private ArrayList<Item> cape = new ArrayList<Item>();
+
+    private int helmIndex;
+    private int shouldersIndex;
+    private int chestsIndex;
+    private int shirtsIndex;
+    private int glovesIndex;
+    private int legIndex;
+    private int feetIndex;
+    private int capeIndex;
+
+    ArrayList<String> items = new ArrayList<String>();
+
+    public void setItemLists() {
+        ArrayList<Item> temp = Inventory.getInstance().getEquippableItems();
+        //Sets all individual equipment arraylists
+        for (int i = 0; i < temp.size(); i++) {
+            switch (temp.get(i).getEquipSlot()) {
+                case "HEAD":
+                    helms.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "SHOULDERS":
+                    shoulders.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "CHEST":
+                    shoulders.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "SHIRT":
+                    shirts.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "GLOVES":
+                    gloves.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "LEGS":
+                    legs.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "FEET":
+                    feet.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+                case "CAPE":
+                    cape.add(temp.get(i));
+                    imageId.add(temp.get(i).getImageId());
+                    desc.add(temp.get(i).getDescription());
+                    boosts.add(temp.get(i).getSpeedBoost());
+                    items.add(temp.get(i).getName());
+                    break;
+            }
+
+        }
+        //Sets indexs for Index array
+        helmIndex = 0;
+        shouldersIndex = helms.size();
+        chestsIndex += shoulders.size() + shouldersIndex;
+        shirtsIndex += chests.size() + chestsIndex;
+        glovesIndex += shirts.size() + shirtsIndex;
+        legIndex += gloves.size() + glovesIndex;
+        feetIndex += legs.size() + legIndex;
+        capeIndex += feet.size() + feetIndex;
+
+
     //Sets boosts, desc, imageId of helms
-//        for (int i = 0; i < helms.size(); i++) {
-//            imageId.add(helms.get(i).getImageId());
-//            desc.add(helms.get(i).getDescription());
-//            boosts.add(helms.get(i).getSpeedBoost());
-//        }
-//
-//    }
+        for (int i = 0; i < helms.size(); i++) {
+            imageId.add(helms.get(i).getImageId());
+            desc.add(helms.get(i).getDescription());
+            boosts.add(helms.get(i).getSpeedBoost());
+        }
 
-    private String[] items = new String[]{
-            "No Head Item",
-            "Majestic Helmet",
-            "Legacy Helmet",
-            "Leather Straps",
-            "Blue Stitched Vest",
-            "Flame Walker Vest",
-            "Yellow Shirt",
-            "Majestic Shirt",
-            "Epic Shirt",
-            "Brown Pants",
-            "Epic Pants",
-            "Legacy Pants",
-            "Old Black Boots",
-            "Fast Shoes",
-            "Ultimate Shoes"
-    };
-
-    private Integer[] imageId = new Integer[]{
-            R.mipmap.default_head,
-            R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.default_armor,
-            R.mipmap.stitched_shirt_blue,
-            R.mipmap.cloak_of_flames,
-            R.mipmap.default_shirt,
-            R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.default_pants,
-            R.mipmap.runman,
-            R.mipmap.runman,
-            R.mipmap.default_shoes,
-            R.mipmap.runman,
-            R.mipmap.runman
-
-    };
-    private String[] desc = new String[]{
-            "Who needs helmets?. No boost to your speed",
-            "Epic Item. +1.5 to your overall speed",
-            "Legendary Item. +3.14 to your overall speed",
-            "Too bad this hot bod won't scare away the monsters. No boost to your speed",
-            "Blue stiched vest. Lightweight, made by skilled Human craftsmen. +1.5 to your overall speed",
-            "Flame Walker Vest. Imbued by a rare lava gem found by the Dwarven explorer Sognus Bronzebrew. Small flames emit from the fabric that are harmless to the wearer. +3.14 to your overall speed",
-            "Standard shirt. Havn't been washed in days. No boost to your speed",
-            "Epic Item. +1.5 to your overall speed",
-            "Legendary Item. +3.14 to your overall speed",
-            "Was brown its original color? Who knows. No boost to your speed",
-            "Epic Item. +1.5 to your overall speed",
-            "Legendary Item. +3.14 to your overall speed",
-            "A pair of stinky black boots. No boost to your speed",
-            "Epic Item. +1.5 to your overall speed",
-            "Legendary Item. +3.14 to your overall speed"
-    };
-    private Double[] boosts = new Double[]{
-            0.0,
-            1.5,
-            3.14,
-            0.0,
-            1.5,
-            3.14,
-            0.0,
-            1.5,
-            3.14,
-            0.0,
-            1.5,
-            3.14,
-            0.0,
-            1.5,
-            3.14
-    };
-
-//    private String[] itemTypes = new String[]{"Choose your Helmet", "Choose your Armor", "Choose your Shirt", "Choose your Pants", "Choose your Shoes"};
-
-//    private List<Integer> defaultIndices = Arrays.asList(0, 3, 6, 9, 12, items.length);
+        //Sets boosts, desc, imageId of shoulders
+        for (int i = 0; i < shoulders.size(); i++) {
+            imageId.add(shoulders.get(i).getImageId());
+            desc.add(shoulders.get(i).getDescription());
+            boosts.add(shoulders.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of chests
+        for (int i = 0; i < chests.size(); i++) {
+            imageId.add(chests.get(i).getImageId());
+            desc.add(chests.get(i).getDescription());
+            boosts.add(chests.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of shirts
+        for (int i = 0; i < shirts.size(); i++) {
+            imageId.add(shirts.get(i).getImageId());
+            desc.add(shirts.get(i).getDescription());
+            boosts.add(shirts.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of gloves
+        for (int i = 0; i < gloves.size(); i++) {
+            imageId.add(gloves.get(i).getImageId());
+            desc.add(gloves.get(i).getDescription());
+            boosts.add(gloves.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of legs
+        for (int i = 0; i < legs.size(); i++) {
+            imageId.add(legs.get(i).getImageId());
+            desc.add(legs.get(i).getDescription());
+            boosts.add(legs.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of feet
+        for (int i = 0; i < feet.size(); i++) {
+            imageId.add(feet.get(i).getImageId());
+            desc.add(feet.get(i).getDescription());
+            boosts.add(feet.get(i).getSpeedBoost());
+        }
+        //Sets boosts, desc, imageId of cape
+        for (int i = 0; i < cape.size(); i++) {
+            imageId.add(cape.get(i).getImageId());
+            desc.add(cape.get(i).getDescription());
+            boosts.add(cape.get(i).getSpeedBoost());
+        }
 
 
-//    private ArrayList<Integer> imageId = new ArrayList<Integer>();
-//
-//    private ArrayList<String> desc = new ArrayList<String>();
-//
-//    private ArrayList<Float> boosts = new ArrayList<Float>();
+    }
+
+    private ArrayList<Integer> imageId = new ArrayList<Integer>();
+
+    private ArrayList<String> desc = new ArrayList<String>();
+
+    private ArrayList<Float> boosts = new ArrayList<Float>();
 
     private String[] itemTypes = new String[]{"Choose your Helmet", "Choose your Shoulder Item", "Choose your Armor", "Choose your Shirt", "Choose your Gloves", "Choose your Pants", "Choose your Shoes", "Choose your Cape"};
 
 
-    private List<Integer> defaultIndices = Arrays.asList(0, 3, 6, 9, 12, items.length);
+    List<Integer> defaultIndices = new ArrayList<Integer>();
 
     private RecyclerView lView;
     private List<HashMap<String, String>> itemList;
@@ -302,9 +230,12 @@ public class ItemPickActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_pick);
-        //setItemLists();
+        setItemLists();
+        for (int i = 0; i < Inventory.getInstance().getEquippedItemsMap().length; i++) {
+            Log.d("test", "EquippedItemMap: " + Inventory.getInstance().getEquippedItemsMap()[i]);
+        }
 
-        //defaultIndices = Arrays.asList(0, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex);
+        defaultIndices = Arrays.asList(helmIndex, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex, items.size());
         preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
 
         Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
@@ -338,12 +269,12 @@ public class ItemPickActivity extends Activity {
                 }
             }
 
-            for (int i = 0; i < items.length; i++) {
+            for (int i = 0; i < items.size(); i++) {
                 HashMap<String, String> hm = new HashMap<String, String>();
-                hm.put("image", Integer.toString(imageId[i]));
-                hm.put("name", items[i]);
-                hm.put("desc", desc[i]);
-                hm.put("boost", Double.toString(boosts[i]));
+                hm.put("image", Integer.toString(imageId.get(i)));
+                hm.put("name", items.get(i));
+                hm.put("desc", desc.get(i));
+                hm.put("boost", Double.toString(boosts.get(i)));
                 allItems.add(hm);
 
                 if (!isListSet && defaultIndices.indexOf(i) != -1)

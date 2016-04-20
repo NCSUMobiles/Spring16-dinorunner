@@ -33,7 +33,7 @@ public class NewGameManager {
 
     public void setEquipmentDefaults() {
         String[] defaultItemsMap = new String[] {"No Head Item",
-                "Leather Straps",
+                "No Shoulder Item",
                 "No Chest Item",
                 "No Shirt Item",
                 "No Gloves Item",
@@ -47,6 +47,7 @@ public class NewGameManager {
             Item item = new Item(defaultItemsMap[i], 1);
             ItemManager.getInstance().setItemVariables(item);
             defaultItems[i] = item;
+
         }
         Inventory.getInstance().setEquippedItems(defaultItems);
 
