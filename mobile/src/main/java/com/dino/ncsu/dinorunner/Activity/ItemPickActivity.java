@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -19,13 +21,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.Objects.Inventory;
+import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
 import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static android.widget.EditText.OnClickListener;
 
@@ -171,7 +177,7 @@ public class ItemPickActivity extends Activity {
 //
 //
 //
-        //Sets boosts, desc, imageId of helms
+    //Sets boosts, desc, imageId of helms
 //        for (int i = 0; i < helms.size(); i++) {
 //            imageId.add(helms.get(i).getImageId());
 //            desc.add(helms.get(i).getDescription());
@@ -279,6 +285,13 @@ public class ItemPickActivity extends Activity {
 
     private ItemListAdapter mListAdapter;
     static Inventory inventory = Inventory.getInstance();
+    private SharedPreferences preferenceSettings;
+    private SharedPreferences.Editor preferenceEditor;
+
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String PREFERENCE_FILE = "_DinoRunnerUserData";
+    private static final String EQUIPPED_TAG = "dino_set_equipped";
+
 
     /**
      * Called when the activity is first created.
@@ -292,6 +305,8 @@ public class ItemPickActivity extends Activity {
         //setItemLists();
 
         //defaultIndices = Arrays.asList(0, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex);
+        preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+
         Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
 
         ((TextView) findViewById(R.id.textView)).setTypeface(oldLondon);
@@ -299,6 +314,29 @@ public class ItemPickActivity extends Activity {
         if (itemList == null) {
             itemList = new ArrayList<>();
             allItems = new ArrayList<>();
+
+            Set<String> prevEquipped = preferenceSettings.getStringSet(EQUIPPED_TAG, null);
+            boolean isListSet = false;
+
+            if (prevEquipped != null) {
+                if (prevEquipped.size() > 0)
+                    isListSet = true;
+
+                String[] tempEquip = prevEquipped.toArray(new String[prevEquipped.size()]);
+                for (int i = 0; i < tempEquip.length; i++)
+                    Log.d("tag" + i, tempEquip[i]);
+
+                for (int j = 0; j < tempEquip.length; j++) {
+                    Inventory.getInstance().equipItem(tempEquip[j]);
+                    Item item = Inventory.getInstance().getEquippedItems()[j];
+                    HashMap<String, String> hm = new HashMap<String, String>();
+                    hm.put("image", Integer.toString(item.getImageId()));
+                    hm.put("name", item.getName());
+                    hm.put("desc", item.getDescription());
+                    hm.put("boost", Double.toString(item.getSpeedBoost()));
+                    itemList.add(hm);
+                }
+            }
 
             for (int i = 0; i < items.length; i++) {
                 HashMap<String, String> hm = new HashMap<String, String>();
@@ -308,7 +346,7 @@ public class ItemPickActivity extends Activity {
                 hm.put("boost", Double.toString(boosts[i]));
                 allItems.add(hm);
 
-                if (defaultIndices.indexOf(i) != -1)
+                if (!isListSet && defaultIndices.indexOf(i) != -1)
                     itemList.add(hm);
             }
 
@@ -374,6 +412,7 @@ public class ItemPickActivity extends Activity {
             @Override
             public void onItemClick(ItemListAdapter adapter, View v, int position2) {
                 mListAdapter.setItem(position, newList.get(position2));
+                Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
                 newDialog.dismiss();
             }
 
@@ -399,7 +438,7 @@ public class ItemPickActivity extends Activity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_view_options, null);
 
         final SeekBar pickDist = (SeekBar) dialogView.findViewById(R.id.distance_picker);
-        pickDist.setMax(39900);
+        pickDist.setMax(4900);
         pickDist.setProgress(0);
         pickDist.incrementProgressBy(50);
         final EditText distValueText = (EditText) dialogView.findViewById(R.id.dist_value);
@@ -417,13 +456,12 @@ public class ItemPickActivity extends Activity {
             }
 
             public void afterTextChanged(Editable s) {
-
                 if (!s.toString().isEmpty()) {
                     int j = Integer.parseInt(s.toString());
-                    if (j >= 100 && j <= 40000)
-                        pickDist.setProgress(j - 100);  //for the seekbar, 0-39900
+                    if (j >= 100 && j <= 5000)
+                        pickDist.setProgress(j - 100);  //for the seekbar, 0-4900
                 } else {
-                    pickDist.setProgress(0);  //for the seekbar, 0-39900
+                    pickDist.setProgress(0);  //for the seekbar, 0-4900
                     distValueText.setText("100");
                 }
             }
@@ -462,7 +500,7 @@ public class ItemPickActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         int distance = Integer.parseInt(((EditText) ((AlertDialog) dialog).findViewById(R.id.dist_value)).getText().toString());
 
-                        if (distance < 100 || distance > 40000)
+                        if (distance < 100 || distance > 5000)
                             distance = ((SeekBar) ((AlertDialog) dialog).findViewById(R.id.distance_picker)).getProgress() + 100;
 
                         int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
@@ -490,6 +528,10 @@ public class ItemPickActivity extends Activity {
                         dataBundle.putInt("distancePicked", distance);
                         dataBundle.putInt("lapsPicked", laps);
 
+                        preferenceEditor = preferenceSettings.edit();
+
+                        preferenceEditor.putStringSet(EQUIPPED_TAG, new HashSet<String>(Arrays.asList(Inventory.getInstance().getEquippedItemsMap())));
+                        preferenceEditor.commit();
                         intent.putExtras(dataBundle);
                         startActivity(intent);
                     }
