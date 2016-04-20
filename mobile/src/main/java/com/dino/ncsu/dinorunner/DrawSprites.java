@@ -44,6 +44,12 @@ public class DrawSprites {
         this.resources = resources;
 
         trackTiles = Track.getInstance().getTileList();
+
+        //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
+        for(int i = 0; i < trackTiles.size(); i++) {
+            trackTiles.get(i).setY(trackTiles.get(i).getY() - getStatusBarHeight());
+        }
+
         Tile startTile = trackTiles.get(0);
 
         playerX = startTile.getX();
@@ -101,7 +107,7 @@ public class DrawSprites {
 
         Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
-        canvas.drawBitmap(b, playerX - 50, playerY - 150, null);
+        canvas.drawBitmap(b, playerX - 50, playerY - 100, null);
 
         float playerDistance = (float) Player.getInstance().getDistance();
         for(int i = 0; i < trackTiles.size(); i++) {
@@ -124,7 +130,7 @@ public class DrawSprites {
     private void drawDinosaur() {
         Bitmap b= BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getImageId());
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
-        canvas.drawBitmap(b, dinoX - 50, dinoY - 150, null);
+        canvas.drawBitmap(b, dinoX - 50, dinoY - 100, null);
 
         if(Dinosaur.getInstance().getStunned() == false) {
         //if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
@@ -137,6 +143,7 @@ public class DrawSprites {
             }
 
         }
+        System.out.println("==== Status Bar height ==== " + getStatusBarHeight());
         //System.out.println("==== Dinosaur Stunned ==== " + Dinosaur.getInstance().getStunned());
         //System.out.println("==== Distance ==== " + Dinosaur.getInstance().getDistance() + ", " + Player.getInstance().getDistance());
         //System.out.println("======= Dinosaur Position ============ " + dinoX + ", " + dinoY + ", " + distancePerPixel + ", " + deltaTime);
@@ -152,6 +159,15 @@ public class DrawSprites {
         for(int i=0;i<trackTiles.size();i++) {
             canvas.drawCircle(trackTiles.get(i).getX(), trackTiles.get(i).getY(), 8, p);
         }
+    }
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
 }
