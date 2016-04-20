@@ -342,9 +342,11 @@ public class ItemPickActivity extends Activity {
         rView.setAdapter(new ItemListAdapter(getBaseContext(), newList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
             @Override
             public void onItemClick(ItemListAdapter adapter, View v, int position2) {
-                mListAdapter.setItem(position, newList.get(position2));
-                Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
-                newDialog.dismiss();
+                if(position2 != 0) {
+                    mListAdapter.setItem(position, newList.get(position2));
+                    Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
+                    newDialog.dismiss();
+                }
             }
 
             @Override

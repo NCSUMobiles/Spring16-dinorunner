@@ -259,14 +259,14 @@ public class Inventory implements Serializable {
     }
 
     public boolean equipItem(String itemName) {
-        removeItem(itemName, 1);
+//        removeItem(itemName, 1);
         Item item = new Item(itemName, 1);
 
         ItemManager.getInstance().setItemVariables(item);
         //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, PANTS, SHOES, CAPE
         switch (item.getEquipSlot()) {
             case "NA":
-                addItem(itemName, 1);
+//                addItem(itemName, 1);
                 break;
             case "HEAD":
                 if ((equippedItems[0] != null)) {
