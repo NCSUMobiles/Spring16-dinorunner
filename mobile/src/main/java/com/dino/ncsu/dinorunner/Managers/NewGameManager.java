@@ -42,7 +42,6 @@ public class NewGameManager {
 //                "No Cape Item"};
 
         String[] defaultItemsMap = new String[8];
-        Inventory.getInstance().setEquippedItemsMap(defaultItemsMap);
         Item[] defaultItems = new Item[defaultItemsMap.length];
 //        for (int i = 0; i < defaultItemsMap.length; i++) {
 //            Item item = new Item(defaultItemsMap[i], 1);

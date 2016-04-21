@@ -148,59 +148,6 @@ public class ItemPickActivity extends Activity {
         legIndex += gloves.size() + glovesIndex;
         feetIndex += legs.size() + legIndex;
         capeIndex += feet.size() + feetIndex;
-
-
-    //Sets boosts, desc, imageId of helms
-        for (int i = 0; i < helms.size(); i++) {
-            imageId.add(helms.get(i).getImageId());
-            desc.add(helms.get(i).getDescription());
-            boosts.add(helms.get(i).getSpeedBoost());
-        }
-
-        //Sets boosts, desc, imageId of shoulders
-        for (int i = 0; i < shoulders.size(); i++) {
-            imageId.add(shoulders.get(i).getImageId());
-            desc.add(shoulders.get(i).getDescription());
-            boosts.add(shoulders.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of chests
-        for (int i = 0; i < chests.size(); i++) {
-            imageId.add(chests.get(i).getImageId());
-            desc.add(chests.get(i).getDescription());
-            boosts.add(chests.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of shirts
-        for (int i = 0; i < shirts.size(); i++) {
-            imageId.add(shirts.get(i).getImageId());
-            desc.add(shirts.get(i).getDescription());
-            boosts.add(shirts.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of gloves
-        for (int i = 0; i < gloves.size(); i++) {
-            imageId.add(gloves.get(i).getImageId());
-            desc.add(gloves.get(i).getDescription());
-            boosts.add(gloves.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of legs
-        for (int i = 0; i < legs.size(); i++) {
-            imageId.add(legs.get(i).getImageId());
-            desc.add(legs.get(i).getDescription());
-            boosts.add(legs.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of feet
-        for (int i = 0; i < feet.size(); i++) {
-            imageId.add(feet.get(i).getImageId());
-            desc.add(feet.get(i).getDescription());
-            boosts.add(feet.get(i).getSpeedBoost());
-        }
-        //Sets boosts, desc, imageId of cape
-        for (int i = 0; i < cape.size(); i++) {
-            imageId.add(cape.get(i).getImageId());
-            desc.add(cape.get(i).getDescription());
-            boosts.add(cape.get(i).getSpeedBoost());
-        }
-
-
     }
 
     private ArrayList<Integer> imageId = new ArrayList<Integer>();
@@ -244,9 +191,9 @@ public class ItemPickActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_pick);
         setItemLists();
-        for (int i = 0; i < Inventory.getInstance().getEquippedItemsMap().length; i++) {
-            Log.d("test", "EquippedItemMap: " + Inventory.getInstance().getEquippedItemsMap()[i]);
-        }
+//        for (int i = 0; i < Inventory.getInstance().getEquippedItemsMap().length; i++) {
+//            Log.d("test", "EquippedItemMap: " + Inventory.getInstance().getEquippedItemsMap()[i]);
+//        }
 
         defaultIndices = Arrays.asList(helmIndex, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex, items.size());
         preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
@@ -257,6 +204,10 @@ public class ItemPickActivity extends Activity {
         //Each row of the list stores item name, image and description
         if (itemList == null) {
             itemList = new ArrayList<>();
+
+            for (int j = 0; j < defaultIndices.size() - 1; j++) {
+                itemList.add(new HashMap<String, String>());
+            }
             allItems = new ArrayList<>();
 
             Set<String> prevEquipped = preferenceSettings.getStringSet(EQUIPPED_TAG, null);
@@ -268,17 +219,55 @@ public class ItemPickActivity extends Activity {
 
                 String[] tempEquip = prevEquipped.toArray(new String[prevEquipped.size()]);
                 for (int i = 0; i < tempEquip.length; i++)
-                    Log.d("tag" + i, tempEquip[i]);
+                    Log.d("tagEquipItemWhat" + i, tempEquip[i]);
 
                 for (int j = 0; j < tempEquip.length; j++) {
-                    Inventory.getInstance().equipItem(tempEquip[j]);
-                    Item item = Inventory.getInstance().getEquippedItems()[j];
-                    HashMap<String, String> hm = new HashMap<String, String>();
-                    hm.put("image", Integer.toString(item.getImageId()));
-                    hm.put("name", item.getName());
-                    hm.put("desc", item.getDescription());
-                    hm.put("boost", Double.toString(item.getSpeedBoost()));
-                    itemList.add(hm);
+                    int equippedSlot = Inventory.getInstance().equipItem(tempEquip[j]);
+                    if (equippedSlot != -1) {
+                        Item item = Inventory.getInstance().getEquippedItems()[equippedSlot];
+                        Log.d("tagItemEquippedSafe", item.getName());
+                        HashMap<String, String> hm = new HashMap<String, String>();
+                        hm.put("image", Integer.toString(item.getImageId()));
+                        hm.put("name", item.getName());
+                        hm.put("desc", item.getDescription());
+                        hm.put("boost", Double.toString(item.getSpeedBoost()));
+                        itemList.set(equippedSlot, hm);
+                        int swapIdx = items.indexOf(item.getName());
+                        int defaultIdx = defaultIndices.get(equippedSlot);
+
+                        //Switch for swapping of individual components in id lists
+                        switch (equippedSlot) {
+                            case 0:  //case head
+                                Collections.swap(helms, 0, swapIdx - defaultIdx);
+                                break;
+                            case 1: //case shoulders
+                                Collections.swap(shoulders, 0, swapIdx - defaultIdx);
+                                break;
+                            case 2: //case chest
+                                Collections.swap(chests, 0, swapIdx - defaultIdx);
+                                break;
+                            case 3:  //case shirts
+                                Collections.swap(shirts, 0, swapIdx - defaultIdx);
+                                break;
+                            case 4:  //case gloves
+                                Collections.swap(gloves, 0, swapIdx  - defaultIdx);
+                                break;
+                            case 5:  //case legs
+                                Collections.swap(legs, 0, swapIdx - defaultIdx);
+                                break;
+                            case 6: //case feet
+                                Collections.swap(feet, 0, swapIdx  - defaultIdx);
+                                break;
+                            case 7:  //case cape
+                                Collections.swap(cape, 0, swapIdx  - defaultIdx);
+                                break;
+                        }
+
+                        Collections.swap(items, defaultIdx, swapIdx);
+                        Collections.swap(imageId, defaultIdx, swapIdx);
+                        Collections.swap(desc, defaultIdx, swapIdx);
+                        Collections.swap(boosts, defaultIdx, swapIdx);
+                    }
                 }
             }
 
@@ -355,7 +344,7 @@ public class ItemPickActivity extends Activity {
         rView.setAdapter(new ItemListAdapter(getBaseContext(), newList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
             @Override
             public void onItemClick(ItemListAdapter adapter, View v, int position2) {
-                if(position2 != 0) {
+                if (position2 != 0) {
                     mListAdapter.setItem(position, newList.get(position2));
                     Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
                     newDialog.dismiss();
@@ -466,7 +455,6 @@ public class ItemPickActivity extends Activity {
 
                             inventory.equipItem(iMap.get(from[1]));
                             Log.d("ItemAdded", "" + inventory.getEquippedItems()[i].getName());
-                            Log.d("MapAdded", "" + inventory.getEquippedItemsMap().length);
                         }
 
                         Bundle dataBundle = new Bundle();
@@ -476,7 +464,13 @@ public class ItemPickActivity extends Activity {
 
                         preferenceEditor = preferenceSettings.edit();
 
-                        preferenceEditor.putStringSet(EQUIPPED_TAG, new HashSet<String>(Arrays.asList(Inventory.getInstance().getEquippedItemsMap())));
+                        Set<String> set = new HashSet<String>();
+                        Item[] itemList = Inventory.getInstance().getEquippedItems();
+
+                        for (int i = 0; i < Inventory.getInstance().getEquippedItems().length; i++)
+                            set.add(itemList[i].getName());
+
+                        preferenceEditor.putStringSet(EQUIPPED_TAG, set);
                         preferenceEditor.commit();
                         Player.getInstance().setListOfItems(new ArrayList<Item>(Arrays.asList(inventory.getEquippedItems())));
                         intent.putExtras(dataBundle);

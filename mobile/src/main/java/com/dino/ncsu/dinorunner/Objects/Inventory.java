@@ -23,7 +23,6 @@ public class Inventory implements Serializable {
     private ArrayList<String> consumableItemsMap = new ArrayList<>();
     private ArrayList<String> equippableItemsMap = new ArrayList<>();
     private ArrayList<String> trophyItemsMap = new ArrayList<>();
-    private String[] equippedItemsMap = new String[8];
     private ArrayList<String> defaultItemsMap = new ArrayList<>();
 
     private double goldAmount;
@@ -68,15 +67,6 @@ public class Inventory implements Serializable {
     public void setEquippedItems(Item[] equippedItemsTemp) {
         synchronized (equippedItems) {
             equippedItems = equippedItemsTemp;
-        }
-    }
-
-    public String[] getEquippedItemsMap() {
-        return equippedItemsMap;
-    }
-    public void setEquippedItemsMap(String[] equippedItemsMapTemp) {
-        synchronized (equippedItemsMap) {
-            equippedItemsMap = equippedItemsMapTemp;
         }
     }
 
@@ -258,16 +248,19 @@ public class Inventory implements Serializable {
         return false;
     }
 
-    public boolean equipItem(String itemName) {
+    public int equipItem(String itemName) {
 //        removeItem(itemName, 1);
         Item item = new Item(itemName, 1);
 
         ItemManager.getInstance().setItemVariables(item);
+        Log.d("equipItemTagName", item.getName());
+        Log.d("equipItemTagID", "" + item.getImageId());
+        Log.d("equipItemTagSlot", item.getEquipSlot());
         //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, PANTS, SHOES, CAPE
         switch (item.getEquipSlot()) {
             case "NA":
 //                addItem(itemName, 1);
-                break;
+                return -1;
             case "HEAD":
 //                if ((equippedItems[0] != null)) {
 //                    addItem(equippedItems[0].getName(), 1);
@@ -276,11 +269,8 @@ public class Inventory implements Serializable {
                     equippedItems[0] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[0] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 0;
             case "SHOULDERS":
 //                if (equippedItems[1] != null) {
 //                    addItem(equippedItems[1].getName(), 1);
@@ -288,12 +278,8 @@ public class Inventory implements Serializable {
                 synchronized (equippedItems) {
                     equippedItems[1] = item;
                 }
-
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[1] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 1;
             case "CHEST":
 //                if (equippedItems[2] != null) {
 //                    addItem(equippedItems[2].getName(), 1);
@@ -302,11 +288,8 @@ public class Inventory implements Serializable {
                     equippedItems[2] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[2] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 2;
             case "SHIRT":
 //                if (equippedItems[3] != null) {
 //                    addItem(equippedItems[3].getName(), 1);
@@ -315,11 +298,8 @@ public class Inventory implements Serializable {
                     equippedItems[3] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[3] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 3;
             case "GLOVES":
 //                if (equippedItems[4] != null) {
 //                    addItem(equippedItems[4].getName(), 1);
@@ -328,11 +308,8 @@ public class Inventory implements Serializable {
                     equippedItems[4] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[4] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 4;
             case "LEGS":
 //                if (equippedItems[5] != null) {
 //                    addItem(equippedItems[5].getName(), 1);
@@ -341,11 +318,8 @@ public class Inventory implements Serializable {
                     equippedItems[5] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[5] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 5;
             case "FEET":
 //                if (equippedItems[6] != null) {
 //                    addItem(equippedItems[6].getName(), 1);
@@ -354,11 +328,8 @@ public class Inventory implements Serializable {
                     equippedItems[6] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[6] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 6;
             case "CAPE":
 //                if (equippedItems[7] != null) {
 //                    addItem(equippedItems[7].getName(), 1);
@@ -367,14 +338,11 @@ public class Inventory implements Serializable {
                     equippedItems[7] = item;
                 }
 
-                synchronized (equippedItemsMap) {
-                    equippedItemsMap[7] = item.getName();
-                }
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
-                return true;
+                return 7;
         }
         Log.d("test", "We unsuccessfully equipped Item");
-        return false;
+        return -1;
     }
 
     public double getGoldAmount() {
@@ -411,10 +379,6 @@ public class Inventory implements Serializable {
 
         synchronized (trophyItemsMap) {
             trophyItemsMap.clear();
-        }
-
-        synchronized (equippedItemsMap) {
-            equippedItemsMap = new String[8];
         }
 
         synchronized (defaultItemsMap) {

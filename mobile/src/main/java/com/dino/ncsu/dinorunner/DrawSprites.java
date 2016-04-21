@@ -156,7 +156,7 @@ public class DrawSprites {
     private void drawTiles() {
         Paint p = new Paint();
         p.setColor(Color.RED);
-        for(int i=0;i<trackTiles.size();i++) {
+        for (int i = 0; i < trackTiles.size(); i++) {
             canvas.drawCircle(trackTiles.get(i).getX(), trackTiles.get(i).getY(), 8, p);
         }
     }
