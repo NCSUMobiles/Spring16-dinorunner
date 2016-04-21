@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -134,10 +133,11 @@ public class DrawSprites {
 
         if(Dinosaur.getInstance().getStunned() == false) {
         //if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
-            dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
-            dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;
+
 
             if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
+                dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
+                dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;
                 Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() +
                         Dinosaur.getInstance().getSpeed() * deltaTime / 1000);
             }
