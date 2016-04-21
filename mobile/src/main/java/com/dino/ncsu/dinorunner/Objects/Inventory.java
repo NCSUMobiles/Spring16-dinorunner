@@ -269,9 +269,9 @@ public class Inventory implements Serializable {
 //                addItem(itemName, 1);
                 break;
             case "HEAD":
-                if ((equippedItems[0] != null)) {
-                    addItem(equippedItems[0].getName(), 1);
-                }
+//                if ((equippedItems[0] != null)) {
+//                    addItem(equippedItems[0].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[0] = item;
                 }
@@ -282,9 +282,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "SHOULDERS":
-                if (equippedItems[1] != null) {
-                    addItem(equippedItems[1].getName(), 1);
-                }
+//                if (equippedItems[1] != null) {
+//                    addItem(equippedItems[1].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[1] = item;
                 }
@@ -295,9 +295,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "CHEST":
-                if (equippedItems[2] != null) {
-                    addItem(equippedItems[2].getName(), 1);
-                }
+//                if (equippedItems[2] != null) {
+//                    addItem(equippedItems[2].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[2] = item;
                 }
@@ -308,9 +308,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "SHIRT":
-                if (equippedItems[3] != null) {
-                    addItem(equippedItems[3].getName(), 1);
-                }
+//                if (equippedItems[3] != null) {
+//                    addItem(equippedItems[3].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[3] = item;
                 }
@@ -321,9 +321,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "GLOVES":
-                if (equippedItems[4] != null) {
-                    addItem(equippedItems[4].getName(), 1);
-                }
+//                if (equippedItems[4] != null) {
+//                    addItem(equippedItems[4].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[4] = item;
                 }
@@ -334,9 +334,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "LEGS":
-                if (equippedItems[5] != null) {
-                    addItem(equippedItems[5].getName(), 1);
-                }
+//                if (equippedItems[5] != null) {
+//                    addItem(equippedItems[5].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[5] = item;
                 }
@@ -347,9 +347,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "FEET":
-                if (equippedItems[6] != null) {
-                    addItem(equippedItems[6].getName(), 1);
-                }
+//                if (equippedItems[6] != null) {
+//                    addItem(equippedItems[6].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[6] = item;
                 }
@@ -360,9 +360,9 @@ public class Inventory implements Serializable {
                 Log.d("test", "We equipped " + item.getName() + " Successfully!");
                 return true;
             case "CAPE":
-                if (equippedItems[7] != null) {
-                    addItem(equippedItems[7].getName(), 1);
-                }
+//                if (equippedItems[7] != null) {
+//                    addItem(equippedItems[7].getName(), 1);
+//                }
                 synchronized (equippedItems) {
                     equippedItems[7] = item;
                 }

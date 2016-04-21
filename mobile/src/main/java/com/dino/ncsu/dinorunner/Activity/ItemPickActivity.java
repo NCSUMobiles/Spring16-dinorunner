@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
+import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
 import com.dino.ncsu.dinorunner.R;
 
@@ -64,8 +65,11 @@ public class ItemPickActivity extends Activity {
 
     public void setItemLists() {
         ArrayList<Item> temp = Inventory.getInstance().getEquippableItems();
+
         //Sets all individual equipment arraylists
         for (int i = 0; i < temp.size(); i++) {
+//            Log.d("testBlah!", temp.get(i).getName());
+//            Log.d("testBlahSlot!", temp.get(i).getEquipSlot());
             switch (temp.get(i).getEquipSlot()) {
                 case "HEAD":
                     helms.add(temp.get(i));
@@ -82,7 +86,7 @@ public class ItemPickActivity extends Activity {
                     items.add(temp.get(i).getName());
                     break;
                 case "CHEST":
-                    shoulders.add(temp.get(i));
+                    chests.add(temp.get(i));
                     imageId.add(temp.get(i).getImageId());
                     desc.add(temp.get(i).getDescription());
                     boosts.add(temp.get(i).getSpeedBoost());
@@ -127,6 +131,15 @@ public class ItemPickActivity extends Activity {
 
         }
         //Sets indexs for Index array
+        Log.d("helms", "" + helms.size());
+        Log.d("shoulders", "" + shoulders.size());
+        Log.d("chest", "" + chests.size());
+        Log.d("shirts", "" + shirts.size());
+        Log.d("gloves", "" + gloves.size());
+        Log.d("legs", "" + legs.size());
+        Log.d("feet", "" + feet.size());
+        Log.d("capes", "" + cape.size());
+
         helmIndex = 0;
         shouldersIndex = helms.size();
         chestsIndex += shoulders.size() + shouldersIndex;
@@ -438,7 +451,7 @@ public class ItemPickActivity extends Activity {
 
                         int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
 
-                        for (int i = 0; i < 5; i++) {
+                        for (int i = 0; i < itemList.size(); i++) {
                             HashMap<String, String> iMap = mListAdapter.getItem(i);
 
                             //EquippedItems.getInstance().setItemAtIndex(i, item);
@@ -451,9 +464,9 @@ public class ItemPickActivity extends Activity {
 //                            Log.d("descript", item.getDescription());
 //                            Log.d("ItemType", "" + item.getType());
 
-                            inventory.addItem(iMap.get(from[1]), 1);
-//                            Log.d("ItemAdded", "" + inventory.getEquippableItems().size());
-//                            Log.d("MapAdded", "" + inventory.getEquippableItemsMap().size());
+                            inventory.equipItem(iMap.get(from[1]));
+                            Log.d("ItemAdded", "" + inventory.getEquippedItems()[i].getName());
+                            Log.d("MapAdded", "" + inventory.getEquippedItemsMap().length);
                         }
 
                         Bundle dataBundle = new Bundle();
@@ -465,6 +478,7 @@ public class ItemPickActivity extends Activity {
 
                         preferenceEditor.putStringSet(EQUIPPED_TAG, new HashSet<String>(Arrays.asList(Inventory.getInstance().getEquippedItemsMap())));
                         preferenceEditor.commit();
+                        Player.getInstance().setListOfItems(new ArrayList<Item>(Arrays.asList(inventory.getEquippedItems())));
                         intent.putExtras(dataBundle);
                         startActivity(intent);
                     }

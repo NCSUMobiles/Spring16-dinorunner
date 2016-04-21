@@ -38,16 +38,6 @@ public class ItemManager {
                 item.setRarity(0);
                 break;
             //Equippable Head Items
-            case "Leather Bandanna":
-                item.setImageId(R.mipmap.leather_bandanna);
-                item.setDescription("Makes you look like a monk. No boost to your speed");
-                item.setType(1);
-                item.setSpeedBoost(0);
-                item.setSellAmount(12);
-                item.setBuyAmount(24);
-                item.setRarity(0);
-                item.setEquipSlot("HEAD");
-                break;
             case "No Head Item":
                 item.setImageId(R.mipmap.default_head);
                 item.setDescription("Who needs helmets?");
@@ -58,6 +48,16 @@ public class ItemManager {
                 item.setRarity(0);
                 item.setEquipSlot("HEAD");
                 item.setVisible(false);
+                break;
+            case "Leather Bandanna":
+                item.setImageId(R.mipmap.leather_bandanna);
+                item.setDescription("Makes you look like a monk. No boost to your speed");
+                item.setType(1);
+                item.setSpeedBoost(0);
+                item.setSellAmount(12);
+                item.setBuyAmount(24);
+                item.setRarity(0);
+                item.setEquipSlot("HEAD");
                 break;
             //Equippable Shoulder Item
             case "No Shoulder Item":
@@ -91,9 +91,9 @@ public class ItemManager {
                 item.setRarity(0);
                 item.setEquipSlot("CHEST");
                 break;
-            case "Blue Stiched Vest":
+            case "Blue Stitched Vest":
                 item.setImageId(R.mipmap.stitched_shirt_blue);
-                item.setDescription("Blue stiched vest. Lightweight, made by skilled Human craftsmen. +1.5 to your overall speed");
+                item.setDescription("Blue stitched vest. Lightweight, made by skilled Human craftsmen. +1.5 to your overall speed");
                 item.setType(1);
                 item.setSpeedBoost(1.5f);
                 item.setSellAmount(100);
@@ -101,7 +101,7 @@ public class ItemManager {
                 item.setRarity(1);
                 item.setEquipSlot("CHEST");
                 break;
-            case "FlameWalker Vest":
+            case "Flame Walker Vest":
                 item.setImageId(R.mipmap.cloak_of_flames);
                 item.setDescription("Flame Walker Vest. Imbued by a rare lava gem found by the Dwarven explorer Sognus Bronzebrew. Small flames emit from the fabric that are harmless to the wearer. +3.14 to your overall speed");
                 item.setType(1);
@@ -184,13 +184,13 @@ public class ItemManager {
             //Equippable Cape
             case "No Cape Item":
                 item.setImageId(R.mipmap.default_shirt);
-                item.setDescription("Who needs helmets?");
+                item.setDescription("Who needs capes?");
                 item.setType(1);
                 item.setSpeedBoost(0);
                 item.setSellAmount(0);
                 item.setBuyAmount(0);
                 item.setRarity(0);
-                item.setEquipSlot("HEAD");
+                item.setEquipSlot("CAPE");
                 item.setVisible(false);
                 break;
             //Trophys

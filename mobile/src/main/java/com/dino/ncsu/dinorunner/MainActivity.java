@@ -19,11 +19,21 @@ import com.dino.ncsu.dinorunner.Objects.Player;
 public class MainActivity extends AppCompatActivity {
 
     private String[] items = new String[]{
+            "No Head Item",
+            "Leather Bandanna",
+            "No Shoulder Item",
+            "No Chest Item",
+            "Leather Straps",
             "Blue Stitched Vest",
             "Flame Walker Vest",
+            "No Shirt Item",
+            "Yellow Shirt",
+            "No Gloves Item",
+            "No Leg Item",
             "Brown Pants",
+            "No Feet Item",
             "Old Black Boots",
-            "Yellow Shirt"
+            "No Cape Item"
     };
 
 
@@ -40,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         Player.getInstance().checkNewGame();
 
-        for(int i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.length; i++) {
             Inventory.getInstance().addItem(items[i], 1);
         }
 
