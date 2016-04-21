@@ -45,12 +45,6 @@ public class TrackPicker extends Activity {
 
     public static Typeface oldLondon;
 
-    private double[][] probs = {
-            {.95, .999},
-            {.5, .9},
-            {.1, .4}
-    };
-
     private String[] tracks = new String[]{
             "Forest of A'alath",
             "Desert of Tyndall",
@@ -155,10 +149,6 @@ public class TrackPicker extends Activity {
             void onItemClick(TrackListAdapter adapter, View v, final int position) {
 
                 final HashMap<String, String> item = adapter.getItem(position);
-                Track.getInstance().setTrackName(item.get("tracks"));
-                Track.getInstance().setTrackImageId(Integer.parseInt(item.get("trackImage")));
-                TrackManager tm = new TrackManager();
-                tm.setTrack(scale_width, scale_height);
 
                 new AlertDialog.Builder(TrackPicker.this, AlertDialog.THEME_HOLO_LIGHT)
                         .setTitle(item.get("tracks"))
@@ -170,20 +160,12 @@ public class TrackPicker extends Activity {
 
                                 //dataBundle.putByteArray("dinoPicked", dinoByteArray);
                                 //intent.putExtras(dataBundle);
-                                //calcuate probabilities here depending on map
-                                Random ran = new Random();
-                                double prob = ran.nextDouble();
+                                Track.getInstance().setTrackName(item.get("tracks"));
+                                Track.getInstance().setTrackImageId(Integer.parseInt(item.get("trackImage")));
+                                TrackManager tm = new TrackManager();
+                                tm.setTrack(scale_width, scale_height);
 
-                                if (prob <= probs[position][0]) {
-                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[0]);
-                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[0]);
-                                } else if (prob <= probs[position][1]) {
-                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[1]);
-                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[1]);
-                                } else {
-                                    Dinosaur.getInstance().setNameOfDino(DinoPickerActivity.dinos[2]);
-                                    Dinosaur.getInstance().setImageId(DinoPickerActivity.imageId[2]);
-                                }
+
 
                                 DinoManager dinoManager = new DinoManager();
                                 dinoManager.setDinos();

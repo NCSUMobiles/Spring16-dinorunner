@@ -1,10 +1,13 @@
 package com.dino.ncsu.dinorunner.Managers;
 
+import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
+import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Tile;
 import com.dino.ncsu.dinorunner.Objects.Track;
 import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by jiminfan on 4/11/2016.
@@ -26,10 +29,22 @@ public class TrackManager {
         }
     }
 
+    public void setMonsterForTrack(double[] probs, String[] monsters) {
+        Random ran = new Random();
+        double prob = ran.nextDouble();
+
+        for (int i = 0; i < probs.length; i++) {
+            Dinosaur.getInstance().setNameOfDino(monsters[i]);
+        }
+    }
+
     public void setTiles(float scale_width, float scale_height) {
 
         switch(Track.getInstance().getTrackImageId()) {
             case R.mipmap.track1:
+                double[] probs = {.95, 1};
+                String[] monsters = {"Goblin", "Skeleton Spearman"};
+
                 ArrayList<Tile> tiles = new ArrayList<Tile>();
 
                 tiles.add(new Tile(193 * scale_width, 155 * scale_height, "dirt", 1, 0, (552 - 193) * scale_width));
@@ -49,6 +64,8 @@ public class TrackManager {
                 tiles.add(new Tile(193 * scale_width, 664 * scale_height, "dirt", 0, -1, (664 - 155) * scale_height));
 
                 Track.getInstance().setTileList(tiles);
+
+                setMonsterForTrack(probs, monsters);
                 break;
         }
     }

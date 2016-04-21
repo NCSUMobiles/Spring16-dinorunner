@@ -91,8 +91,8 @@ public class RunningActivity extends Activity implements Runnable {
 
     //Display information
     private DisplayMetrics display;
-    private int width; //HTC ONE M8 = 1080
-    private int height; //HTC ONE M8 = 1776
+    private float width; //HTC ONE M8 = 1080
+    private float height; //HTC ONE M8 = 1776
 
     //Thread information
     private Thread thread;
@@ -138,7 +138,9 @@ public class RunningActivity extends Activity implements Runnable {
 
     private Bitmap map;
     public static Typeface oldLondon;
+
     private Bitmap stat_frame;
+    private Bitmap items_frame;
 
     private DrawSprites drawSprites = null;
 
@@ -165,16 +167,6 @@ public class RunningActivity extends Activity implements Runnable {
         scale_height = height / 1776;
 
         character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
-//        Log.d("item1", "" + equipment.get(0).getImageId());
-//        Log.d("head", "" + R.mipmap.default_head);
-//        Log.d("item2", "" + equipment.get(1).getImageId());
-//        Log.d("chest", "" + R.mipmap.default_chest);
-//        Log.d("item3", "" + equipment.get(2).getImageId());
-//        Log.d("shirt", "" + R.mipmap.default_shirt);
-//        Log.d("item4", "" + equipment.get(3).getImageId());
-//        Log.d("pants", "" + R.mipmap.default_pants);
-//        Log.d("item5", "" + equipment.get(4).getImageId());
-//        Log.d("shoes", "" + R.mipmap.default_shoes);
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_shoulder = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
@@ -190,6 +182,9 @@ public class RunningActivity extends Activity implements Runnable {
 
         //Bitmap for statistics frame
         stat_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.stat_frame);
+
+        //Bitmap for consumable items frame
+        items_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_inventory_consume);
 
         if (character_frame != null && Math.round(character_frame.getWidth() * scale_width) != 0 && Math.round(character_frame.getHeight() * scale_height) != 0)
             character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
@@ -223,6 +218,9 @@ public class RunningActivity extends Activity implements Runnable {
 
         if (stat_frame != null && Math.round(stat_frame.getWidth() * scale_width) != 0 && Math.round(stat_frame.getHeight() * scale_height) != 0)
             stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
+
+        if (stat_frame != null && Math.round(stat_frame.getWidth() * scale_width) != 0 && Math.round(stat_frame.getHeight() * scale_height) != 0)
+            items_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(items_frame.getWidth() * scale_width), Math.round(items_frame.getHeight() * scale_height), false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -576,6 +574,9 @@ public class RunningActivity extends Activity implements Runnable {
 
         //Draws stats screen
         canvas.drawBitmap(stat_frame, 0, 910 * scale_height, paint);
+        //Draws consumable items screen
+        canvas.drawBitmap(items_frame, 0, 1400 * scale_height, paint);
+
     }
 
     //This method draws the map

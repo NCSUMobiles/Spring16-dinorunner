@@ -143,7 +143,7 @@ public class DrawSprites {
             }
 
         }
-        System.out.println("==== Status Bar height ==== " + getStatusBarHeight());
+        //System.out.println("==== Status Bar height ==== " + getStatusBarHeight());
         //System.out.println("==== Dinosaur Stunned ==== " + Dinosaur.getInstance().getStunned());
         //System.out.println("==== Distance ==== " + Dinosaur.getInstance().getDistance() + ", " + Player.getInstance().getDistance());
         //System.out.println("======= Dinosaur Position ============ " + dinoX + ", " + dinoY + ", " + distancePerPixel + ", " + deltaTime);
