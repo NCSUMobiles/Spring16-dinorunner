@@ -40,8 +40,8 @@ public class TrackPicker extends Activity {
 
     //Display information
     private DisplayMetrics display;
-    private int width; //HTC ONE M8 = 1080
-    private int height; //HTC ONE M8 = 1776
+    private float width; //HTC ONE M8 = 1080
+    private float height; //HTC ONE M8 = 1776
 
     public static Typeface oldLondon;
 

@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -30,6 +33,10 @@ public class DrawSprites {
     float dinoDirX = 0;
     float dinoDirY = 0;
 
+    float scale_width;
+    float scale_height;
+    DisplayMetrics display;
+
     int dinoTileId = 0;
     List<Tile> trackTiles = null;
     float distancePerPixel = 0;
@@ -43,6 +50,13 @@ public class DrawSprites {
         this.resources = resources;
 
         trackTiles = Track.getInstance().getTileList();
+
+        //Scaling
+        display = resources.getDisplayMetrics();
+        float width = display.widthPixels;
+        float height = display.heightPixels;
+        scale_width = width / 1080;
+        scale_height = height / 1776;
 
         //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
         for(int i = 0; i < trackTiles.size(); i++) {
@@ -103,10 +117,17 @@ public class DrawSprites {
     }
 
     private void drawPlayer() {
-
         Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
-        canvas.drawBitmap(b, playerX - 50, playerY - 100, null);
+ //       if (dinoDirX == 1) {
+            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 90*scale_height, null);
+//        }
+//        else {
+//            canvas.save();
+//            canvas.rotate(180, b.getWidth()/2, b.getHeight()/2);
+//            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 90*scale_height, null);
+//            canvas.restore();
+//        }
 
         float playerDistance = (float) Player.getInstance().getDistance();
         for(int i = 0; i < trackTiles.size(); i++) {
@@ -129,11 +150,9 @@ public class DrawSprites {
     private void drawDinosaur() {
         Bitmap b= BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getImageId());
         b = Bitmap.createScaledBitmap(b, 100, 100, false);
-        canvas.drawBitmap(b, dinoX - 50, dinoY - 100, null);
+        canvas.drawBitmap(b, dinoX - 50*scale_width, dinoY - 90*scale_height, null);
 
         if(Dinosaur.getInstance().getStunned() == false) {
-        //if(Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
-
 
             if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
                 dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
@@ -143,10 +162,6 @@ public class DrawSprites {
             }
 
         }
-        //System.out.println("==== Status Bar height ==== " + getStatusBarHeight());
-        //System.out.println("==== Dinosaur Stunned ==== " + Dinosaur.getInstance().getStunned());
-        //System.out.println("==== Distance ==== " + Dinosaur.getInstance().getDistance() + ", " + Player.getInstance().getDistance());
-        //System.out.println("======= Dinosaur Position ============ " + dinoX + ", " + dinoY + ", " + distancePerPixel + ", " + deltaTime);
     }
 
     private boolean matchDirection(float aX, float aY, float bX, float bY) {
@@ -161,13 +176,13 @@ public class DrawSprites {
         }
     }
 
-    private int getStatusBarHeight() {
+    private float getStatusBarHeight() {
         int result = 0;
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId);
         }
-        return result;
+        return result*scale_height;
     }
 
 }

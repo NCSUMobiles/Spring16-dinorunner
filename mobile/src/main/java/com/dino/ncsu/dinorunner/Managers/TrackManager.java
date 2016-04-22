@@ -34,7 +34,10 @@ public class TrackManager {
         double prob = ran.nextDouble();
 
         for (int i = 0; i < probs.length; i++) {
-            Dinosaur.getInstance().setNameOfDino(monsters[i]);
+            if (prob < probs[i]){
+                Dinosaur.getInstance().setNameOfDino(monsters[i]);
+                break;
+            }
         }
     }
 
