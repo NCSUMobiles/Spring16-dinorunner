@@ -38,8 +38,11 @@ public class DrawSprites {
     float dinoTileNextY;
     float dist;
 
+    float width;
+    float height;
     float scale_width;
     float scale_height;
+    float scale_total;
     DisplayMetrics display;
 
     int dinoTileId = 0;
@@ -58,10 +61,11 @@ public class DrawSprites {
 
         //Scaling
         display = resources.getDisplayMetrics();
-        float width = display.widthPixels;
-        float height = display.heightPixels;
+        width = display.widthPixels;
+        height = display.heightPixels;
         scale_width = width / 1080;
         scale_height = height / 1776;
+        scale_total = (scale_width < scale_height) ? scale_width : scale_height;
 
         //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
         for(int i = 0; i < trackTiles.size(); i++) {
@@ -122,19 +126,29 @@ public class DrawSprites {
     }
 
     private void drawPlayer() {
-        Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
-        if (playerDirX == 1 || playerDirX == 0) {
+
+        if (playerDirX == 1) {
+            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
+            b = Bitmap.createScaledBitmap(b, 100, 100, false);
+            Log.d("Test Direction", "X Direction: Right: " + playerDirX);
+            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
+        }
+        else if (playerDirX == 0) {
+            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman_vertical);
             b = Bitmap.createScaledBitmap(b, 100, 100, false);
             Log.d("Test Direction", "X Direction: Right: " + playerDirX);
             canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
         else {
             Log.d("Test Direction", "X Direction: Right: " + playerDirX);
+            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
             Matrix m = new Matrix();
-            m.postScale(scale_width, scale_height);
-            m.postRotate(180);
-            Bitmap rescaledBit = Bitmap.createBitmap(b, 0,0, 100, 100, m, true);
-            canvas.drawBitmap(rescaledBit, playerX - 50*scale_width, playerY - 80*scale_height, null);
+            m.reset();
+
+            m.postScale(-scale_total, scale_total);
+            b = Bitmap.createScaledBitmap(b, 100, 100, true);
+            b = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true );
+            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
 
         float playerDistance = (float) Player.getInstance().getDistance();

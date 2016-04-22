@@ -71,7 +71,7 @@ public class RunningActivity extends Activity implements Runnable {
     private double DistanceLeftValue;
     private double TotalDistance;
     private double HealthValue;
-    private double StepLength = 130.48; //Let's say everyone's feet is 1 foot or .3048 meters
+    private double StepLength = 30.48; //Let's say everyone's feet is 1 foot or .3048 meters
     private boolean mQuitting = false; // Set when user selected Quit from menu, can be used by onPause, onStop, onDestroy
 
     //Dino Stuff
