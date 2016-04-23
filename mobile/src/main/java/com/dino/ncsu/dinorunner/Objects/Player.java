@@ -28,7 +28,7 @@ public class Player implements Serializable {
     private double totalStepLength; //Boosted step + Player step
     private boolean isMetric = true; //Default is True...more to come
     private boolean isNewGame = true;
-
+    private int playerLevel;
 
     private static Player instance; //instance of player
 
@@ -39,7 +39,6 @@ public class Player implements Serializable {
     public double getAvgSpeed() {
         return avgSpeed;
     }
-
     public void setAvgSpeed(double avgSpeed) {
         this.avgSpeed = avgSpeed;
     }
@@ -51,7 +50,6 @@ public class Player implements Serializable {
     public double getTotalWeekDist() {
         return totalWeekDist;
     }
-
     public void setTotalWeekDist(double totalWeekDist) {
         this.totalWeekDist = totalWeekDist;
     }
@@ -59,7 +57,6 @@ public class Player implements Serializable {
     public double getTotalMonthDist() {
         return totalMonthDist;
     }
-
     public void setTotalMonthDist(double totalMonthDist) {
         this.totalMonthDist = totalMonthDist;
     }
@@ -67,7 +64,6 @@ public class Player implements Serializable {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-
     public String getPlayerName() {
         return playerName;
     }
@@ -75,7 +71,6 @@ public class Player implements Serializable {
     public double getDistance() {
         return distance;
     }
-
     public void setDistance(double distance) {
         this.distance = distance;
     }
@@ -83,7 +78,6 @@ public class Player implements Serializable {
     public double getStepsTraveled() {
         return stepsTraveled;
     }
-
     public void setStepsTraveled(double steps) {
         this.stepsTraveled = steps;
     }
@@ -91,6 +85,9 @@ public class Player implements Serializable {
     public ArrayList<Item> getListOfItems() {
         return listOfItems;
     }
+
+    public int getPlayerLevel() { return playerLevel; }
+    public void setPlayerLevel(int playerLevel) { this.playerLevel = playerLevel; }
 
     public void setListOfItems(ArrayList<Item> listOfItems) {
         this.listOfItems = listOfItems;
@@ -106,7 +103,6 @@ public class Player implements Serializable {
     public double getBoostedStep() {
         return boostedStep;
     }
-
     public void setBoostedStep(double boostedStep) {
         this.boostedStep = boostedStep;
     }
@@ -114,7 +110,6 @@ public class Player implements Serializable {
     public double getHealth() {
         return health;
     }
-
     public void setHealth(double health) {
         this.health = health;
     }
@@ -131,8 +126,6 @@ public class Player implements Serializable {
     public boolean getMetric() {
         return true;
     }
-
-
     public void setMetric(boolean isMetric) {
         this.isMetric = isMetric;
     }
@@ -148,7 +141,6 @@ public class Player implements Serializable {
     public double getMaxHealth() {
         return maxHealth;
     }
-
     public void setMaxHealth(double maxHealth) {
         this.maxHealth = maxHealth;
     }
@@ -156,7 +148,6 @@ public class Player implements Serializable {
     public int getCurrentTile() {
         return currentTile;
     }
-
     public void setCurrentTile(int currentTile) {
         this.currentTile = currentTile;
     }
@@ -164,7 +155,6 @@ public class Player implements Serializable {
     public int getExperience() {
         return experience;
     }
-
     public void setExperience(int experience) {
         this.experience = experience;
     }
@@ -172,7 +162,6 @@ public class Player implements Serializable {
     public boolean getIsNewGame() {
         return isNewGame;
     }
-
     public void setIsNewGame(boolean isNewGame) {
         this.isNewGame = isNewGame;
     }
