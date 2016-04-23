@@ -610,7 +610,7 @@ public class RunningActivity extends Activity implements Runnable {
         Track.getInstance().setTotalDistance(TotalDistance);
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
-        Player.getInstance().setDistance(0);
+        Player.getInstance().setDistance(5);
         //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 

@@ -5,7 +5,6 @@ import android.util.Log;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Objects.Tile;
-import com.dino.ncsu.dinorunner.Objects.Track;
 
 /**
  * Created by jiminfan on 4/11/2016.
@@ -75,14 +74,12 @@ public class RunManager {
                 lastMoveTime = System.currentTimeMillis();
                 if (delta > 1000) {
                     lastMoveTime = System.currentTimeMillis();
-                    //Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
                 }
             } else if ( (Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance() > 0)
                     && ((!Dinosaur.getInstance().getStunned() && delta > 1000)
                     || (Dinosaur.getInstance().getStunned() && System.currentTimeMillis() - lastStunnedTime > Dinosaur.getInstance().getStunTime()))) {
                 // Log.d("OK", "OK4!");
                 lastMoveTime = System.currentTimeMillis();
-                //Dinosaur.getInstance().setDistance(Dinosaur.getInstance().getDistance() + Dinosaur.getInstance().getSpeed());
             }
         }
     }

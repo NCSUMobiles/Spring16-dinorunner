@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class Dinosaur implements Serializable {
     private String nameOfDino; //Name of dinosaur
     private Integer imageId; //Image associated with dinosaur
+    private Integer galleryId; //Gallery Image associated with dinosaur
+    private Integer frameCount; //Number of frames for image
     private double speed; //Dinosaur's current speed
 
     private double maxSpeed; //Dinosaur's original speed
@@ -62,6 +64,12 @@ public class Dinosaur implements Serializable {
     public void setImageId(Integer imageId) {
         this.imageId = imageId;
     }
+
+    public Integer getGalleryId() { return galleryId; }
+    public void setGalleryId(Integer galleryId) { this.galleryId = galleryId;}
+
+    public Integer getFrameCount() { return frameCount; }
+    public void setFrameCount(Integer frameCount) { this.frameCount = frameCount;}
 
     public void setEnergy(double energy) {
         this.energy = energy;

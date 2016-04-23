@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
@@ -51,6 +53,25 @@ public class DrawSprites {
     long lastTime = 0;
     long deltaTime = 0;
 
+    private int currentFrame = 0;
+    private long lastFrameChangeTime = 0;
+    long fps;
+    private int frameLengthInMilliseconds = 100;
+    long timeThisFrame;
+    private int frameWidth = 100;
+    private int frameHeight = 100;
+    private Rect frameToDraw = new Rect(
+            0,
+            0,
+            frameWidth,
+            frameHeight);
+    RectF whereToDraw = new RectF(
+            frameWidth,
+            0,
+            dinoX + frameWidth,
+            frameHeight);
+    Bitmap monster;
+
     public DrawSprites(Canvas canvas, Resources resources) {
 
         this.canvas = canvas;
@@ -65,6 +86,8 @@ public class DrawSprites {
         scale_width = width / 1080;
         scale_height = height / 1776;
         scale_total = (scale_width < scale_height) ? scale_width : scale_height;
+        monster = BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getImageId());
+        monster = monster.createScaledBitmap(monster, frameWidth * Dinosaur.getInstance().getFrameCount(), frameHeight, false);
 
         //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
         for(int i = 0; i < trackTiles.size(); i++) {
@@ -77,7 +100,7 @@ public class DrawSprites {
         playerY = startTile.getY();
 
 
-        dinoX = startTile.getX();
+        dinoX = startTile.getX() - frameWidth/2*scale_width;
         dinoY = startTile.getY();
         dinoDirX = startTile.getDirX();
         dinoDirY = startTile.getDirY();
@@ -89,11 +112,17 @@ public class DrawSprites {
     }
 
     public void draw() {
-        long curTime = System.currentTimeMillis();
-        deltaTime = curTime - lastTime;
-        lastTime = curTime;
+        // Capture the current time in milliseconds in startFrameTime
+        long startFrameTime = System.currentTimeMillis();
+
+        long currTime = System.currentTimeMillis();
+        deltaTime = currTime - lastTime;
+        lastTime = currTime;
 
         checkTilesDino();
+
+        whereToDraw.set((int) dinoX, 0, (int) dinoX + frameWidth, frameHeight);
+        getCurrentFrame();
 
         drawDinosaur();
 
@@ -101,6 +130,30 @@ public class DrawSprites {
 
         //test
         drawTiles();
+
+        timeThisFrame = System.currentTimeMillis() - startFrameTime;
+        if (timeThisFrame >= 1) {
+            fps = 1000 / timeThisFrame;
+        }
+    }
+
+    public void getCurrentFrame(){
+
+        long time  = System.currentTimeMillis();
+        if(Dinosaur.getInstance().getStunned() == false) {
+            if ( time > lastFrameChangeTime + frameLengthInMilliseconds) {
+                lastFrameChangeTime = time;
+                currentFrame++;
+                if (currentFrame >= Dinosaur.getInstance().getFrameCount()) {
+                    currentFrame = 0;
+                }
+            }
+        }
+        //update the left and right values of the source of
+        //the next frame on the spritesheet
+        frameToDraw.left = currentFrame * frameWidth;
+        frameToDraw.right = frameToDraw.left + frameWidth;
+
     }
 
     private void checkTilesDino() {
@@ -168,12 +221,10 @@ public class DrawSprites {
     }
 
     private void drawDinosaur() {
-        Bitmap b= BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getImageId());
-        b = Bitmap.createScaledBitmap(b, 100, 100, false);
-        canvas.drawBitmap(b, dinoX - 50*scale_width, dinoY - 80*scale_height, null);
-
-        if(Dinosaur.getInstance().getStunned() == false) {
-
+        if( Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
+            canvas.drawBitmap(monster, frameToDraw, whereToDraw, null);
+        }
+        if(Dinosaur.getInstance().getStunned() == false || Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) {
             if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
                 dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
                 dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;

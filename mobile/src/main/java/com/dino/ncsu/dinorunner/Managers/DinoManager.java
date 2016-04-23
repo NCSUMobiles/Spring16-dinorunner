@@ -27,6 +27,8 @@ public class DinoManager {
                 Dinosaur.getInstance().setMinGold(1);
                 Dinosaur.getInstance().setMaxGold(5);
                 Dinosaur.getInstance().setExperience(15);
+                Dinosaur.getInstance().setFrameCount(2);
+                Dinosaur.getInstance().setGalleryId(R.drawable.monster_goblin);
                 dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Skeleton Spearman":
@@ -42,6 +44,8 @@ public class DinoManager {
                 Dinosaur.getInstance().setMinGold(15);
                 Dinosaur.getInstance().setMaxGold(30);
                 Dinosaur.getInstance().setExperience(90);
+                Dinosaur.getInstance().setFrameCount(1);
+                Dinosaur.getInstance().setGalleryId(R.drawable.monster_skele_spearman);
                 dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Forest Giant":
