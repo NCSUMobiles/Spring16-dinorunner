@@ -17,7 +17,7 @@ public class DinoManager {
             case "Goblin":
                 Dinosaur.getInstance().setNameOfDino("Goblin");
                 Dinosaur.getInstance().setHeadStart(3);
-                Dinosaur.getInstance().setImageId(R.drawable.monster_goblin);
+                Dinosaur.getInstance().setImageId(R.drawable.monster_goblin_icon);
                 Dinosaur.getInstance().setAttack(5);
                 Dinosaur.getInstance().setMaxSpeed(.5);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
@@ -32,7 +32,7 @@ public class DinoManager {
             case "Skeleton Spearman":
                 Dinosaur.getInstance().setNameOfDino("Skeleton Spearman");
                 Dinosaur.getInstance().setHeadStart(10);
-                Dinosaur.getInstance().setImageId(R.drawable.monster_skele_spearman);
+                Dinosaur.getInstance().setImageId(R.drawable.monster_skele_spearman_icon);
                 Dinosaur.getInstance().setAttack(20);
                 Dinosaur.getInstance().setMaxSpeed(.2);
                 Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
