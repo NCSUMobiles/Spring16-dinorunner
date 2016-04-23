@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -130,16 +129,16 @@ public class DrawSprites {
         Bitmap bm_run_horizontal = BitmapFactory.decodeResource(resources, R.drawable.runman);
         if (playerDirX == 1) {
             bm_run_horizontal = Bitmap.createScaledBitmap(bm_run_horizontal, 100, 100, false);
-            Log.d("Test Direction", "X Direction: Right: " + playerDirX);
+            //Log.d("Test Direction", "X Direction: Right: " + playerDirX);
             canvas.drawBitmap(bm_run_horizontal, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
         else if (playerDirX == 0) {
             bm_run_vertical = Bitmap.createScaledBitmap(bm_run_vertical, 100, 100, false);
-            Log.d("Test Direction", "X Direction: Right: " + playerDirX);
+            //Log.d("Test Direction", "X Direction: Right: " + playerDirX);
             canvas.drawBitmap(bm_run_vertical, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
         else {
-            Log.d("Test Direction", "X Direction: Right: " + playerDirX);
+            //Log.d("Test Direction", "X Direction: Right: " + playerDirX);
             Matrix m = new Matrix();
             m.reset();
             m.postScale(-scale_total, scale_total);

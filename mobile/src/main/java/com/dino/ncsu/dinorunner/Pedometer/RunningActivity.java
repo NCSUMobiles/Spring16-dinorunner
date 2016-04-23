@@ -186,41 +186,18 @@ public class RunningActivity extends Activity implements Runnable {
         //Bitmap for consumable items frame
         items_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_inventory_consume);
 
-        if (character_frame != null && Math.round(character_frame.getWidth() * scale_width) != 0 && Math.round(character_frame.getHeight() * scale_height) != 0)
-            character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
-
-        if (equipped_head != null && Math.round(equipped_head.getWidth() * scale_width) != 0 && Math.round(equipped_head.getHeight() * scale_height) != 0)
-            equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
-
-        if (equipped_shoulder != null && Math.round(equipped_shoulder.getWidth() * scale_width) != 0 && Math.round(equipped_shoulder.getHeight() * scale_height) != 0)
-            equipped_shoulder = Bitmap.createScaledBitmap(equipped_shoulder, Math.round(equipped_shoulder.getWidth() * scale_width), Math.round(equipped_shoulder.getHeight() * scale_height), false);
-
-        if (equipped_chest != null && Math.round(equipped_chest.getWidth() * scale_width) != 0 && Math.round(equipped_chest.getHeight() * scale_height) != 0)
-            equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
-
-        if (equipped_shirt != null && Math.round(equipped_shirt.getWidth() * scale_width) != 0 && Math.round(equipped_shirt.getHeight() * scale_height) != 0)
-            equipped_shirt = Bitmap.createScaledBitmap(equipped_shirt, Math.round(equipped_shirt.getWidth() * scale_width), Math.round(equipped_shirt.getHeight() * scale_height), false);
-
-        if (equipped_glove != null && Math.round(equipped_glove.getWidth() * scale_width) != 0 && Math.round(equipped_glove.getHeight() * scale_height) != 0)
-            equipped_glove = Bitmap.createScaledBitmap(equipped_glove, Math.round(equipped_glove.getWidth() * scale_width), Math.round(equipped_glove.getHeight() * scale_height), false);
-
-        if (equipped_pants != null && Math.round(equipped_pants.getWidth() * scale_width) != 0 && Math.round(equipped_pants.getHeight() * scale_height) != 0)
-            equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
-
-        if (equipped_shoes != null && Math.round(equipped_shoes.getWidth() * scale_width) != 0 && Math.round(equipped_shoes.getHeight() * scale_height) != 0)
-            equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
-
-        if (equipped_cape != null && Math.round(equipped_cape.getWidth() * scale_width) != 0 && Math.round(equipped_cape.getHeight() * scale_height) != 0)
-            equipped_cape = Bitmap.createScaledBitmap(equipped_cape, Math.round(equipped_cape.getWidth() * scale_width), Math.round(equipped_cape.getHeight() * scale_height), false);
-
-        if (map != null && Math.round(map.getWidth() * scale_width) != 0 && Math.round(map.getHeight() * scale_height) != 0)
-            map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
-
-        if (stat_frame != null && Math.round(stat_frame.getWidth() * scale_width) != 0 && Math.round(stat_frame.getHeight() * scale_height) != 0)
-            stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
-
-        if (stat_frame != null && Math.round(stat_frame.getWidth() * scale_width) != 0 && Math.round(stat_frame.getHeight() * scale_height) != 0)
-            items_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(items_frame.getWidth() * scale_width), Math.round(items_frame.getHeight() * scale_height), false);
+        character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
+        equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
+        equipped_shoulder = Bitmap.createScaledBitmap(equipped_shoulder, Math.round(equipped_shoulder.getWidth() * scale_width), Math.round(equipped_shoulder.getHeight() * scale_height), false);
+        equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
+        equipped_shirt = Bitmap.createScaledBitmap(equipped_shirt, Math.round(equipped_shirt.getWidth() * scale_width), Math.round(equipped_shirt.getHeight() * scale_height), false);
+        equipped_glove = Bitmap.createScaledBitmap(equipped_glove, Math.round(equipped_glove.getWidth() * scale_width), Math.round(equipped_glove.getHeight() * scale_height), false);
+        equipped_pants = Bitmap.createScaledBitmap(equipped_pants, Math.round(equipped_pants.getWidth() * scale_width), Math.round(equipped_pants.getHeight() * scale_height), false);
+        equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
+        equipped_cape = Bitmap.createScaledBitmap(equipped_cape, Math.round(equipped_cape.getWidth() * scale_width), Math.round(equipped_cape.getHeight() * scale_height), false);
+        map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
+        stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
+        items_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(items_frame.getWidth() * scale_width), Math.round(items_frame.getHeight() * scale_height), false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
