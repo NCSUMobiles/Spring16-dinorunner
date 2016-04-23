@@ -71,6 +71,7 @@ public class DrawSprites {
             dinoX + frameWidth,
             frameHeight);
     Bitmap monster;
+    boolean backtrack; //Is monster going back
 
     public DrawSprites(Canvas canvas, Resources resources) {
 
@@ -86,7 +87,9 @@ public class DrawSprites {
         scale_width = width / 1080;
         scale_height = height / 1776;
         scale_total = (scale_width < scale_height) ? scale_width : scale_height;
-        monster = BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getImageId());
+        frameWidth *= scale_width;
+        frameHeight *= scale_height;
+        monster = BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getSpriteSheetId());
         monster = monster.createScaledBitmap(monster, frameWidth * Dinosaur.getInstance().getFrameCount(), frameHeight, false);
 
         //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
@@ -100,7 +103,7 @@ public class DrawSprites {
         playerY = startTile.getY();
 
 
-        dinoX = startTile.getX() - frameWidth/2*scale_width;
+        dinoX = startTile.getX();
         dinoY = startTile.getY();
         dinoDirX = startTile.getDirX();
         dinoDirY = startTile.getDirY();
@@ -121,7 +124,7 @@ public class DrawSprites {
 
         checkTilesDino();
 
-        whereToDraw.set((int) dinoX, 0, (int) dinoX + frameWidth, frameHeight);
+        whereToDraw.set((int) dinoX -frameWidth/2*scale_width, (int) dinoY - frameHeight*3/4*scale_height, (int) dinoX + frameWidth/2*scale_height, (int) dinoY + frameHeight/4*scale_height );
         getCurrentFrame();
 
         drawDinosaur();
@@ -222,9 +225,34 @@ public class DrawSprites {
 
     private void drawDinosaur() {
         if( Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
-            canvas.drawBitmap(monster, frameToDraw, whereToDraw, null);
+            if (dinoDirX == 1) {
+                canvas.drawBitmap(monster, frameToDraw, whereToDraw, null);
+            }
+            else if (dinoDirX == -1) {
+                backtrack = true;
+                Matrix m = new Matrix();
+                m.reset();
+                m.postScale(-scale_total, scale_total);
+                Bitmap monster_horizontal = Bitmap.createScaledBitmap(monster, monster.getWidth(), monster.getHeight(), true);
+                monster_horizontal = Bitmap.createBitmap(monster_horizontal, 0, 0, monster_horizontal.getWidth(), monster_horizontal.getHeight(), m, true );
+                canvas.drawBitmap(monster_horizontal, frameToDraw, whereToDraw, null);
+            }
+            else if (dinoDirX == 0) {
+                if (backtrack == false) {
+                    canvas.drawBitmap(monster, frameToDraw, whereToDraw, null);
+                }
+                else if (backtrack == true) {
+                    Matrix m = new Matrix();
+                    m.reset();
+                    m.postScale(-scale_total, scale_total);
+                    Bitmap monster_horizontal = Bitmap.createScaledBitmap(monster, monster.getWidth(), monster.getHeight(), true);
+                    monster_horizontal = Bitmap.createBitmap(monster_horizontal, 0, 0, monster_horizontal.getWidth(), monster_horizontal.getHeight(), m, true );
+                    canvas.drawBitmap(monster_horizontal, frameToDraw, whereToDraw, null);
+                }
+            }
+
         }
-        if(Dinosaur.getInstance().getStunned() == false || Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart()) {
+        if(Dinosaur.getInstance().getStunned() == false) {
             if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
                 dinoX += dinoDirX * Dinosaur.getInstance().getSpeed() / distancePerPixel * deltaTime / 1000.0;
                 dinoY += dinoDirY * Dinosaur.getInstance().getSpeed()  / distancePerPixel * deltaTime / 1000.0;

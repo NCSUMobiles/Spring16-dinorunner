@@ -12,6 +12,7 @@ public class Dinosaur implements Serializable {
     private String nameOfDino; //Name of dinosaur
     private Integer imageId; //Image associated with dinosaur
     private Integer galleryId; //Gallery Image associated with dinosaur
+    private Integer spriteSheetId; //Sprite sheet for animating dinosaur
     private Integer frameCount; //Number of frames for image
     private double speed; //Dinosaur's current speed
 
@@ -67,6 +68,9 @@ public class Dinosaur implements Serializable {
 
     public Integer getGalleryId() { return galleryId; }
     public void setGalleryId(Integer galleryId) { this.galleryId = galleryId;}
+
+    public Integer getSpriteSheetId() { return spriteSheetId; }
+    public void setSpriteSheetId(int spriteSheetId) { this.spriteSheetId = spriteSheetId; }
 
     public Integer getFrameCount() { return frameCount; }
     public void setFrameCount(Integer frameCount) { this.frameCount = frameCount;}
