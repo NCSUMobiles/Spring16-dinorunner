@@ -29,7 +29,7 @@ public class ItemManager {
         switch(item.getName()) {
             //Consumables
             case "Fresh Apple":
-                item.setImageId(R.mipmap.fresh_apple);
+                item.setImageId(R.drawable.consumable_fresh_apple);
                 item.setDescription("A succulent red apple. Heals 10 HP.");
                 item.setType(0);
                 item.setHealAmount(10);
@@ -39,7 +39,7 @@ public class ItemManager {
                 break;
             //Equippable Head Items
             case "No Head Item":
-                item.setImageId(R.mipmap.default_head);
+                item.setImageId(R.drawable.equipment_head_default_head);
                 item.setDescription("Who needs helmets?");
                 item.setType(1);
                 item.setSpeedBoost(0);
@@ -50,7 +50,7 @@ public class ItemManager {
                 item.setVisible(false);
                 break;
             case "Leather Bandanna":
-                item.setImageId(R.mipmap.leather_bandanna);
+                item.setImageId(R.drawable.equipment_head_leather_bandanna);
                 item.setDescription("Makes you look like a monk. No boost to your speed");
                 item.setType(1);
                 item.setSpeedBoost(0);
@@ -61,7 +61,7 @@ public class ItemManager {
                 break;
             //Equippable Shoulder Item
             case "No Shoulder Item":
-                item.setImageId(R.mipmap.default_shoulders);
+                item.setImageId(R.drawable.equipment_shoulders_default_shoulders);
                 item.setDescription("No shoulder pads, no problem!");
                 item.setType(1);
                 item.setSpeedBoost(0);
@@ -73,7 +73,7 @@ public class ItemManager {
                 break;
             //Equippable Chest Item
             case "No Chest Item":
-                item.setImageId(R.mipmap.default_armor);
+                item.setImageId(R.drawable.equipment_armor_default_armor);
                 item.setDescription("Who needs armor?");
                 item.setType(1);
                 item.setSellAmount(0);
@@ -83,7 +83,7 @@ public class ItemManager {
                 item.setVisible(false);
                 break;
             case "Leather Straps":
-                item.setImageId(R.mipmap.leather_straps);
+                item.setImageId(R.drawable.equipment_armor_leather_straps);
                 item.setDescription("Better than no armor. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(12);
@@ -92,7 +92,7 @@ public class ItemManager {
                 item.setEquipSlot("CHEST");
                 break;
             case "Blue Stitched Vest":
-                item.setImageId(R.mipmap.stitched_shirt_blue);
+                item.setImageId(R.drawable.equipment_armor_stitched_shirt_blue);
                 item.setDescription("Blue stitched vest. Lightweight, made by skilled Human craftsmen. +1.5 to your overall speed");
                 item.setType(1);
                 item.setSpeedBoost(1.5f);
@@ -102,7 +102,7 @@ public class ItemManager {
                 item.setEquipSlot("CHEST");
                 break;
             case "Flame Walker Vest":
-                item.setImageId(R.mipmap.cloak_of_flames);
+                item.setImageId(R.drawable.equipment_armor_cloak_of_flames);
                 item.setDescription("Flame Walker Vest. Imbued by a rare lava gem found by the Dwarven explorer Sognus Bronzebrew. Small flames emit from the fabric that are harmless to the wearer. +3.14 to your overall speed");
                 item.setType(1);
                 item.setSpeedBoost(3.14f);
@@ -113,7 +113,7 @@ public class ItemManager {
                 break;
             //Equippable Shirts
             case "No Shirt Item":
-                item.setImageId(R.mipmap.default_shirt);
+                item.setImageId(R.drawable.equipment_shirt_default_shirt);
                 item.setDescription("Who needs undergarments?");
                 item.setType(1);
                 item.setSellAmount(0);
@@ -123,7 +123,7 @@ public class ItemManager {
                 item.setVisible(false);
                 break;
             case "Yellow Shirt":
-                item.setImageId(R.mipmap.yellow_shirt);
+                item.setImageId(R.drawable.equipment_shirt_yellow_shirt);
                 item.setDescription("Standard Yellow shirt. Havn't been washed in days. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
@@ -133,7 +133,7 @@ public class ItemManager {
                 break;
             //Equippable Gloves:
             case "No Gloves Item":
-                item.setImageId(R.mipmap.default_shirt);
+                item.setImageId(R.drawable.equipment_gloves_default_gloves);
                 item.setDescription("Who needs gloves?");
                 item.setType(1);
                 item.setSpeedBoost(0);
@@ -145,7 +145,7 @@ public class ItemManager {
                 break;
             //Equippable Pants
             case "No Leg Item":
-                item.setImageId(R.mipmap.default_pants);
+                item.setImageId(R.drawable.equipment_pants_default_pants);
                 item.setDescription("Breezy!");
                 item.setType(1);
                 item.setSellAmount(0);
@@ -154,7 +154,7 @@ public class ItemManager {
                 item.setEquipSlot("LEGS");
                 break;
             case "Brown Pants":
-                item.setImageId(R.mipmap.brown_pants);
+                item.setImageId(R.drawable.equipment_pants_brown_pants);
                 item.setDescription("Was brown its original color? Who knows. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
@@ -164,7 +164,7 @@ public class ItemManager {
                 break;
             //Equippable Boots
             case "No Feet Item":
-                item.setImageId(R.mipmap.default_shoes);
+                item.setImageId(R.drawable.equipment_shoes_default_shoes);
                 item.setDescription("Ouch!");
                 item.setType(1);
                 item.setSellAmount(0);
@@ -173,7 +173,7 @@ public class ItemManager {
                 item.setEquipSlot("FEET");
                 break;
             case "Old Black Boots":
-                item.setImageId(R.mipmap.black_boots);
+                item.setImageId(R.drawable.equipment_feet_black_boots);
                 item.setDescription("A pair of stinky black boots. No boost to your speed");
                 item.setType(1);
                 item.setSellAmount(1);
@@ -183,7 +183,7 @@ public class ItemManager {
                 break;
             //Equippable Cape
             case "No Cape Item":
-                item.setImageId(R.mipmap.default_shirt);
+                item.setImageId(R.drawable.equipment_shirt_default_shirt);
                 item.setDescription("Who needs capes?");
                 item.setType(1);
                 item.setSpeedBoost(0);
@@ -195,7 +195,7 @@ public class ItemManager {
                 break;
             //Trophys
             case "Copper Ore":
-                item.setImageId(R.mipmap.copper_ore);
+                item.setImageId(R.drawable.trophy_copper_ore);
                 item.setDescription("A lump of Copper Ore");
                 item.setType(2);
                 item.setSellAmount(10);
@@ -203,7 +203,7 @@ public class ItemManager {
                 item.setRarity(0);
                 break;
             case "Tin Ore":
-                item.setImageId(R.mipmap.tin_ore);
+                item.setImageId(R.drawable.trophy_tin_ore);
                 item.setDescription("A lump of Tin Ore");
                 item.setType(2);
                 item.setSellAmount(10);
@@ -211,7 +211,7 @@ public class ItemManager {
                 item.setRarity(0);
                 break;
             case "Iron Ore":
-                item.setImageId(R.mipmap.iron_ore);
+                item.setImageId(R.drawable.trophy_iron_ore);
                 item.setDescription("A lump of Iron Ore");
                 item.setType(2);
                 item.setSellAmount(100);

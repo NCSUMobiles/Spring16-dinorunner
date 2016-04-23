@@ -1,6 +1,5 @@
 package com.dino.ncsu.dinorunner.Managers;
 
-import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Tile;
 import com.dino.ncsu.dinorunner.Objects.Track;
@@ -20,9 +19,9 @@ public class TrackManager {
         scale_width = scale_x;
         scale_height = scale_y;
         switch(Track.getInstance().getTrackImageId()) {
-            case R.mipmap.track1:
+            case R.drawable.track_track1:
                 Track.getInstance().setTrackName("Forst of A'alath");
-                Track.getInstance().setTrackImageId(R.mipmap.track1);
+                Track.getInstance().setTrackImageId(R.drawable.track_track1);
                 setTiles(scale_width, scale_height);
                 break;
 
@@ -44,7 +43,7 @@ public class TrackManager {
     public void setTiles(float scale_width, float scale_height) {
 
         switch(Track.getInstance().getTrackImageId()) {
-            case R.mipmap.track1:
+            case R.drawable.track_track1:
                 double[] probs = {.95, 1};
                 String[] monsters = {"Goblin", "Skeleton Spearman"};
 

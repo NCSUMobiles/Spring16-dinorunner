@@ -126,29 +126,26 @@ public class DrawSprites {
     }
 
     private void drawPlayer() {
-
+        Bitmap bm_run_vertical = BitmapFactory.decodeResource(resources, R.drawable.runman_vertical);
+        Bitmap bm_run_horizontal = BitmapFactory.decodeResource(resources, R.drawable.runman);
         if (playerDirX == 1) {
-            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
-            b = Bitmap.createScaledBitmap(b, 100, 100, false);
+            bm_run_horizontal = Bitmap.createScaledBitmap(bm_run_horizontal, 100, 100, false);
             Log.d("Test Direction", "X Direction: Right: " + playerDirX);
-            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
+            canvas.drawBitmap(bm_run_horizontal, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
         else if (playerDirX == 0) {
-            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman_vertical);
-            b = Bitmap.createScaledBitmap(b, 100, 100, false);
+            bm_run_vertical = Bitmap.createScaledBitmap(bm_run_vertical, 100, 100, false);
             Log.d("Test Direction", "X Direction: Right: " + playerDirX);
-            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
+            canvas.drawBitmap(bm_run_vertical, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
         else {
             Log.d("Test Direction", "X Direction: Right: " + playerDirX);
-            Bitmap b= BitmapFactory.decodeResource(resources, R.mipmap.runman);
             Matrix m = new Matrix();
             m.reset();
-
             m.postScale(-scale_total, scale_total);
-            b = Bitmap.createScaledBitmap(b, 100, 100, true);
-            b = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true );
-            canvas.drawBitmap(b, playerX - 50*scale_width, playerY - 80*scale_height, null);
+            bm_run_horizontal = Bitmap.createScaledBitmap(bm_run_horizontal, 100, 100, true);
+            bm_run_horizontal = Bitmap.createBitmap(bm_run_horizontal, 0, 0, bm_run_horizontal.getWidth(), bm_run_horizontal.getHeight(), m, true );
+            canvas.drawBitmap(bm_run_horizontal, playerX - 50*scale_width, playerY - 80*scale_height, null);
         }
 
         float playerDistance = (float) Player.getInstance().getDistance();

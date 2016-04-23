@@ -166,7 +166,7 @@ public class RunningActivity extends Activity implements Runnable {
         scale_width = width / 1080;
         scale_height = height / 1776;
 
-        character_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_character);
+        character_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_character);
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_shoulder = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
@@ -181,10 +181,10 @@ public class RunningActivity extends Activity implements Runnable {
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
 
         //Bitmap for statistics frame
-        stat_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.stat_frame);
+        stat_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_stat_frame);
 
         //Bitmap for consumable items frame
-        items_frame = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_inventory_consume);
+        items_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_inventory_consume);
 
         if (character_frame != null && Math.round(character_frame.getWidth() * scale_width) != 0 && Math.round(character_frame.getHeight() * scale_height) != 0)
             character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);

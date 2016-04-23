@@ -89,7 +89,7 @@ public class LootActivity extends Activity implements Runnable {
         //Old London Text Style
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
 
-        loot_table_view = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_loot_table);
+        loot_table_view = BitmapFactory.decodeResource(getResources(), R.drawable.frame_loot_table);
         loot_table_view = Bitmap.createScaledBitmap(loot_table_view, width, height, true);
 
         monster = BitmapFactory.decodeResource(getResources(), Dinosaur.getInstance().getImageId());

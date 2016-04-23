@@ -15,15 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dino.ncsu.dinorunner.Managers.DinoManager;
-import com.dino.ncsu.dinorunner.Objects.Dinosaur;
-import com.dino.ncsu.dinorunner.R;
-import com.dino.ncsu.dinorunner.Objects.Track;
 import com.dino.ncsu.dinorunner.Managers.TrackManager;
+import com.dino.ncsu.dinorunner.Objects.Track;
+import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * This class holds the necessary functionality for the TrackPickActivity
@@ -52,15 +50,15 @@ public class TrackPicker extends Activity {
     };
 
     private Integer[] imageId = new Integer[]{
-            R.mipmap.forest_a,
-            R.mipmap.desert_t,
-            R.mipmap.troll
+            R.drawable.environment_forest_a,
+            R.drawable.environment_desert_t,
+            R.drawable.environment_troll
     };
 
     private Integer[] trackImageId = new Integer[]{
-            R.mipmap.track1,
-            R.mipmap.track1,
-            R.mipmap.track1
+            R.drawable.track_track1,
+            R.drawable.track_track1,
+            R.drawable.track_track1
     };
 
     private String[] desc = new String[]{

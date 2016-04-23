@@ -28,9 +28,9 @@ public class DinoPickerActivity extends Activity {
             "Forest Giant"
     };
     public static Integer[] imageId = new Integer[]{
-            R.mipmap.goblin,
-            R.mipmap.skele_spearman,
-            R.mipmap.forest_giant
+            R.drawable.monster_goblin,
+            R.drawable.monster_skele_spearman,
+            R.drawable.monster_forest_giant
     };
     private String[] diff = new String[]{
             "Goblins are more mischievous than dangerous. They patrol around to find weak adventurers to ambush. Easy",
