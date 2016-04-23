@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="vpiTabPageIndicatorStyle">@style/TabStyle</item>
         <item name="android:colorPrimary" tools:targetApi="21">@color/light_blue</item>
         <item name="android:colorPrimaryDark" tools:targetApi="21">@color/dark_blue</item>
         <item name="android:colorControlHighlight" tools:targetApi="21">@color/dark_blue</item>
@@ -16,6 +17,12 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background" tools:ignore="NewApi">@color/light_blue</item>
         <item name="background">@color/light_blue</item>
+    </style>
+
+    <style name="TabStyle" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:textColor">@drawable/custom_text_colors</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

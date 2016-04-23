@@ -48,15 +48,4 @@
         android:layout_below="@+id/stats_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_alignBottom="@+id/run_button"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="844dp"
-        android:layout_marginLeft="844dp"
-        android:layout_marginBottom="56dp" />
 </RelativeLayout>

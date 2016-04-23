@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dino.ncsu.dinorunner">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -12,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,17 +23,17 @@
         <activity
             android:name=".Activity.DinoPickerActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.TrackPicker"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_track_picker"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.ItemPickActivity"
             android:configChanges="orientation|screenSize"
             android:label="Pick your items"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Pedometer.RunningActivity"
             android:configChanges="orientation|screenSize"
@@ -47,18 +46,15 @@
             android:stopWithTask="true" />
 
         <activity
-            android:name=".Activity.VictoryActivity"
-            android:label="@string/title_activity_victory"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.Victory_Activity"
-            android:label="@string/title_activity_victory_"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activity.LootActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PlayerStatsActivity"
+            android:label="@string/title_activity_player_stats"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

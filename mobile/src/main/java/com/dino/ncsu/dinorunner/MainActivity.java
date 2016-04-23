@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
+import com.dino.ncsu.dinorunner.Activity.PlayerStatsActivity;
 import com.dino.ncsu.dinorunner.Activity.TrackPicker;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -71,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), TrackPicker.class));
+            }
+        });
+
+        Button statsButton = (Button) findViewById(R.id.stats_button);
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PlayerStatsActivity.class));
             }
         });
 

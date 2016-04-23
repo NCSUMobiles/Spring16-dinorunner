@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10dp"
+            android:fontFamily="sans-serif"
             android:textColor="@color/prime_red"
             />
     </LinearLayout>

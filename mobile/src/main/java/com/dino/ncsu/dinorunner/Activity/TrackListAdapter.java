@@ -69,9 +69,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             nameView = (TextView) v.findViewById(to[1]);
             nameView.setTypeface(oldLondon);
             descView = (TextView) v.findViewById(to[2]);
-            descView.setTypeface(oldLondon);
             diffView = (TextView) v.findViewById(to[3]);
-            diffView.setTypeface(oldLondon);
         }
     }
 

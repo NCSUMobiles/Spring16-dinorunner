@@ -225,48 +225,55 @@ public class ItemPickActivity extends Activity {
                     int equippedSlot = Inventory.getInstance().equipItem(tempEquip[j]);
                     if (equippedSlot != -1) {
                         Item item = Inventory.getInstance().getEquippedItems()[equippedSlot];
-                        Log.d("tagItemEquippedSafe", item.getName());
-                        HashMap<String, String> hm = new HashMap<String, String>();
-                        hm.put("image", Integer.toString(item.getImageId()));
-                        hm.put("name", item.getName());
-                        hm.put("desc", item.getDescription());
-                        hm.put("boost", Double.toString(item.getSpeedBoost()));
-                        itemList.set(equippedSlot, hm);
-                        int swapIdx = items.indexOf(item.getName());
-                        int defaultIdx = defaultIndices.get(equippedSlot);
 
-                        //Switch for swapping of individual components in id lists
-                        switch (equippedSlot) {
-                            case 0:  //case head
-                                Collections.swap(helms, 0, swapIdx - defaultIdx);
-                                break;
-                            case 1: //case shoulders
-                                Collections.swap(shoulders, 0, swapIdx - defaultIdx);
-                                break;
-                            case 2: //case chest
-                                Collections.swap(chests, 0, swapIdx - defaultIdx);
-                                break;
-                            case 3:  //case shirts
-                                Collections.swap(shirts, 0, swapIdx - defaultIdx);
-                                break;
-                            case 4:  //case gloves
-                                Collections.swap(gloves, 0, swapIdx  - defaultIdx);
-                                break;
-                            case 5:  //case legs
-                                Collections.swap(legs, 0, swapIdx - defaultIdx);
-                                break;
-                            case 6: //case feet
-                                Collections.swap(feet, 0, swapIdx  - defaultIdx);
-                                break;
-                            case 7:  //case cape
-                                Collections.swap(cape, 0, swapIdx  - defaultIdx);
-                                break;
+                        if(item != null) {
+                            Log.d("tagItemEquippedSafe", item.getName());
+                            HashMap<String, String> hm = new HashMap<String, String>();
+                            hm.put("image", Integer.toString(item.getImageId()));
+                            hm.put("name", item.getName());
+                            hm.put("desc", item.getDescription());
+                            hm.put("boost", Double.toString(item.getSpeedBoost()));
+                            itemList.set(equippedSlot, hm);
+                            int swapIdx = items.indexOf(item.getName());
+                            int defaultIdx = defaultIndices.get(equippedSlot);
+
+                            //Switch for swapping of individual components in id lists
+                            switch (equippedSlot) {
+                                case 0:  //case head
+                                    Collections.swap(helms, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 1: //case shoulders
+                                    Collections.swap(shoulders, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 2: //case chest
+                                    Collections.swap(chests, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 3:  //case shirts
+                                    Collections.swap(shirts, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 4:  //case gloves
+                                    Collections.swap(gloves, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 5:  //case legs
+                                    Collections.swap(legs, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 6: //case feet
+                                    Collections.swap(feet, 0, swapIdx - defaultIdx);
+                                    break;
+                                case 7:  //case cape
+                                    Collections.swap(cape, 0, swapIdx - defaultIdx);
+                                    break;
+                            }
+
+                            Collections.swap(items, defaultIdx, swapIdx);
+                            Collections.swap(imageId, defaultIdx, swapIdx);
+                            Collections.swap(desc, defaultIdx, swapIdx);
+                            Collections.swap(boosts, defaultIdx, swapIdx);
+                        } else {
+                            isListSet = false;
+                            itemList = new ArrayList<>();
+                            j = tempEquip.length;
                         }
-
-                        Collections.swap(items, defaultIdx, swapIdx);
-                        Collections.swap(imageId, defaultIdx, swapIdx);
-                        Collections.swap(desc, defaultIdx, swapIdx);
-                        Collections.swap(boosts, defaultIdx, swapIdx);
                     }
                 }
             }

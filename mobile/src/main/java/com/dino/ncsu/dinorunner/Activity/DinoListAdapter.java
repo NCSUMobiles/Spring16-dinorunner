@@ -68,7 +68,6 @@ public class DinoListAdapter extends RecyclerView.Adapter<DinoListAdapter.ViewHo
             nameView = (TextView) v.findViewById(to[1]);
             nameView.setTypeface(oldLondon);
             descView = (TextView) v.findViewById(to[2]);
-            descView.setTypeface(oldLondon);
         }
     }
 

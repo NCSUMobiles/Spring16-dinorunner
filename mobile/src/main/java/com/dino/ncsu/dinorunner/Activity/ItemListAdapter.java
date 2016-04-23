@@ -80,9 +80,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             nameView = (TextView) v.findViewById(to[1]);
             nameView.setTypeface(oldLondon);
             descView = (TextView) v.findViewById(to[2]);
-            descView.setTypeface(oldLondon);
             boostView = (TextView) v.findViewById(to[3]);
-            boostView.setTypeface(oldLondon);
         }
     }
 
