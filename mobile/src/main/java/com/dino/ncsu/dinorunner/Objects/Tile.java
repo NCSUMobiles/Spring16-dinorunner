@@ -11,6 +11,7 @@ public class Tile {
     private float dirY;
     private float length;
     String terrain;
+    private float terrainSpeedBonus; //Speed bonus for terrain
 
     public Tile(float x, float y, String terrain, float dirX, float dirY, float length) {
         this.x = x;
@@ -19,6 +20,16 @@ public class Tile {
         this.dirX = dirX;
         this.dirY = dirY;
         this.length = length;
+
+        switch(terrain) {
+            case "Dirt":
+                terrainSpeedBonus = 1;
+                break;
+            case "Water":
+                terrainSpeedBonus = .8f;
+                break;
+
+        }
     }
 
     public void setX(float x) {
@@ -50,5 +61,7 @@ public class Tile {
 
     public void setLength(float length) { this.length = length; }
     public float getLength() { return length; }
+
+    public float getTerrainSpeedBonus() { return terrainSpeedBonus; }
 
 }

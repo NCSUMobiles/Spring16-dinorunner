@@ -31,6 +31,11 @@ public class Dinosaur implements Serializable {
     private double maxGold;
     private int experience;
 
+    //Resistances:
+    float[] resistances = new float[2]; //0-Dirt 1-Water
+
+    //Tiles
+    Tile currentTile;
 
     private static Dinosaur instance; //Singleton of Dinosaur
 
@@ -132,4 +137,9 @@ public class Dinosaur implements Serializable {
     public void setExperience(int experience) { this.experience = experience; }
     public int getExperience() { return experience; }
 
+    public float[] getResistances() { return resistances; }
+    public void setResistances(float[] resistances) { this.resistances = resistances; }
+
+    public void setCurrentTile(Tile currentTile) { this.currentTile = currentTile; }
+    public Tile getCurrentTile() { return currentTile; }
 }

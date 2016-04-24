@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -98,9 +99,12 @@ public class DrawSprites {
         }
 
         Tile startTile = trackTiles.get(0);
+        Player.getInstance().setCurrentTile(startTile);
+        Dinosaur.getInstance().setCurrentTile(startTile);
 
         playerX = startTile.getX();
         playerY = startTile.getY();
+
 
 
         dinoX = startTile.getX();
@@ -170,6 +174,8 @@ public class DrawSprites {
         if(dist < 25 && matchDirection(dinoDirX, dinoDirY, trackTiles.get(dinoTileId).getDirX(), trackTiles.get(dinoTileId).getDirY()))
         {
             dinoTileId = nextDinoTileId;
+            Dinosaur.getInstance().setCurrentTile(trackTiles.get(dinoTileId));
+
             if(dinoTileId == 0) {
                 dinoDirX = 0;
                 dinoDirY = 0;
@@ -215,6 +221,9 @@ public class DrawSprites {
                 playerY = tile.getY() + tile.getDirY() * pixelOnTile;
                 playerDirX = tile.getDirX();
                 playerDirY = tile.getDirY();
+
+                Player.getInstance().setCurrentTile(tile); //sets current Tile to I
+                Log.d("Current Test", "Current Player Tile Type :" + Player.getInstance().getCurrentTile().getTerrain());
                 break;
             }
         }

@@ -30,6 +30,7 @@ public class DinoManager {
                 Dinosaur.getInstance().setFrameCount(2);
                 Dinosaur.getInstance().setGalleryId(R.drawable.monster_goblin);
                 Dinosaur.getInstance().setSpriteSheetId(R.drawable.monster_goblin_sheet);
+                Dinosaur.getInstance().setResistances(new float[] {1, .6f});
                 dropTableManager.setDropTable(Dinosaur.getInstance().getNameOfDino());
                 break;
             case "Skeleton Spearman":

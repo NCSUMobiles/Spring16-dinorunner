@@ -19,7 +19,7 @@ public class Player implements Serializable {
     private ArrayList<Item> listOfItems; //List of items for player
     private double distance; //Distance traveled
     private double stepsTraveled; //Steps traveled
-    private int currentTile; //Current tile of track player is on
+    private Tile currentTile; //Current tile of track player is on
     private String playerName; //Player name
     private double mStepLength ; //Player Step Length = .3048
     private double maxHealth;
@@ -31,6 +31,9 @@ public class Player implements Serializable {
     private int playerLevel;
 
     private static Player instance; //instance of player
+
+    //Resistances:
+    float[] resistances = new float[2]; //0-Dirt 1-Water
 
     public Player() {
         this.listOfItems = Inventory.getInstance().getEquippableItems();
@@ -46,6 +49,9 @@ public class Player implements Serializable {
     public double getTotalSpeed() {
         return avgSpeed + boostedStep;
     }
+
+    public float[] getResistances() { return resistances; }
+    public void setResistances(float[] resistances) { this.resistances = resistances; }
 
     public double getTotalWeekDist() {
         return totalWeekDist;
@@ -100,6 +106,14 @@ public class Player implements Serializable {
             this.boostedStep += listOfItems.get(j).getSpeedBoost();
     }
 
+    public float getItemResistanceOfType(int type) {
+        float totalResistance = 0;
+        for (int j = 0; j < 8; j++) {
+            totalResistance += listOfItems.get(j).getResistances()[type];
+        }
+        return totalResistance;
+    }
+
     public double getBoostedStep() {
         return boostedStep;
     }
@@ -145,10 +159,10 @@ public class Player implements Serializable {
         this.maxHealth = maxHealth;
     }
 
-    public int getCurrentTile() {
+    public Tile getCurrentTile() {
         return currentTile;
     }
-    public void setCurrentTile(int currentTile) {
+    public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
 

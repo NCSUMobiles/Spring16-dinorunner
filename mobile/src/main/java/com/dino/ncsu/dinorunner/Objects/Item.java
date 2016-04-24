@@ -1,7 +1,5 @@
 package com.dino.ncsu.dinorunner.Objects;
 
-import com.dino.ncsu.dinorunner.Managers.ItemManager;
-
 import java.io.Serializable;
 
 /**
@@ -23,6 +21,7 @@ public class Item implements Serializable {
     private float tempSpeedBoost;
 
     private boolean isVisible = true;
+    private float[] resistances = new float[2]; //0-Dirt 1-Water
 
     public Item (String name,int amount) {
         this.name = name;
@@ -31,6 +30,9 @@ public class Item implements Serializable {
 
     public String getName() {return name;}
     public void setName(String name) { this.name = name; }
+
+    public float[] getResistances() { return resistances; }
+    public void setResistances(float[] resistances) { this.resistances = resistances; }
 
     public String getDescription() {return description;}
     public void setDescription(String description) { this.description = description;}

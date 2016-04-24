@@ -71,8 +71,10 @@ public class RunningActivity extends Activity implements Runnable {
     private double DistanceLeftValue;
     private double TotalDistance;
     private double HealthValue;
-    private double StepLength = 130.48; //Let's say everyone's feet is 1 foot or .3048 meters
+    private double tempStepLength; //Let's say everyone's feet is 1 foot or .3048 meters
+    private double defaultStepLength;
     private boolean mQuitting = false; // Set when user selected Quit from menu, can be used by onPause, onStop, onDestroy
+    private float totalBuff;
 
     //Dino Stuff
     private TextView mDinoDistanceView;
@@ -205,10 +207,9 @@ public class RunningActivity extends Activity implements Runnable {
         surfaceView = (SurfaceView) findViewById(R.id.surface);
         surfaceHolder = surfaceView.getHolder();
 
-        //load meta data here.
-//        Bundle infoBundle = getIntent().getExtras();
-        //Steps stuff
         mStepValue = 0;
+        defaultStepLength = Player.getInstance().getTotalStepLength();
+        tempStepLength = defaultStepLength;
         startTime = mUtils.currentTimeInMillis();
 
         mUtils = Utils.getInstance();
@@ -342,7 +343,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     private void unbindStepService() {
         unbindService(mConnection);
-        Log.d("servicetag","unbinded service");
+        Log.d("servicetag", "unbinded service");
     }
 
     private void stopStepService() {
@@ -350,7 +351,7 @@ public class RunningActivity extends Activity implements Runnable {
             stopService(new Intent(RunningActivity.this,
                     StepService.class));
 
-            Log.d("servicetag","stopped service");
+            Log.d("servicetag", "stopped service");
         }
         mIsRunning = false;
     }
@@ -397,10 +398,10 @@ public class RunningActivity extends Activity implements Runnable {
                 case STEPS_MSG:
                     mStepValue = msg.arg1;
                     Player.getInstance().setStepsTraveled(mStepValue);
-                    DistanceValue = getmDistanceValue();
+                    DistanceValue += getmDistanceValue();
                     Player.getInstance().setDistance(DistanceValue);
                     DistanceLeftValue = getDistanceLeftValue();
-                    SpeedValue = getSpeed();
+                    SpeedValue = getSpeed()* totalBuff;
                     Player.getInstance().setAvgSpeed(SpeedValue);
                     break;
                 default:
@@ -410,30 +411,29 @@ public class RunningActivity extends Activity implements Runnable {
         }
     };
 
-
-    /**
-     * Returns steps traveled
-     *
-     * @return
-     */
     public int getStepsTraveled() {
         return mStepValue;
     }
 
     public double getmDistanceValue() {
-        return mStepValue * StepLength / 100;
-//        return stepsTraveled * Player.getInstance().getmStepLength() / 12;
+        float terrainBuff = RunManager.getInstance().getPlayerTerrainModifier();
+        float itemBuff = RunManager.getInstance().getPlayerResistanceMoidifer();
+        totalBuff = terrainBuff + itemBuff;
+        if (totalBuff < 0) {
+            totalBuff = 0;
+        }
+        return tempStepLength / 100 * totalBuff;
     }
 
     public double getDistanceLeftValue() {
-        return TotalDistance - getmDistanceValue();
+        return TotalDistance - DistanceValue;
     }
 
     public double getSpeed() {
         long lastTime = System.currentTimeMillis();
         long deltaTime = lastTime - startTime;
         startTime = lastTime;
-        return ((getStepsTraveled() == 0) ? 0.00 : (StepLength / deltaTime) * 100);
+        return ((getStepsTraveled() == 0) ? 0.00 : (tempStepLength / deltaTime) * 100);
     }
 
     //Game logic + Draw Logic
@@ -446,7 +446,6 @@ public class RunningActivity extends Activity implements Runnable {
 
             //Game logic
             checkPlayerDead();
-            RunManager.getInstance().checkStunMonster();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
 
@@ -497,6 +496,7 @@ public class RunningActivity extends Activity implements Runnable {
             }
         }
     }
+
     public void checkPlayerDead() {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -608,7 +608,8 @@ public class RunningActivity extends Activity implements Runnable {
         Track.getInstance().setTotalDistance(TotalDistance);
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
-        Player.getInstance().setDistance(5);
+        Player.getInstance().setDistance(0);
+        DistanceValue = 0;
         //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
 

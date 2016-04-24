@@ -28,7 +28,40 @@ public class RunManager {
         return distance;
     }
 
-    public void checkStunMonster() {
+    public float getPlayerTerrainModifier() {
+        float[] resistances =  Player.getInstance().getResistances();
+        switch(Player.getInstance().getCurrentTile().getTerrain()) {
+            case "dirt":
+               return resistances[0];
+            case "water":
+                return resistances[1];
+        }
+        return 1;
+    }
+
+    public float getPlayerResistanceMoidifer() {
+        float[] resistances = Player.getInstance().getResistances();
+        switch(Player.getInstance().getCurrentTile().getTerrain()) {
+            case "dirt":
+                return Player.getInstance().getResistances()[0] + Player.getInstance().getItemResistanceOfType(0);
+            case "water":
+                return Player.getInstance().getResistances()[1] + Player.getInstance().getItemResistanceOfType(1);
+        }
+        return 0;
+    }
+
+    public float getDinosaurTerrainModifier() {
+        float[] resistances =  Dinosaur.getInstance().getResistances();
+        switch(Dinosaur.getInstance().getCurrentTile().getTerrain()) {
+            case "dirt":
+                return resistances[0];
+            case "water":
+                return resistances[1];
+        }
+        return 1;
+    }
+
+    public void updateDistance() {
         //Log.d("OK", "OK2!");
         long delta = System.currentTimeMillis() - lastStunnedTime;
         if (Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
@@ -37,13 +70,19 @@ public class RunManager {
 
             if (delta > Dinosaur.getInstance().getStunTime()) {
                 Dinosaur.getInstance().setStunned(false);
-                Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
+                Dinosaur.getInstance().setSpeed(currentDinoSpeed());
             }
         } else if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
-            Dinosaur.getInstance().setSpeed(Dinosaur.getInstance().getMaxSpeed());
+            Dinosaur.getInstance().setSpeed(currentDinoSpeed());
         } else {
             lastStunnedTime = System.currentTimeMillis();
         }
+    }
+
+    public double currentDinoSpeed() {
+        double currSpeed = Dinosaur.getInstance().getMaxSpeed() * getDinosaurTerrainModifier();
+        Dinosaur.getInstance().setSpeed(currSpeed);
+        return currSpeed;
     }
 
     public void checkDistance() {
@@ -57,41 +96,6 @@ public class RunManager {
             //Log.d("attack", "We just got hit bro!");
             Player.getInstance().setHealth(Player.getInstance().getHealth() - Dinosaur.getInstance().getAttack());
         }
-    }
-
-    public double getHealth() {
-        return Player.getInstance().getHealth();
-    }
-
-    public void updateDistance() {
-        //Log.d("OK", "OK!");
-        if (Player.getInstance().getDistance() >= Dinosaur.getInstance().getHeadStart()) {
-            //Log.d("Test", "Distance :" + Dinosaur.getInstance().getDistance());
-            long delta = System.currentTimeMillis() - lastMoveTime;
-            if (Dinosaur.getInstance().getDistance() == 0) {
-                lastMoveTime = System.currentTimeMillis();
-                if (delta > 1000) {
-                    lastMoveTime = System.currentTimeMillis();
-                }
-            } else if ( (Player.getInstance().getDistance() - Dinosaur.getInstance().getDistance() > 0)
-                    && ((!Dinosaur.getInstance().getStunned() && delta > 1000)
-                    || (Dinosaur.getInstance().getStunned() && System.currentTimeMillis() - lastStunnedTime > Dinosaur.getInstance().getStunTime()))) {
-                // Log.d("OK", "OK4!");
-                lastMoveTime = System.currentTimeMillis();
-            }
-        }
-    }
-
-    public double getDinoSpeed() {
-        return Dinosaur.getInstance().getSpeed();
-    }
-
-    public Tile getCurrentTile() {
-        return currentTile;
-    }
-
-    public void setCurrentTile(Tile currentTile) {
-        this.currentTile = currentTile;
     }
 
     public static synchronized RunManager getInstance() {

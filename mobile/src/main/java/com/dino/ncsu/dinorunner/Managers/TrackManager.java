@@ -53,7 +53,7 @@ public class TrackManager {
 
                 tiles.add(new Tile(552 * scale_width, 155 * scale_height, "dirt", 0, 1, (364 - 155) * scale_height));
 
-                tiles.add(new Tile(552 * scale_width, 364 * scale_height, "dirt", 1, 0, (921 - 552) * scale_width));
+                tiles.add(new Tile(552 * scale_width, 364 * scale_height, "water", 1, 0, (921 - 552) * scale_width));
 
                 tiles.add(new Tile(921 * scale_width, 364 * scale_height, "dirt", 0, 1, (902 - 364) * scale_height));
 
