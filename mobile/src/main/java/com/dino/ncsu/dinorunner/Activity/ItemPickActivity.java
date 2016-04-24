@@ -63,6 +63,229 @@ public class ItemPickActivity extends Activity {
 
     ArrayList<String> items = new ArrayList<String>();
 
+    private ArrayList<Integer> imageId = new ArrayList<Integer>();
+
+    private ArrayList<String> desc = new ArrayList<String>();
+
+    private ArrayList<Float> boosts = new ArrayList<Float>();
+
+    private String[] itemTypes = new String[]{"Choose your Helmet", "Choose your Shoulder Item", "Choose your Armor", "Choose your Shirt", "Choose your Gloves", "Choose your Pants", "Choose your Shoes", "Choose your Cape"};
+
+
+    List<Integer> defaultIndices = new ArrayList<Integer>();
+
+    private RecyclerView lView;
+    private List<HashMap<String, String>> itemList;
+    private List<HashMap<String, String>> allItems;
+
+    //Keys in Hashmap
+    private String[] from = {"image", "name", "desc", "boost"};
+
+    //IDs of views in listview layout
+    private int[] to = {R.id.image, R.id.name, R.id.desc, R.id.boost};
+
+    private ItemListAdapter mListAdapter;
+    static Inventory inventory = Inventory.getInstance();
+    private SharedPreferences preferenceSettings;
+    private SharedPreferences.Editor preferenceEditor;
+
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String PREFERENCE_FILE = "_DinoRunnerUserData";
+    private static final String EQUIPPED_TAG = "dino_set_equipped";
+
+
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState The bundle of data carried from the previous activity
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item_pick);
+        setItemLists();
+        Log.d("TestSize", "" + items.size());
+        for (int i = 0; i < items.size(); i++) {
+            Log.d("test", "EquippedItemMap: " + items.get(i));
+        }
+
+        defaultIndices = Arrays.asList(helmIndex, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex, items.size());
+        preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+
+        Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+
+        ((TextView) findViewById(R.id.textView)).setTypeface(oldLondon);
+        //Each row of the list stores item name, image and description
+        if (itemList == null) {
+            itemList = new ArrayList<>();
+            allItems = new ArrayList<>();
+
+            for (int j = 0; j < defaultIndices.size() - 1; j++) {
+                itemList.add(new HashMap<String, String>());
+            }
+
+            Set<String> prevEquipped = preferenceSettings.getStringSet(EQUIPPED_TAG, null);
+            boolean isListSet = false;
+
+            if (prevEquipped != null) {
+                if (prevEquipped.size() > 0)
+                    isListSet = true;
+
+                String[] tempEquip = prevEquipped.toArray(new String[prevEquipped.size()]);
+                for (int i = 0; i < tempEquip.length; i++)
+                    Log.d("tagEquipItemWhat" + i, tempEquip[i]);
+
+                for (int j = 0; j < tempEquip.length; j++) {
+                    int equippedSlot = Inventory.getInstance().equipItem(tempEquip[j]);
+                    if (equippedSlot != -1) {
+                        Item item = Inventory.getInstance().getEquippedItems()[equippedSlot];
+
+                        Log.d("tagItemEquippedSafe", item.getName());
+                        HashMap<String, String> hm = new HashMap<String, String>();
+                        hm.put("image", Integer.toString(item.getImageId()));
+                        hm.put("name", item.getName());
+                        hm.put("desc", item.getDescription());
+                        hm.put("boost", Double.toString(item.getSpeedBoost()));
+                        itemList.set(equippedSlot, hm);
+                        int swapIdx = items.indexOf(item.getName());
+                        int defaultIdx = defaultIndices.get(equippedSlot);
+
+                        //Switch for swapping of individual components in id lists
+                        switch (equippedSlot) {
+                            case 0:  //case head
+                                Collections.swap(helms, 0, swapIdx - defaultIdx);
+                                break;
+                            case 1: //case shoulders
+                                Collections.swap(shoulders, 0, swapIdx - defaultIdx);
+                                break;
+                            case 2: //case chest
+                                Collections.swap(chests, 0, swapIdx - defaultIdx);
+                                break;
+                            case 3:  //case shirts
+                                Collections.swap(shirts, 0, swapIdx - defaultIdx);
+                                break;
+                            case 4:  //case gloves
+                                Collections.swap(gloves, 0, swapIdx - defaultIdx);
+                                break;
+                            case 5:  //case legs
+                                Collections.swap(legs, 0, swapIdx - defaultIdx);
+                                break;
+                            case 6: //case feet
+                                Collections.swap(feet, 0, swapIdx - defaultIdx);
+                                break;
+                            case 7:  //case cape
+                                Collections.swap(cape, 0, swapIdx - defaultIdx);
+                                break;
+                        }
+
+                        Collections.swap(items, defaultIdx, swapIdx);
+                        Collections.swap(imageId, defaultIdx, swapIdx);
+                        Collections.swap(desc, defaultIdx, swapIdx);
+                        Collections.swap(boosts, defaultIdx, swapIdx);
+                    }
+                }
+            }
+
+            Log.d("blah", "On to the hashmap forloop");
+
+            for (int i = 0; i < items.size(); i++) {
+                HashMap<String, String> hm = new HashMap<String, String>();
+                hm.put("image", Integer.toString(imageId.get(i)));
+                hm.put("name", items.get(i));
+                hm.put("desc", desc.get(i));
+                hm.put("boost", Double.toString(boosts.get(i)));
+                allItems.add(hm);
+
+                if (!isListSet && defaultIndices.indexOf(i) != -1) {
+                    itemList.set(defaultIndices.indexOf(i), hm);
+                }
+            }
+
+            lView = (RecyclerView) findViewById(R.id.item_list_view);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ItemPickActivity.this);
+            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+            lView.setItemAnimator(new DefaultItemAnimator());
+            lView.setLayoutManager(mLayoutManager);
+
+            mListAdapter = new ItemListAdapter(getBaseContext(), itemList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
+                @Override
+                public void onItemClick(ItemListAdapter adapter, View v, int position) {
+                    createItemDialog(position, adapter);
+                }
+
+                @Override
+                public void onItemClick(DinoListAdapter adapter, View v, int position) {
+                    //Do Nothing
+                }
+
+                @Override
+                protected void onItemClick(TrackListAdapter adapter, View v, int position) {
+                    //Do Nothing
+                }
+            });
+            lView.setAdapter(mListAdapter);
+        }
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.start_button);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Clicked the button!", Toast.LENGTH_LONG).show();
+                createRunDialog();
+            }
+        });
+    }
+
+    /**
+     * Creates the dialog to choose an item for the specific category
+     *
+     * @param position The type of item to choose in the dialog
+     * @param adapter  The adapter that holds the items currently equipped
+     */
+    private void createItemDialog(final int position, ItemListAdapter adapter) {
+        adapter.getItem(position);
+        View dialogView = getLayoutInflater().inflate(R.layout.list_items, null);
+
+        RecyclerView rView = (RecyclerView) dialogView.findViewById(R.id.listView2);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(ItemPickActivity.this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        rView.setItemAnimator(new DefaultItemAnimator());
+        rView.setLayoutManager(mLayoutManager);
+        final List<HashMap<String, String>> newList = allItems.subList(defaultIndices.get(position), defaultIndices.get(position + 1));
+
+        final AlertDialog newDialog = new AlertDialog.Builder(ItemPickActivity.this, AlertDialog.THEME_HOLO_LIGHT)
+                .setTitle(itemTypes[position])
+                .setView(dialogView)
+                .create();
+
+        rView.setAdapter(new ItemListAdapter(getBaseContext(), newList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(ItemListAdapter adapter, View v, int position2) {
+                if (position2 != 0) {
+                    mListAdapter.setItem(position, newList.get(position2));
+                    Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
+                    newDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onItemClick(DinoListAdapter adapter, View v, int position) {
+                //Do nothing for now
+            }
+
+            @Override
+            protected void onItemClick(TrackListAdapter adapter, View v, int position) {
+                //Do Nothing
+            }
+        }));
+
+        newDialog.show();
+    }
+
+    /**
+     * Sets the item lists for the appropriate slots
+     */
     public void setItemLists() {
         ArrayList<Item> temp = Inventory.getInstance().getEquippableItems();
 
@@ -128,9 +351,9 @@ public class ItemPickActivity extends Activity {
                     items.add(temp.get(i).getName());
                     break;
             }
-
         }
         //Sets indexs for Index array
+        Log.d("TagSizeOfItems", "" + items.size());
         Log.d("helms", "" + helms.size());
         Log.d("shoulders", "" + shoulders.size());
         Log.d("chest", "" + chests.size());
@@ -148,228 +371,6 @@ public class ItemPickActivity extends Activity {
         legIndex += gloves.size() + glovesIndex;
         feetIndex += legs.size() + legIndex;
         capeIndex += feet.size() + feetIndex;
-    }
-
-    private ArrayList<Integer> imageId = new ArrayList<Integer>();
-
-    private ArrayList<String> desc = new ArrayList<String>();
-
-    private ArrayList<Float> boosts = new ArrayList<Float>();
-
-    private String[] itemTypes = new String[]{"Choose your Helmet", "Choose your Shoulder Item", "Choose your Armor", "Choose your Shirt", "Choose your Gloves", "Choose your Pants", "Choose your Shoes", "Choose your Cape"};
-
-
-    List<Integer> defaultIndices = new ArrayList<Integer>();
-
-    private RecyclerView lView;
-    private List<HashMap<String, String>> itemList;
-    private List<HashMap<String, String>> allItems;
-
-    //Keys in Hashmap
-    private String[] from = {"image", "name", "desc", "boost"};
-
-    //IDs of views in listview layout
-    private int[] to = {R.id.image, R.id.name, R.id.desc, R.id.boost};
-
-    private ItemListAdapter mListAdapter;
-    static Inventory inventory = Inventory.getInstance();
-    private SharedPreferences preferenceSettings;
-    private SharedPreferences.Editor preferenceEditor;
-
-    private static final int PREFERENCE_MODE_PRIVATE = 0;
-    private static final String PREFERENCE_FILE = "_DinoRunnerUserData";
-    private static final String EQUIPPED_TAG = "dino_set_equipped";
-
-
-    /**
-     * Called when the activity is first created.
-     *
-     * @param savedInstanceState The bundle of data carried from the previous activity
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_pick);
-        setItemLists();
-//        for (int i = 0; i < Inventory.getInstance().getEquippedItemsMap().length; i++) {
-//            Log.d("test", "EquippedItemMap: " + Inventory.getInstance().getEquippedItemsMap()[i]);
-//        }
-
-        defaultIndices = Arrays.asList(helmIndex, shouldersIndex, chestsIndex, shirtsIndex, glovesIndex, legIndex, feetIndex, capeIndex, items.size());
-        preferenceSettings = getSharedPreferences(PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
-
-        Typeface oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
-
-        ((TextView) findViewById(R.id.textView)).setTypeface(oldLondon);
-        //Each row of the list stores item name, image and description
-        if (itemList == null) {
-            itemList = new ArrayList<>();
-
-            for (int j = 0; j < defaultIndices.size() - 1; j++) {
-                itemList.add(new HashMap<String, String>());
-            }
-            allItems = new ArrayList<>();
-
-            Set<String> prevEquipped = preferenceSettings.getStringSet(EQUIPPED_TAG, null);
-            boolean isListSet = false;
-
-            if (prevEquipped != null) {
-                if (prevEquipped.size() > 0)
-                    isListSet = true;
-
-                String[] tempEquip = prevEquipped.toArray(new String[prevEquipped.size()]);
-                for (int i = 0; i < tempEquip.length; i++)
-                    Log.d("tagEquipItemWhat" + i, tempEquip[i]);
-
-                for (int j = 0; j < tempEquip.length; j++) {
-                    int equippedSlot = Inventory.getInstance().equipItem(tempEquip[j]);
-                    if (equippedSlot != -1) {
-                        Item item = Inventory.getInstance().getEquippedItems()[equippedSlot];
-
-                        if(item != null) {
-                            Log.d("tagItemEquippedSafe", item.getName());
-                            HashMap<String, String> hm = new HashMap<String, String>();
-                            hm.put("image", Integer.toString(item.getImageId()));
-                            hm.put("name", item.getName());
-                            hm.put("desc", item.getDescription());
-                            hm.put("boost", Double.toString(item.getSpeedBoost()));
-                            itemList.set(equippedSlot, hm);
-                            int swapIdx = items.indexOf(item.getName());
-                            int defaultIdx = defaultIndices.get(equippedSlot);
-
-                            //Switch for swapping of individual components in id lists
-                            switch (equippedSlot) {
-                                case 0:  //case head
-                                    Collections.swap(helms, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 1: //case shoulders
-                                    Collections.swap(shoulders, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 2: //case chest
-                                    Collections.swap(chests, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 3:  //case shirts
-                                    Collections.swap(shirts, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 4:  //case gloves
-                                    Collections.swap(gloves, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 5:  //case legs
-                                    Collections.swap(legs, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 6: //case feet
-                                    Collections.swap(feet, 0, swapIdx - defaultIdx);
-                                    break;
-                                case 7:  //case cape
-                                    Collections.swap(cape, 0, swapIdx - defaultIdx);
-                                    break;
-                            }
-
-                            Collections.swap(items, defaultIdx, swapIdx);
-                            Collections.swap(imageId, defaultIdx, swapIdx);
-                            Collections.swap(desc, defaultIdx, swapIdx);
-                            Collections.swap(boosts, defaultIdx, swapIdx);
-                        } else {
-                            isListSet = false;
-                            itemList = new ArrayList<>();
-                            j = tempEquip.length;
-                        }
-                    }
-                }
-            }
-
-            for (int i = 0; i < items.size(); i++) {
-                HashMap<String, String> hm = new HashMap<String, String>();
-                hm.put("image", Integer.toString(imageId.get(i)));
-                hm.put("name", items.get(i));
-                hm.put("desc", desc.get(i));
-                hm.put("boost", Double.toString(boosts.get(i)));
-                allItems.add(hm);
-
-                if (!isListSet && defaultIndices.indexOf(i) != -1)
-                    itemList.add(hm);
-            }
-
-            lView = (RecyclerView) findViewById(R.id.item_list_view);
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ItemPickActivity.this);
-            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-            lView.setItemAnimator(new DefaultItemAnimator());
-            lView.setLayoutManager(mLayoutManager);
-
-            mListAdapter = new ItemListAdapter(getBaseContext(), itemList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
-                @Override
-                public void onItemClick(ItemListAdapter adapter, View v, int position) {
-                    createItemDialog(position, adapter);
-                }
-
-                @Override
-                void onItemClick(DinoListAdapter adapter, View v, int position) {
-                    //Do Nothing
-                }
-
-                @Override
-                void onItemClick(TrackListAdapter adapter, View v, int position) {
-                    //Do Nothing
-                }
-            });
-            lView.setAdapter(mListAdapter);
-        }
-        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.start_button);
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Clicked the button!", Toast.LENGTH_LONG).show();
-                createRunDialog();
-            }
-        });
-    }
-
-    /**
-     * Creates the dialog to choose an item for the specific category
-     *
-     * @param position The type of item to choose in the dialog
-     * @param adapter  The adapter that holds the items currently equipped
-     */
-    private void createItemDialog(final int position, ItemListAdapter adapter) {
-        adapter.getItem(position);
-        View dialogView = getLayoutInflater().inflate(R.layout.list_items, null);
-
-        RecyclerView rView = (RecyclerView) dialogView.findViewById(R.id.listView2);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(ItemPickActivity.this);
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        rView.setItemAnimator(new DefaultItemAnimator());
-        rView.setLayoutManager(mLayoutManager);
-        final List<HashMap<String, String>> newList = allItems.subList(defaultIndices.get(position), defaultIndices.get(position + 1));
-
-        final AlertDialog newDialog = new AlertDialog.Builder(ItemPickActivity.this, AlertDialog.THEME_HOLO_LIGHT)
-                .setTitle(itemTypes[position])
-                .setView(dialogView)
-                .create();
-
-        rView.setAdapter(new ItemListAdapter(getBaseContext(), newList, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(ItemListAdapter adapter, View v, int position2) {
-                if (position2 != 0) {
-                    mListAdapter.setItem(position, newList.get(position2));
-                    Collections.swap(allItems, defaultIndices.get(position), defaultIndices.get(position) + position2);
-                    newDialog.dismiss();
-                }
-            }
-
-            @Override
-            void onItemClick(DinoListAdapter adapter, View v, int position) {
-                //Do nothing for now
-            }
-
-            @Override
-            void onItemClick(TrackListAdapter adapter, View v, int position) {
-                //Do Nothing
-            }
-        }));
-
-        newDialog.show();
     }
 
     /**

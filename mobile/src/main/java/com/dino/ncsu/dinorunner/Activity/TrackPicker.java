@@ -134,17 +134,17 @@ public class TrackPicker extends Activity {
         // Setting the adapter to the listView
         adapter = new TrackListAdapter(getBaseContext(), aList, R.layout.trackpicker_list_single, from, to, new CustomItemClickListener() {
             @Override
-            void onItemClick(ItemListAdapter adapter, View v, int position) {
+            public void onItemClick(ItemListAdapter adapter, View v, int position) {
                 //Do Nothing
             }
 
             @Override
-            void onItemClick(DinoListAdapter adapter, View v, int position) {
+            public void onItemClick(DinoListAdapter adapter, View v, int position) {
                 //Do Nothing
             }
 
             @Override
-            void onItemClick(TrackListAdapter adapter, View v, final int position) {
+            protected void onItemClick(TrackListAdapter adapter, View v, final int position) {
 
                 final HashMap<String, String> item = adapter.getItem(position);
 

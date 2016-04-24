@@ -10,9 +10,9 @@ import android.view.View;
  */
 public abstract class CustomItemClickListener {
     //Item Click Event to be triggered on an item click
-    abstract void onItemClick(ItemListAdapter adapter, View v, int position);
+    public abstract void onItemClick(ItemListAdapter adapter, View v, int position);
 
-    abstract void onItemClick(DinoListAdapter adapter, View v, int position);
+    public abstract void onItemClick(DinoListAdapter adapter, View v, int position);
 
-    abstract void onItemClick(TrackListAdapter adapter, View v, int position);
+    protected abstract void onItemClick(TrackListAdapter adapter, View v, int position);
 }

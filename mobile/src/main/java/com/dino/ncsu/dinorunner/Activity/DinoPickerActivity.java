@@ -84,7 +84,7 @@ public class DinoPickerActivity extends Activity {
         // Setting the adapter to the listView
         adapter = new DinoListAdapter(getBaseContext(), aList, R.layout.dinopicker_list_single, from, to, new CustomItemClickListener() {
             @Override
-            void onItemClick(ItemListAdapter adapter, View v, int position) {
+            public void onItemClick(ItemListAdapter adapter, View v, int position) {
                 //does nothing for now
             }
 
@@ -110,7 +110,7 @@ public class DinoPickerActivity extends Activity {
             }
 
             @Override
-            void onItemClick(TrackListAdapter adapter, View v, int position) {
+            protected void onItemClick(TrackListAdapter adapter, View v, int position) {
 
             }
         });
