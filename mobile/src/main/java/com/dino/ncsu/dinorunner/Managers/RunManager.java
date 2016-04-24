@@ -1,7 +1,5 @@
 package com.dino.ncsu.dinorunner.Managers;
 
-import android.util.Log;
-
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Objects.Tile;
@@ -34,7 +32,7 @@ public class RunManager {
         //Log.d("OK", "OK2!");
         long delta = System.currentTimeMillis() - lastStunnedTime;
         if (Dinosaur.getInstance().getStunned() && (Player.getInstance().getDistance() > Dinosaur.getInstance().getHeadStart())) {
-            Log.d("test", "We are stunned" + Dinosaur.getInstance().getStunned());
+           // Log.d("test", "We are stunned" + Dinosaur.getInstance().getStunned());
             Dinosaur.getInstance().setSpeed(0);
 
             if (delta > Dinosaur.getInstance().getStunTime()) {
@@ -56,7 +54,7 @@ public class RunManager {
                 && (System.currentTimeMillis() - lastStunnedTime >= Dinosaur.getInstance().getStunTime())) {
             Dinosaur.getInstance().setStunned(true);
             lastStunnedTime = System.currentTimeMillis();
-            Log.d("attack", "We just got hit bro!");
+            //Log.d("attack", "We just got hit bro!");
             Player.getInstance().setHealth(Player.getInstance().getHealth() - Dinosaur.getInstance().getAttack());
         }
     }

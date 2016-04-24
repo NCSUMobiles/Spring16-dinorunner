@@ -21,8 +21,8 @@ public class Player implements Serializable {
     private double stepsTraveled; //Steps traveled
     private int currentTile; //Current tile of track player is on
     private String playerName; //Player name
-    private double mStepLength = 30.48; //Player Step Length = .3048
-    private double maxHealth = 100;
+    private double mStepLength ; //Player Step Length = .3048
+    private double maxHealth;
     private double health = maxHealth;
     private int experience;
     private double totalStepLength; //Boosted step + Player step

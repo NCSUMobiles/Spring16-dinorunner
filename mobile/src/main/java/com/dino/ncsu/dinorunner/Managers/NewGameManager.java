@@ -32,23 +32,9 @@ public class NewGameManager {
     }
 
     public void setEquipmentDefaults() {
-//        String[] defaultItemsMap = new String[] {"No Head Item",
-//                "No Shoulder Item",
-//                "No Chest Item",
-//                "No Shirt Item",
-//                "No Gloves Item",
-//                "No Leg Item",
-//                "No Feet Item",
-//                "No Cape Item"};
 
         String[] defaultItemsMap = new String[8];
         Item[] defaultItems = new Item[defaultItemsMap.length];
-//        for (int i = 0; i < defaultItemsMap.length; i++) {
-//            Item item = new Item(defaultItemsMap[i], 1);
-//            ItemManager.getInstance().setItemVariables(item);
-//            defaultItems[i] = item;
-//
-//        }
         Inventory.getInstance().setEquippedItems(defaultItems);
 
     }

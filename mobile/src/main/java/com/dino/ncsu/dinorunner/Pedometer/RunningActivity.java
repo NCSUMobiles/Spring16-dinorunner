@@ -25,8 +25,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
-import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.Activity.LootActivity;
+import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
@@ -135,14 +135,15 @@ public class RunningActivity extends Activity implements Runnable {
     private float equipped_pants_POS_Y;
     private float equipped_shoes_POS_Y;
     private int equipped_shirt_POS_Y;
-
     private Bitmap map;
     public static Typeface oldLondon;
-
     private Bitmap stat_frame;
     private Bitmap items_frame;
 
     private DrawSprites drawSprites = null;
+
+    //Sounds:
+    boolean isTicking;
 
 
     /**
@@ -224,10 +225,6 @@ public class RunningActivity extends Activity implements Runnable {
         mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
         mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
 
-
-        //Initialize player stats
-        //Player.getInstance().setListOfItems(Inventory.getInstance().getEquippableItems());
-
         //Old London Text Style
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
 
@@ -237,6 +234,8 @@ public class RunningActivity extends Activity implements Runnable {
         mDinoSpeedView.setTypeface(oldLondon);
         mDistanceView.setTypeface(oldLondon);
         mDistanceLeftView.setTypeface(oldLondon);
+
+        //Sounds
 
         thread = new Thread(this);
         thread.start();
@@ -498,7 +497,6 @@ public class RunningActivity extends Activity implements Runnable {
             }
         }
     }
-
     public void checkPlayerDead() {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
