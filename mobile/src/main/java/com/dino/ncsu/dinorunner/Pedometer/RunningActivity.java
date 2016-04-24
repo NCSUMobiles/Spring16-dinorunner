@@ -29,6 +29,7 @@ import com.dino.ncsu.dinorunner.Activity.LootActivity;
 import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
+import com.dino.ncsu.dinorunner.Managers.SoundManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
@@ -445,6 +446,7 @@ public class RunningActivity extends Activity implements Runnable {
             }
 
             //Game logic
+            checkAndPlayDinoApproach();
             checkPlayerDead();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
@@ -504,6 +506,18 @@ public class RunningActivity extends Activity implements Runnable {
             this.thread.interrupt();
             finish();
             startActivity(dataIntent);
+        }
+    }
+
+    public void checkAndPlayDinoApproach() {
+        if(Player.getInstance().getDistance() < Dinosaur.getInstance().getHeadStart()) return;
+        double dist = RunManager.getInstance().getDistanceFromPlayer();
+
+        if(dist < 0.2 || dist > 5.1 || Dinosaur.getInstance().getStunned()) {
+            SoundManager.getInstance().stopDinoApproach();
+        }
+        else if(dist > 0.3 && dist < 5) {
+            SoundManager.getInstance().playDinoApproach();
         }
     }
 

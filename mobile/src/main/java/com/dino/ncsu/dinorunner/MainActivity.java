@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.dino.ncsu.dinorunner.Activity.DinoPickerActivity;
 import com.dino.ncsu.dinorunner.Activity.PlayerStatsActivity;
 import com.dino.ncsu.dinorunner.Activity.TrackPicker;
+import com.dino.ncsu.dinorunner.Managers.SoundManager;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Player;
 
@@ -90,6 +91,8 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), DinoPickerActivity.class));
             }
         });
+
+        SoundManager.setContext(this);
     }
 
     /**
