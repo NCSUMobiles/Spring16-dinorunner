@@ -16,9 +16,12 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dino.ncsu.dinorunner.MainActivity;
+import com.dino.ncsu.dinorunner.Managers.LevelManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.DropTableItem;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
@@ -34,6 +37,7 @@ public class LootActivity extends Activity implements Runnable {
     private Bitmap loot_table_view;
     private Bitmap monster;
     public static Typeface oldLondon;
+    public static Typeface roman;
 
 
     //Surfaceview information
@@ -54,6 +58,13 @@ public class LootActivity extends Activity implements Runnable {
     private TextView mItemsLootedView;
     private TextView mExperienceView;
     private TextView mGoldLootedView;
+    private TextView mTitleView;
+    private TextView mLevelView;
+    private TextView mItemViewCount;
+
+    //Image Views
+    private ImageView mItemView;
+    private Item item;
 
     private Paint paint = new Paint();
 
@@ -88,6 +99,7 @@ public class LootActivity extends Activity implements Runnable {
 
         //Old London Text Style
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+        roman = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/MorrisRomanBlack.ttf");
 
         loot_table_view = BitmapFactory.decodeResource(getResources(), R.drawable.frame_loot_table);
         loot_table_view = Bitmap.createScaledBitmap(loot_table_view, width, height, true);
@@ -98,34 +110,51 @@ public class LootActivity extends Activity implements Runnable {
         mItemsLootedView = (TextView) findViewById(R.id.item_loot);
         mMonsterNameView = (TextView) findViewById(R.id.monster_slain_text);
         mGoldLootedView = (TextView) findViewById(R.id.gold_loot);
+        mTitleView = (TextView) findViewById((R.id.loot_title));
+        mLevelView = (TextView) findViewById(R.id.level_loot);
+        mItemViewCount = (TextView) findViewById(R.id.item_loot_image_count);
 
-        mExperienceView.setTypeface(oldLondon);
-        mItemsLootedView.setTypeface(oldLondon);
-        mMonsterNameView.setTypeface(oldLondon);
-        mGoldLootedView.setTypeface(oldLondon);
+        mItemView = (ImageView) findViewById(R.id.item_loot_image);
+
+        mExperienceView.setTypeface(roman);
+        mItemsLootedView.setTypeface(roman);
+        mMonsterNameView.setTypeface(roman);
+        mGoldLootedView.setTypeface(roman);
+        mLevelView.setTypeface(roman);
+        mTitleView.setTypeface(oldLondon);
+        mItemViewCount.setTypeface(roman);
 
         mMonsterNameView.setText("Monster Slain: " + Dinosaur.getInstance().getNameOfDino());
+        monster = Bitmap.createScaledBitmap(monster, 50, 50, false);
 
-        mExperienceView.setTextColor(Color.parseColor("#ffc0cb"));
-        mExperienceView.setText("Experience: ");
+        mExperienceView.setText("Total Experience: ");
         int experienceGained = Dinosaur.getInstance().getExperience();
         int currentXP = preferenceSettings.getInt("_xp", 0);
         int currentGold = preferenceSettings.getInt("_gold", 0);
+
+        //Experience Logic
+        int oldLevel = Player.getInstance().getPlayerLevel();
+        mLevelView.setText("Player Level: ");
+        LevelManager lm = new LevelManager();
         Player.getInstance().setExperience(currentXP + experienceGained);
+        int newLevel = lm.convertExpToLevel(Player.getInstance().getExperience());
+        mLevelView.append(Integer.toString(newLevel));
+        if (newLevel > oldLevel) {
+            Toast.makeText(LootActivity.this, "You Leveled Up to Level " + newLevel +" !", Toast.LENGTH_SHORT).show();
+            mLevelView.append(" (+" + Integer.toString(newLevel - oldLevel) + ")");
+        } else {
+            mLevelView.append(" (+" + Integer.toString(0) + ")");
+        }
 
         int experience = Player.getInstance().getExperience();
         mExperienceView.append(Integer.toString(experience));
-        mExperienceView.setTextColor(Color.parseColor("#00cd00"));
         mExperienceView.append(" (+" + Integer.toString(experienceGained) + ")");
 
-        mGoldLootedView.setTextColor(Color.parseColor("#FFFFFF"));
         mGoldLootedView.setText("Gold: ");
-        mGoldLootedView.setTextColor(Color.parseColor("#e5e500"));
         double goldGained = calculateRandom(Dinosaur.getInstance().getMinGold(), Dinosaur.getInstance().getMaxGold());
         Inventory.getInstance().setGoldAmount(((int) goldGained) + currentGold);
         Double gold = Inventory.getInstance().getGoldAmount();
         mGoldLootedView.append(Integer.toString(gold.intValue()));
-        mGoldLootedView.setTextColor(Color.parseColor("#00cd00"));
         mGoldLootedView.append(" (+" + Integer.toString((int)goldGained) + ")");
 
         //Preference edit to save player stats
@@ -134,8 +163,18 @@ public class LootActivity extends Activity implements Runnable {
 
         mItemsLootedView.setText("Items Looted: ");
         if(!lootCollected) {
-            Item item = calculateDropItem();
-            mItemsLootedView.append(item.getAmount() + " " + item.getName());
+            item = calculateDropItem();
+            //mItemsLootedView.append(item.getAmount() + " " + item.getName());
+            mItemView.setImageResource(item.getImageId());
+            mItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(LootActivity.this, item.getDescription()
+                            ,
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            mItemViewCount.setText("" + item.getAmount());
             Inventory.getInstance().addItem(item.getName(), 1);
             lootCollected = true;
         }
@@ -181,7 +220,6 @@ public class LootActivity extends Activity implements Runnable {
     private void draw(Canvas canvas) {
         if(canvas != null) {
             canvas.drawBitmap(loot_table_view, 0, 0, paint);
-            canvas.drawBitmap(monster, 100 * scale_width, 900 * scale_height, paint);
         }
     }
 

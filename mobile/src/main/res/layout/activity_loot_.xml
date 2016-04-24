@@ -14,15 +14,25 @@
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:id="@+id/loot_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingTop="10dp"
+        android:text="Track Completed!"
+        android:textColor="@color/light_blue"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Monster: "
         android:id="@+id/monster_slain_text"
-        android:textColor="#FFFFFF"
+        android:textColor="#000"
         android:paddingLeft="40dp"
-        android:layout_marginBottom="221dp"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -30,12 +40,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Experience: "
-        android:id="@+id/experience_loot"
-        android:textColor="#FFFFFF"
+        android:text="Current Level: "
+        android:id="@+id/level_loot"
+        android:textColor="#000"
         android:paddingLeft="40dp"
         android:layout_marginTop="39dp"
         android:layout_alignTop="@+id/monster_slain_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Experience: "
+        android:id="@+id/experience_loot"
+        android:textColor="#000"
+        android:paddingLeft="40dp"
+        android:layout_marginTop="39dp"
+        android:layout_alignTop="@+id/level_loot"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -45,7 +68,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Gold Loot: "
         android:id="@+id/gold_loot"
-        android:textColor="#FFFFFF"
+        android:textColor="#000"
         android:paddingLeft="40dp"
         android:layout_marginTop="23dp"
         android:layout_below="@+id/experience_loot"
@@ -59,11 +82,21 @@
         android:text="Item Looted:"
         android:id="@+id/item_loot"
         android:paddingLeft="40dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#000"
         android:layout_below="@+id/gold_loot"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="24dp" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/item_loot_image"
+        android:focusable="false"
+        android:layout_alignBottom="@+id/item_loot"
+        android:layout_toRightOf="@+id/item_loot"
+        android:layout_toEndOf="@+id/item_loot"
+        android:clickable="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -75,5 +108,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/item_loot_image_count"
+        android:layout_alignBottom="@+id/item_loot_image"
+        android:layout_toRightOf="@+id/level_loot"
+        android:layout_toEndOf="@+id/level_loot" />
 
 </RelativeLayout>

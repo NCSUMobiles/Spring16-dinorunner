@@ -1,5 +1,7 @@
 package com.dino.ncsu.dinorunner.Objects;
 
+import com.dino.ncsu.dinorunner.Managers.ItemManager;
+
 import java.io.Serializable;
 
 /**
@@ -26,6 +28,7 @@ public class Item implements Serializable {
     public Item (String name,int amount) {
         this.name = name;
         this.amount = amount;
+        ItemManager.getInstance().setItemVariables(this);
     }
 
     public String getName() {return name;}

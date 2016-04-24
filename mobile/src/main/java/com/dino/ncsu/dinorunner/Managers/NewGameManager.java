@@ -30,6 +30,7 @@ public class NewGameManager {
         Player.getInstance().setmStepLength(30);
         Player.getInstance().setMetric(true);
         Player.getInstance().setResistances(new float[]{1, .1f});
+        Player.getInstance().setPlayerLevel(1);
     }
 
     public void setEquipmentDefaults() {
