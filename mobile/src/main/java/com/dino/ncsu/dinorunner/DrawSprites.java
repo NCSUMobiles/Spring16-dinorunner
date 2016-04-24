@@ -223,7 +223,7 @@ public class DrawSprites {
                 playerDirY = tile.getDirY();
 
                 Player.getInstance().setCurrentTile(tile); //sets current Tile to I
-                Log.d("Current Test", "Current Player Tile Type :" + Player.getInstance().getCurrentTile().getTerrain());
+                //Log.d("Current Test", "Current Player Tile Type :" + Player.getInstance().getCurrentTile().getTerrain());
                 break;
             }
         }

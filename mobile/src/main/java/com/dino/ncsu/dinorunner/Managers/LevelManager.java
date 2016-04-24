@@ -1,12 +1,14 @@
 package com.dino.ncsu.dinorunner.Managers;
 
+import android.util.Log;
+
 /**
  * Created by Jimin Fan on 4/23/2016.
  */
 public class LevelManager {
-    private int[] levels = new int[99];
+    private int[] levels = new int[100];
     private double[] expUntilNext = new double[99];
-    private double[] experience = new double[98];
+    private double[] experience = new double[100];
 
 
     public LevelManager() {
@@ -20,14 +22,14 @@ public class LevelManager {
     }
 
     public int convertExpToLevel(int xp) {
-        if (xp >= experience[experience.length]) {
-            return levels[experience.length];
+        if (xp >= experience[experience.length-1]) {
+            return levels[experience.length-1];
         }
         int count = 1;
         while(xp >= experience[count]) {
             count++;
         }
-        return count - 1;
+        return count;
     }
 
     public double convertLevelToExpTillNext(int currLevel) {

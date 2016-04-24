@@ -1,5 +1,6 @@
 package com.dino.ncsu.dinorunner.Objects;
 
+import com.dino.ncsu.dinorunner.Managers.LevelManager;
 import com.dino.ncsu.dinorunner.Managers.NewGameManager;
 
 import java.io.Serializable;
@@ -92,7 +93,10 @@ public class Player implements Serializable {
         return listOfItems;
     }
 
-    public int getPlayerLevel() { return playerLevel; }
+    public int getPlayerLevel() {
+        LevelManager lm = new LevelManager();
+        return lm.convertExpToLevel(experience);
+    }
     public void setPlayerLevel(int playerLevel) { this.playerLevel = playerLevel; }
 
     public void setListOfItems(ArrayList<Item> listOfItems) {
