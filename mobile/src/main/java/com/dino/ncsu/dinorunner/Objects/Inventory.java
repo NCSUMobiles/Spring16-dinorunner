@@ -76,7 +76,6 @@ public class Inventory implements Serializable {
 
     public boolean addItem(String itemName, int amount) {
         Item item = new Item(itemName, amount);
-        ItemManager.getInstance().setItemVariables(item);
         switch (item.getType()) {
             case 0: //Consumable
                 if (consumableItemsMap.contains(item.getName())) {
@@ -148,7 +147,6 @@ public class Inventory implements Serializable {
 
     public boolean removeItem(String itemName, int amount) {
         Item item = new Item(itemName, amount);
-        ItemManager.getInstance().setItemVariables(item);
         switch (item.getType()) {
             case 0: //Consumable
                 if (consumableItemsMap.contains(item.getName())) {
@@ -251,8 +249,6 @@ public class Inventory implements Serializable {
     public int equipItem(String itemName) {
 //        removeItem(itemName, 1);
         Item item = new Item(itemName, 1);
-
-        ItemManager.getInstance().setItemVariables(item);
         Log.d("equipItemTagName", item.getName());
         Log.d("equipItemTagID", "" + item.getImageId());
         Log.d("equipItemTagSlot", item.getEquipSlot());
