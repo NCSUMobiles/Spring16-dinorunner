@@ -16,6 +16,7 @@ public class SoundManager {
     private SoundPool.Builder builder;
 
     private int dinoApproach;
+    private int riverSound;
     private boolean isDinoApproach = false;
 
     public static synchronized SoundManager getInstance() {
@@ -34,7 +35,7 @@ public class SoundManager {
 
         //load dino approach tick sound
         dinoApproach = pool.load(context, R.raw.ticking, 0);
-
+        riverSound = pool.load(context,R.raw.realriver, 0);
         //wait for loading
         try {
             Thread.sleep(1000);
@@ -47,7 +48,7 @@ public class SoundManager {
         if(isDinoApproach == false) {
             isDinoApproach = true;
             pool.play(dinoApproach, 0.1f, 0.1f, 0, 0, 1);
-            System.out.println("========= Started playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
+            //System.out.println("========= Started playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
         }
     }
 
@@ -55,7 +56,15 @@ public class SoundManager {
         if(isDinoApproach) {
             pool.stop(dinoApproach);
             isDinoApproach = false;
-            System.out.println("========= Stopped playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
+           // System.out.println("========= Stopped playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
+        }
+    }
+
+    public void playTerrainSound(String terrain) {
+        switch(terrain) {
+            case "water":
+                pool.play(riverSound, 0.1f, 0.1f, 0, 0, 1);
+                break;
         }
     }
 }

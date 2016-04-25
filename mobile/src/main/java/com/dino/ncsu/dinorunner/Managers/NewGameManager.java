@@ -29,7 +29,7 @@ public class NewGameManager {
         Player.getInstance().setMaxHealth(100);
         Player.getInstance().setmStepLength(30);
         Player.getInstance().setMetric(true);
-        Player.getInstance().setResistances(new float[]{1, .1f});
+        Player.getInstance().setResistances(new float[]{1, .5f});
         Player.getInstance().setPlayerLevel(1);
     }
 

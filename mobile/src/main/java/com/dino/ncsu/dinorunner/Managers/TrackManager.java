@@ -66,6 +66,7 @@ public class TrackManager {
                 tiles.add(new Tile(193 * scale_width, 664 * scale_height, "dirt", 0, -1, (664 - 155) * scale_height));
 
                 Track.getInstance().setTileList(tiles);
+                Track.getInstance().setFrameCount(4);
 
                 setMonsterForTrack(probs, monsters);
                 break;

@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -145,6 +147,25 @@ public class RunningActivity extends Activity implements Runnable {
 
     private DrawSprites drawSprites = null;
 
+    private int currentFrame = 0;
+    private long lastFrameChangeTime = 0;
+    long fps;
+    private int frameLengthInMilliseconds = 500;
+    long timeThisFrame;
+    private int frameWidth;
+    private int frameHeight;
+    private Rect frameToDraw = new Rect(
+            0,
+            0,
+            frameWidth,
+            frameHeight);
+    RectF whereToDraw = new RectF(
+            0,
+            0,
+            frameWidth,
+            frameHeight);
+
+
     //Sounds:
     boolean isTicking;
 
@@ -202,6 +223,11 @@ public class RunningActivity extends Activity implements Runnable {
         map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
         stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
         items_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(items_frame.getWidth() * scale_width), Math.round(items_frame.getHeight() * scale_height), false);
+
+        frameWidth = Math.round(map.getWidth() / Track.getInstance().getFrameCount());
+        frameHeight = Math.round(map.getHeight());
+        frameToDraw = new Rect(0, 0, frameWidth, frameHeight);
+        whereToDraw = new RectF(0, 0, frameWidth, frameHeight);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_activity);
@@ -450,6 +476,8 @@ public class RunningActivity extends Activity implements Runnable {
             checkPlayerDead();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
+            //RunManager.getInstance().checkTerrainSound();
+//            checkTerrain();
 
             //UI updates
             this.runOnUiThread(new Runnable() {
@@ -491,14 +519,24 @@ public class RunningActivity extends Activity implements Runnable {
 
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
+                // Capture the current time in milliseconds in startFrameTime
+                long startFrameTime = System.currentTimeMillis();
+
                 draw(canvas);
 
+                timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                if (timeThisFrame >= 1) {
+                    fps = 1000 / timeThisFrame;
+                }
                 // End of painting to canvas. system will paint with this canvas,to the surface.
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
     }
-
+//    public void checkTerrain() {
+//        Log.d("TerrainL:", Player.getInstance().getCurrentTile().getTerrain());
+//        SoundManager.getInstance().playTerrainSound(Player.getInstance().getCurrentTile().getTerrain());
+//    }
     public void checkPlayerDead() {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -572,9 +610,26 @@ public class RunningActivity extends Activity implements Runnable {
     public void drawMap(Canvas canvas) {
         MapPos_X = 0;
         MapPos_Y = 0;
-        canvas.drawBitmap(map, MapPos_X, MapPos_Y, paint);
+        getCurrentFrame();
+        canvas.drawBitmap(map, frameToDraw, whereToDraw, null);
     }
 
+    public void getCurrentFrame(){
+
+        long time  = System.currentTimeMillis();
+        if ( time > lastFrameChangeTime + frameLengthInMilliseconds) {
+                lastFrameChangeTime = time;
+                currentFrame++;
+                if (currentFrame >= Track.getInstance().getFrameCount()) {
+                    currentFrame = 0;
+                }
+        }
+        //update the left and right values of the source of
+        //the next frame on the spritesheet
+        frameToDraw.left = currentFrame * frameWidth;
+        frameToDraw.right = frameToDraw.left + frameWidth;
+
+    }
     /**
      * Goes back to the Main Menu when the back button is pressed.
      * This will occur only if the user accepts the prompt to exit to the main menu.

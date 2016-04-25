@@ -98,6 +98,10 @@ public class RunManager {
         }
     }
 
+    public void checkTerrainSound() {
+        SoundManager.getInstance().playTerrainSound(Player.getInstance().getCurrentTile().getTerrain());
+    }
+
     public static synchronized RunManager getInstance() {
         if (instance == null) {
             instance = new RunManager();

@@ -15,10 +15,14 @@ public class Track implements Serializable {
     private ArrayList<Tile> tileList;
     private double totalDistance;       //the total distance of track (in meter)
     private float totalLength;         //the total length of track (in pixel)
+    private int frameCount; //Frames for animation
 
     private Track() {
         tileList = new ArrayList<Tile>();
     }
+
+    public int getFrameCount() { return frameCount; }
+    public void setFrameCount(int frameCount) { this.frameCount = frameCount; }
 
     public void setTrackName(String trackName) { this.trackName = trackName; }
 
