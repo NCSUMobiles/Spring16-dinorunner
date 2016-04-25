@@ -52,9 +52,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.PlayerStatsActivity"
-            android:label="@string/title_activity_player_stats"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_activity_player_stats"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ConsumablePickActivity"
+            android:label="@string/title_activity_consumable_pick"></activity>
     </application>
 
 </manifest>

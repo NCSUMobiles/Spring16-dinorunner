@@ -26,6 +26,8 @@ public class ItemManager {
         item.setTempSpeedBoost(0);
         item.setSpeedBoost(0);
         item.setVisible(true);
+        item.setConsumeType(0);
+
         switch(item.getName()) {
             //Consumables
             case "Fresh Apple":
@@ -36,6 +38,7 @@ public class ItemManager {
                 item.setBuyAmount(10);
                 item.setSellAmount(5);
                 item.setRarity(0);
+                item.setConsumeType(1);
                 break;
             //Equippable Head Items
             case "No Head Item":
