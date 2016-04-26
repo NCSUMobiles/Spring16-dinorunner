@@ -35,7 +35,8 @@ public class MainActivity extends Activity {
             "Brown Pants",
             "No Feet Item",
             "Old Black Boots",
-            "No Cape Item"
+            "No Cape Item",
+            "Fresh Apple"
     };
 
 
@@ -56,6 +57,7 @@ public class MainActivity extends Activity {
             Inventory.getInstance().addItem(items[i], 1);
         }
 
+        Inventory.getInstance().equipConsumableItem(0, "Fresh Apple");
 
 //        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
 //        Log.d("test", "Equippable Item size: " + Inventory.getInstance().getEquippableItems().size());

@@ -126,6 +126,9 @@ public class Player implements Serializable {
     }
 
     public double getHealth() {
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
         return health;
     }
     public void setHealth(double health) {

@@ -562,7 +562,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     private void draw(Canvas canvas) {
         if (canvas != null) {
-            canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
+            //canvas.drawColor(getResources().getColor(android.R.color.darker_gray));
             drawEquipment(canvas);
             drawMap(canvas);
 
@@ -579,7 +579,7 @@ public class RunningActivity extends Activity implements Runnable {
         EquipmentFramePos_X = 700 * scale_width;
         EquipmentFramePos_Y = 910 * scale_height;
 
-        EquipmentPos_X = 740 * scale_width;
+        EquipmentPos_X = 760 * scale_width;
         EquipmentPos_Y = 930 * scale_height;
 
         equipped_head_POS_Y = equipped_head.getHeight();
@@ -589,7 +589,7 @@ public class RunningActivity extends Activity implements Runnable {
         equipped_shoes_POS_Y = equipped_pants.getHeight() + equipped_chest.getHeight() + equipped_head.getHeight();
 
         //Draws equipment screen
-        canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
+        //canvas.drawBitmap(character_frame, EquipmentFramePos_X, EquipmentFramePos_Y, paint);
         canvas.drawBitmap(equipped_head, EquipmentPos_X, EquipmentPos_Y, paint);
         canvas.drawBitmap(equipped_cape, EquipmentPos_X, EquipmentPos_Y + equipped_shirt_POS_Y, paint);
         canvas.drawBitmap(equipped_shoulder, EquipmentPos_X, EquipmentPos_Y + equipped_shirt_POS_Y, paint);
@@ -600,9 +600,9 @@ public class RunningActivity extends Activity implements Runnable {
         canvas.drawBitmap(equipped_shoes, EquipmentPos_X, EquipmentPos_Y + equipped_shoes_POS_Y, paint);
 
         //Draws stats screen
-        canvas.drawBitmap(stat_frame, 0, 910 * scale_height, paint);
+        //canvas.drawBitmap(stat_frame, 0, 910 * scale_height, paint);
         //Draws consumable items screen
-        canvas.drawBitmap(items_frame, 0, 1400 * scale_height, paint);
+        //canvas.drawBitmap(items_frame, 0, 1400 * scale_height, paint);
 
     }
 

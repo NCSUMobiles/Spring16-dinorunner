@@ -24,7 +24,7 @@ public class Item implements Serializable {
 
     private boolean isVisible = true;
     private float[] resistances = new float[2]; //0-Dirt 1-Water
-    private int consumeType; //0-NA 1-Food 2-Trap
+    private String consumeType; //0-NA 1-Food 2-Trap
 
     public Item (String name,int amount) {
         this.name = name;
@@ -38,8 +38,8 @@ public class Item implements Serializable {
     public float[] getResistances() { return resistances; }
     public void setResistances(float[] resistances) { this.resistances = resistances; }
 
-    public int getConsumeType() { return consumeType; }
-    public void setConsumeType(int consumeType) { this.consumeType = consumeType; }
+    public String getConsumeType() { return consumeType; }
+    public void setConsumeType(String consumeType) { this.consumeType = consumeType; }
 
     public String getDescription() {return description;}
     public void setDescription(String description) { this.description = description;}

@@ -256,7 +256,6 @@ public class Inventory implements Serializable {
         Log.d("equipItemTagID", "" + item.getImageId());
         Log.d("equipItemTagSlot", item.getEquipSlot());
         //NA, HEAD, SHOULDERS, CHEST, SHIRT, GLOVES, PANTS, SHOES, CAPE
-        if (item.getConsumeType() == 0) {
             switch (item.getEquipSlot()) {
                 case "NA":
 //                addItem(itemName, 1);
@@ -341,7 +340,6 @@ public class Inventory implements Serializable {
                     Log.d("test", "We equipped " + item.getName() + " Successfully!");
                     return 7;
             }
-        }
         Log.d("test", "We unsuccessfully equipped Item");
         return -1;
     }
@@ -349,6 +347,20 @@ public class Inventory implements Serializable {
     public void equipConsumableItem(int slot, String item) {
         synchronized (equippedConsumables) {
             equippedConsumables[slot] = item;
+        }
+    }
+
+    public void useConsumableItem(String item) {
+        removeItem(item, 1);
+        Item consumeItem = new Item(item, 1);
+        switch(consumeItem.getConsumeType()) {
+            case "NA":
+                Log.d("Test ", "Can't eat a nonconsumable item...Error");
+                break;
+            case "FOOD":
+                Log.d("Test ", "We ate the " + item);
+                Player.getInstance().setMaxHealth(Player.getInstance().getHealth() + consumeItem.getHealAmount());
+                break;
         }
     }
 

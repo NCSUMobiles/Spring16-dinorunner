@@ -26,7 +26,7 @@ public class ItemManager {
         item.setTempSpeedBoost(0);
         item.setSpeedBoost(0);
         item.setVisible(true);
-        item.setConsumeType(0);
+        item.setConsumeType("NA");
 
         switch(item.getName()) {
             //Consumables
@@ -38,7 +38,7 @@ public class ItemManager {
                 item.setBuyAmount(10);
                 item.setSellAmount(5);
                 item.setRarity(0);
-                item.setConsumeType(1);
+                item.setConsumeType("FOOD");
                 break;
             //Equippable Head Items
             case "No Head Item":
