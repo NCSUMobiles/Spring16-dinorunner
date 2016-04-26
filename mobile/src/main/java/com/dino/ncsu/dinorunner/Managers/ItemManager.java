@@ -25,6 +25,7 @@ public class ItemManager {
         item.setHealAmount(0);
         item.setTempSpeedBoost(0);
         item.setSpeedBoost(0);
+        item.setStunChance(0);
         item.setVisible(true);
         item.setConsumeType("NA");
 
@@ -39,6 +40,17 @@ public class ItemManager {
                 item.setSellAmount(5);
                 item.setRarity(0);
                 item.setConsumeType("FOOD");
+                break;
+            //Consumables Traps
+            case "Banana Peel":
+                item.setImageId(R.drawable.trap_banana);
+                item.setDescription("A slimy banana peel. Small chance of tripping enemy.");
+                item.setType(0);
+                item.setBuyAmount(30);
+                item.setSellAmount(15);
+                item.setRarity(1);
+                item.setConsumeType("TRAP");
+                item.setStunChance(1);
                 break;
             //Equippable Head Items
             case "No Head Item":

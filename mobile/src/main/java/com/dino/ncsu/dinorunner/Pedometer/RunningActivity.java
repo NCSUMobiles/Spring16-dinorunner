@@ -703,6 +703,7 @@ public class RunningActivity extends Activity implements Runnable {
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
         Player.getInstance().setDistance(0);
+        RunManager.getInstance().clearTrapLists();
         DistanceValue = 0;
         //Log.d("HeadStart", "" + Dinosaur.getInstance().getHeadStart());
     }
@@ -795,8 +796,8 @@ public class RunningActivity extends Activity implements Runnable {
                 } else {
                     Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[1],
                             Toast.LENGTH_LONG).show();
-                    mAmount1.setTextColor(Color.parseColor("#FF0000"));
-                    mAmount1.setText("0");
+                    mAmount2.setTextColor(Color.parseColor("#FF0000"));
+                    mAmount2.setText("0");
                 }
 
             }

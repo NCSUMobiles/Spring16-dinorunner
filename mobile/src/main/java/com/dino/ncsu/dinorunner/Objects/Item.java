@@ -21,6 +21,7 @@ public class Item implements Serializable {
     private float speedBoost;
     private int healAmount;
     private float tempSpeedBoost;
+    private float stunChance;
 
     private boolean isVisible = true;
     private float[] resistances = new float[2]; //0-Dirt 1-Water
@@ -34,6 +35,9 @@ public class Item implements Serializable {
 
     public String getName() {return name;}
     public void setName(String name) { this.name = name; }
+
+    public float getStunChance() { return stunChance; }
+    public void setStunChance(float stunChance) { this.stunChance = stunChance; }
 
     public float[] getResistances() { return resistances; }
     public void setResistances(float[] resistances) { this.resistances = resistances; }

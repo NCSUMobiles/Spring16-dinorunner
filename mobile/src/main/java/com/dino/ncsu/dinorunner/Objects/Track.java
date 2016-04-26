@@ -16,6 +16,7 @@ public class Track implements Serializable {
     private double totalDistance;       //the total distance of track (in meter)
     private float totalLength;         //the total length of track (in pixel)
     private int frameCount; //Frames for animation
+    private int insurance; //How much money the track takes away if you fail
 
     private Track() {
         tileList = new ArrayList<Tile>();
@@ -24,20 +25,19 @@ public class Track implements Serializable {
     public int getFrameCount() { return frameCount; }
     public void setFrameCount(int frameCount) { this.frameCount = frameCount; }
 
-    public void setTrackName(String trackName) { this.trackName = trackName; }
+    public int getInsurance() { return insurance; }
+    public void setInsurance(int insurance) { this.insurance = insurance; }
 
+    public void setTrackName(String trackName) { this.trackName = trackName; }
     public String getTrackName() { return trackName; }
 
     public void setTrackImageId(int trackImageId) { this.trackImageId = trackImageId;}
-
     public int getTrackImageId() { return trackImageId;}
 
     public void setTileList(ArrayList<Tile> tileList) { this.tileList = tileList; }
-
     public ArrayList<Tile> getTileList() { return tileList; }
 
     public void setTotalDistance(double totalDistance) {this.totalDistance = totalDistance;}
-
     public double getTotalDistance() {return totalDistance;}
 
     public float getTotalLength() {

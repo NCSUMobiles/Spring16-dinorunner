@@ -2,6 +2,8 @@ package com.dino.ncsu.dinorunner.Objects;
 
 import android.util.Log;
 
+import com.dino.ncsu.dinorunner.Managers.RunManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -398,6 +400,27 @@ public class Inventory implements Serializable {
 
                 synchronized (Player.getInstance()) {
                     Player.getInstance().setHealth(Player.getInstance().getHealth() + consumeItem.getHealAmount());
+                }
+                break;
+            case "TRAP":
+                Log.d("Test ", "We used the " + item + " " + inventoryContains(item).getAmount() + " left");
+                synchronized (RunManager.getInstance()) {
+                    ArrayList<String> trapType = RunManager.getInstance().getTrapType();
+                    ArrayList<Float> trapXPos = RunManager.getInstance().getTrapXPos();
+                    ArrayList<Float> trapYPos = RunManager.getInstance().getTrapYPos();
+                    ArrayList<Integer> trackImage = RunManager.getInstance().getTrapImage();
+
+                    trapType.add(item);
+                    trapXPos.add(Player.getInstance().getCurrentTilePosX());
+                    trapYPos.add(Player.getInstance().getCurrentTilePosY());
+
+                    Item tempItem = new Item(item, 1);
+                    trackImage.add(tempItem.getImageId());
+
+                    RunManager.getInstance().setTrapType(trapType);
+                    RunManager.getInstance().setTrapXPos(trapXPos);
+                    RunManager.getInstance().setTrapYPos(trapYPos);
+                    RunManager.getInstance().setTrapImage(trackImage);
                 }
                 break;
         }

@@ -21,6 +21,8 @@ public class Player implements Serializable {
     private double distance; //Distance traveled
     private double stepsTraveled; //Steps traveled
     private Tile currentTile; //Current tile of track player is on
+    private float currentTilePosX;
+    private float currentTilePosY;
     private String playerName; //Player name
     private double mStepLength ; //Player Step Length = .3048
     private double maxHealth;
@@ -88,6 +90,12 @@ public class Player implements Serializable {
     public void setStepsTraveled(double steps) {
         this.stepsTraveled = steps;
     }
+
+    public float getCurrentTilePosX() { return currentTilePosX; }
+    public void setCurrentTilePosX(float currentTilePosX) { this.currentTilePosX = currentTilePosX; }
+
+    public float getCurrentTilePosY() { return currentTilePosY; }
+    public void setCurrentTilePosY(float currentTilePosY) { this.currentTilePosY = currentTilePosY; }
 
     public ArrayList<Item> getListOfItems() {
         return listOfItems;

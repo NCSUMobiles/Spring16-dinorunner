@@ -12,12 +12,16 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Objects.Tile;
 import com.dino.ncsu.dinorunner.Objects.Track;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by luyao on 4/12/2016.
@@ -128,12 +132,18 @@ public class DrawSprites {
 
         checkTilesDino();
 
-        whereToDraw.set((int) dinoX -frameWidth/2*scale_width, (int) dinoY - frameHeight*3/4*scale_height, (int) dinoX + frameWidth/2*scale_height, (int) dinoY + frameHeight/4*scale_height );
+        checkTraps();
+
+        whereToDraw.set((int) dinoX - frameWidth / 2 * scale_width, (int) dinoY - frameHeight * 3 / 4 * scale_height, (int) dinoX + frameWidth / 2 * scale_height, (int) dinoY + frameHeight / 4 * scale_height);
         getCurrentFrame();
+
+        drawTraps();
 
         drawDinosaur();
 
         drawPlayer();
+
+
 
         //test
         drawTiles();
@@ -219,6 +229,8 @@ public class DrawSprites {
                 float pixelOnTile = playerDistance / distancePerPixel;
                 playerX = tile.getX() + tile.getDirX() * pixelOnTile;
                 playerY = tile.getY() + tile.getDirY() * pixelOnTile;
+                Player.getInstance().setCurrentTilePosX(playerX);
+                Player.getInstance().setCurrentTilePosY(playerY);
                 playerDirX = tile.getDirX();
                 playerDirY = tile.getDirY();
 
@@ -269,6 +281,48 @@ public class DrawSprites {
                         Dinosaur.getInstance().getSpeed() * deltaTime / 1000);
             }
 
+        }
+    }
+
+    public void drawTraps() {
+        for (int i = 0; i < RunManager.getInstance().getTrapType().size(); i++) {
+            Bitmap traps = BitmapFactory.decodeResource(resources, RunManager.getInstance().getTrapImage().get(i));
+            traps = traps.createScaledBitmap(traps, Math.round(32 * scale_width), Math.round(32*scale_height), false);
+            canvas.drawBitmap(traps, (RunManager.getInstance().getTrapXPos().get(i) - 16) * scale_width, (RunManager.getInstance().getTrapYPos().get(i) - 16) * scale_height, null);
+        }
+    }
+
+    public void checkTraps() {
+        for (int i = 0; i < RunManager.getInstance().getTrapType().size(); i++) {
+            ArrayList<String> trapType = RunManager.getInstance().getTrapType();
+            ArrayList<Float> trapXPos = RunManager.getInstance().getTrapXPos();
+            ArrayList<Float> trapYPos = RunManager.getInstance().getTrapYPos();
+            ArrayList<Integer> trackImage = RunManager.getInstance().getTrapImage();
+           if ((Math.abs(dinoX - trapXPos.get(i)) <= 10 && (Math.abs(dinoY - trapYPos.get(i)) <= 10)) ) {
+               //Trap is triggered
+               Log.d("test trip", "Calculating stun chances for Trap");
+               synchronized ((RunManager.getInstance())) {
+                   Item tempItem = new Item(trapType.get(i), 1);
+                   Random random = new Random();
+                   if (random.nextFloat() <= tempItem.getStunChance()) {
+                       synchronized (Dinosaur.getInstance()) {
+                           Log.d("Test trip", "Monster get tripped!");
+                           Dinosaur.getInstance().setStunned(true);
+                       }
+                       RunManager.getInstance().setLastStunnedTime(System.currentTimeMillis());
+
+                   }
+                   trapType.remove(i);
+                   trapXPos.remove(i);
+                   trapYPos.remove(i);
+                   trackImage.remove(i);
+
+                   RunManager.getInstance().setTrapType(trapType);
+                   RunManager.getInstance().setTrapXPos(trapXPos);
+                   RunManager.getInstance().setTrapYPos(trapYPos);
+                   RunManager.getInstance().setTrapImage(trackImage);
+               }
+           }
         }
     }
 
