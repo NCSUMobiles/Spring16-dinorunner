@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -25,7 +26,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dino.ncsu.dinorunner.Activity.LootActivity;
 import com.dino.ncsu.dinorunner.DrawSprites;
@@ -33,6 +37,7 @@ import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Managers.SoundManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
+import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
 import com.dino.ncsu.dinorunner.Objects.Track;
@@ -142,8 +147,7 @@ public class RunningActivity extends Activity implements Runnable {
     private int equipped_shirt_POS_Y;
     private Bitmap map;
     public static Typeface oldLondon;
-    private Bitmap stat_frame;
-    private Bitmap items_frame;
+    public static Typeface roman;
 
     private DrawSprites drawSprites = null;
 
@@ -165,6 +169,15 @@ public class RunningActivity extends Activity implements Runnable {
             frameWidth,
             frameHeight);
 
+    //Consumable Item Variables
+    TextView mAmount1;
+    TextView mAmount2;
+    TextView mAmount3;
+    TextView mAmount4;
+    ImageView mConsume1;
+    ImageView mConsume2;
+    ImageView mConsume3;
+    ImageView mConsume4;
 
     //Sounds:
     boolean isTicking;
@@ -241,9 +254,21 @@ public class RunningActivity extends Activity implements Runnable {
         //Dino Stuff
         mDinoDistanceView = (TextView) findViewById(R.id.dinoDistanceView);
         mDinoSpeedView = (TextView) findViewById(R.id.dinoSpeedView);
+        //items Stuff
+        mAmount1 = (TextView) findViewById(R.id.amount_slot_1_view);
+        mAmount2 = (TextView) findViewById(R.id.amount_slot_2_view);
+        mAmount3 = (TextView) findViewById(R.id.amount_slot_3_view);
+        mAmount4 = (TextView) findViewById(R.id.amount_slot_4_view);
+        mConsume1 = (ImageView) findViewById(R.id.consume_slot1);
+        mConsume2 = (ImageView) findViewById(R.id.consume_slot2);
+        mConsume3 = (ImageView) findViewById(R.id.consume_slot3);
+        mConsume4 = (ImageView) findViewById(R.id.consume_slot4);
+        mConsume1.getLayoutParams().height = Math.round(200 * scale_height);
+        mConsume1.getLayoutParams().width = Math.round(200 * scale_width);
 
         //Old London Text Style
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
+        roman = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/MorrisRomanBlack.ttf");
 
         mDinoDistanceView.setTypeface(oldLondon);
         mSpeedView.setTypeface(oldLondon);
@@ -251,6 +276,17 @@ public class RunningActivity extends Activity implements Runnable {
         mDinoSpeedView.setTypeface(oldLondon);
         mDistanceView.setTypeface(oldLondon);
         mDistanceLeftView.setTypeface(oldLondon);
+        mAmount1.setTypeface(roman);
+        mAmount2.setTypeface(roman);
+        mAmount3.setTypeface(roman);
+        mAmount4.setTypeface(roman);
+        mAmount1.setTextColor(Color.parseColor("#00FF00"));
+        mAmount2.setTextColor(Color.parseColor("#00FF00"));
+        mAmount3.setTextColor(Color.parseColor("#00FF00"));
+        mAmount4.setTextColor(Color.parseColor("#00FF00"));
+        //Sets imageviews for now
+
+        setInventoryViews();
 
         //Sounds
 
@@ -696,5 +732,141 @@ public class RunningActivity extends Activity implements Runnable {
         }
         Log.d("Coordinates of Touch: ", "" + x + "," + y);
         return false;
+    }
+
+    public void setInventoryViews() {
+        Item tempItem = null;
+        if (Inventory.getInstance().getEquippedConsumables()[0] != null) {
+            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]);
+        }
+        if (tempItem != null) {
+            mAmount1.setText("" + tempItem.getAmount());
+            mConsume1.setImageResource(tempItem.getImageId());
+        } else {
+            mAmount1.setText("");
+        }
+        mConsume1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]);
+                if (tempItem != null) {
+                    if (tempItem.getAmount() > 0) {
+                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[0],
+                                Toast.LENGTH_LONG).show();
+                        mAmount1.setTextColor(Color.parseColor("#00FF00"));
+                        mAmount1.setText("" + tempItem.getAmount());
+                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[0]);
+                    }
+
+                } else {
+                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[0],
+                            Toast.LENGTH_LONG).show();
+                    mAmount1.setTextColor(Color.parseColor("#FF0000"));
+                    mAmount1.setText("0");
+                }
+
+            }
+        });
+
+        tempItem = null;
+        if (Inventory.getInstance().getEquippedConsumables()[1] != null) {
+            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]);
+        }
+        if (tempItem != null) {
+            mAmount2.setText("" + tempItem.getAmount());
+            mConsume2.setImageResource(tempItem.getImageId());
+        } else {
+            mAmount2.setText("");
+        }
+
+        mConsume2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]);
+                if (tempItem != null) {
+                    if (tempItem.getAmount() > 0) {
+                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[1],
+                                Toast.LENGTH_LONG).show();
+                        mAmount2.setTextColor(Color.parseColor("#00FF00"));
+                        mAmount2.setText("" + tempItem.getAmount());
+                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[1]);
+                    }
+
+                } else {
+                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[1],
+                            Toast.LENGTH_LONG).show();
+                    mAmount1.setTextColor(Color.parseColor("#FF0000"));
+                    mAmount1.setText("0");
+                }
+
+            }
+        });
+
+        tempItem = null;
+        if (Inventory.getInstance().getEquippedConsumables()[2] != null) {
+            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]);
+        }
+        if (tempItem != null) {
+            mAmount3.setText("" + tempItem.getAmount());
+            mConsume3.setImageResource(tempItem.getImageId());
+        } else {
+            mAmount3.setText("");
+        }
+
+        mConsume3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]);
+                if (tempItem != null) {
+                    if (tempItem.getAmount() > 0) {
+                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[2],
+                                Toast.LENGTH_LONG).show();
+                        mAmount3.setTextColor(Color.parseColor("#00FF00"));
+                        mAmount3.setText("" + tempItem.getAmount());
+                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[2]);
+                    }
+
+                } else {
+                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[2],
+                            Toast.LENGTH_LONG).show();
+                    mAmount3.setTextColor(Color.parseColor("#FF0000"));
+                    mAmount3.setText("0");
+                }
+
+            }
+        });
+
+        tempItem = null;
+        if (Inventory.getInstance().getEquippedConsumables()[3] != null) {
+            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]);
+        }
+            if (tempItem != null) {
+            mAmount4.setText("" + tempItem.getAmount());
+            mConsume4.setImageResource(tempItem.getImageId());
+        } else {
+            mAmount4.setText("");
+        }
+        mConsume4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]);
+                if (tempItem != null) {
+                    if (tempItem.getAmount() > 0) {
+                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[3],
+                                Toast.LENGTH_LONG).show();
+                        mAmount4.setTextColor(Color.parseColor("#00FF00"));
+                        mAmount4.setText("" + tempItem.getAmount());
+                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[3]);
+                    }
+
+                } else {
+                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[3],
+                            Toast.LENGTH_LONG).show();
+                    mAmount4.setTextColor(Color.parseColor("#FF0000"));
+                    mAmount4.setText("0");
+                }
+
+            }
+        });
     }
 }

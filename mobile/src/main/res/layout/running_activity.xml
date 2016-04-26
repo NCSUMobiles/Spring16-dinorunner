@@ -22,7 +22,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="left|top">
+        android:layout_gravity="left|top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,6 +102,97 @@
             android:layout_above="@+id/distanceView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consume_slot1"
+            android:clickable="true"
+            android:layout_marginTop="36dp"
+            android:layout_below="@+id/healthView"
+            android:layout_alignLeft="@+id/healthView"
+            android:layout_alignStart="@+id/healthView"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consume_slot2"
+            android:clickable="true"
+            android:layout_alignTop="@+id/consume_slot1"
+            android:layout_alignRight="@+id/dinoSpeedView"
+            android:layout_alignEnd="@+id/dinoSpeedView" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consume_slot3"
+            android:clickable="true"
+            android:layout_alignTop="@+id/consume_slot2"
+            android:layout_toLeftOf="@+id/dinoDistanceView"
+            android:layout_toStartOf="@+id/dinoDistanceView"
+            android:layout_marginRight="45dp"
+            android:layout_marginEnd="45dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consume_slot4"
+            android:clickable="true"
+            android:layout_alignRight="@+id/consume_slot3"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
+            android:layout_alignTop="@+id/consume_slot3"
+            android:layout_toRightOf="@+id/consume_slot3"
+            android:layout_toEndOf="@+id/consume_slot3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="1"
+            android:id="@+id/amount_slot_1_view"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/healthView"
+            android:layout_alignEnd="@+id/healthView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="2"
+            android:id="@+id/amount_slot_2_view"
+            android:layout_marginLeft="29dp"
+            android:layout_marginStart="29dp"
+            android:layout_alignTop="@+id/amount_slot_1_view"
+            android:layout_toRightOf="@+id/consume_slot2"
+            android:layout_toEndOf="@+id/consume_slot2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="3"
+            android:id="@+id/amount_slot_3_view"
+            android:layout_alignTop="@+id/amount_slot_2_view"
+            android:layout_toLeftOf="@+id/consume_slot4"
+            android:layout_toStartOf="@+id/consume_slot4"
+            android:layout_marginRight="14dp"
+            android:layout_marginEnd="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="4"
+            android:id="@+id/amount_slot_4_view"
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_alignTop="@+id/amount_slot_3_view"
+            android:layout_alignRight="@+id/dinoDistanceView"
+            android:layout_alignEnd="@+id/dinoDistanceView" />
 
     </RelativeLayout>
 

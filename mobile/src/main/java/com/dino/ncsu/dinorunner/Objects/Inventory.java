@@ -91,13 +91,13 @@ public class Inventory implements Serializable {
                 } else {
                     //Item does not exist in inventory, add to inventory
                     item.setAmount(amount);
-                    synchronized (consumableItems) {
-                        consumableItems.add(item); //update item Inventory
-//                        Log.d("Line 73", "" + consumableItems.size());
-                    }
                     synchronized (consumableItemsMap) {
                         consumableItemsMap.add(item.getName()); //update reference inventory
 //                        Log.d("Line 77", "" + consumableItemsMap.size());
+                    }
+                    synchronized (consumableItems) {
+                        consumableItems.add(item); //update item Inventory
+//                        Log.d("Line 73", "" + consumableItems.size());
                     }
                     return true;
                 }
@@ -112,14 +112,14 @@ public class Inventory implements Serializable {
                 } else {
                     //Item does not exist in inventory, add to inventory
                     item.setAmount(amount);
+                    synchronized (equippableItemsMap) {
+                        equippableItemsMap.add(item.getName()); //update reference inventory
+                        //Log.d("Line 98", "" + equippableItems.size());
+                    }
                     synchronized (equippableItems) {
                         equippableItems.add(item); //update item Inventory
 //                        Log.d("Line 94", "" + equippableItems.size());
 //                        Log.d("image", "" + equippableItems.get(equippableItems.size() - 1).getImageId());
-                    }
-                    synchronized (equippableItemsMap) {
-                        equippableItemsMap.add(item.getName()); //update reference inventory
-                        //Log.d("Line 98", "" + equippableItems.size());
                     }
                     //Log.d("test", "We successfully added " + item.getName());
                     return true;
@@ -135,11 +135,11 @@ public class Inventory implements Serializable {
                 } else {
                     //Item does not exist in inventory, add to inventory
                     item.setAmount(amount);
-                    synchronized (trophyItems) {
-                        trophyItems.add(item); //update item Inventory
-                    }
                     synchronized (trophyItemsMap) {
                         trophyItemsMap.add(item.getName()); //update reference inventory
+                    }
+                    synchronized (trophyItems) {
+                        trophyItems.add(item); //update item Inventory
                     }
                     return true;
                 }
@@ -166,12 +166,13 @@ public class Inventory implements Serializable {
                     }
                     //We removed all of the item, so we now remove item from inventory
                     if (item.getAmount() == 0) {
-                        synchronized (consumableItems) {
-                            consumableItems.remove(keyOfItem);
-                        }
                         synchronized (consumableItemsMap) {
                             consumableItemsMap.remove(keyOfItem);
                         }
+                        synchronized (consumableItems) {
+                            consumableItems.remove(keyOfItem);
+                        }
+
                         Log.d("test", "Removed all Instances of " + item.getName() + "!");
                         return true;
                     }
@@ -197,11 +198,11 @@ public class Inventory implements Serializable {
                     }
                     //We removed all of the item, so we now remove item from inventory
                     if (item.getAmount() == 0) {
-                        synchronized (equippableItems) {
-                            equippableItems.remove(keyOfItem);
-                        }
                         synchronized (equippableItemsMap) {
                             equippableItemsMap.remove(keyOfItem);
+                        }
+                        synchronized (equippableItems) {
+                            equippableItems.remove(keyOfItem);
                         }
                         Log.d("test", "Removed all Instances of " + item.getName() + "!");
                         return true;
@@ -228,11 +229,11 @@ public class Inventory implements Serializable {
                     }
                     //We removed all of the item, so we now remove item from inventory
                     if (item.getAmount() == 0) {
-                        synchronized (trophyItems) {
-                            trophyItems.remove(keyOfItem);
-                        }
                         synchronized (trophyItemsMap) {
                             trophyItemsMap.remove(keyOfItem);
+                        }
+                        synchronized (trophyItems) {
+                            trophyItems.remove(keyOfItem);
                         }
                         Log.d("test", "Removed all Instances of " + item.getName() + "!");
                         return true;
@@ -248,6 +249,42 @@ public class Inventory implements Serializable {
         Log.d("test", "We failed to add Item for some reason.");
         return false;
     }
+
+    public Item inventoryContains(String itemName) {
+        Item item = new Item(itemName, 1);
+        switch (item.getType()) {
+            case 0: //Consumable
+                if (consumableItemsMap.contains(item.getName())) {
+                    int keyOfItem = consumableItemsMap.indexOf(item.getName());
+                    Item reference = consumableItems.get(keyOfItem);
+                    Log.d("test", "Successfully returned " + itemName);
+                    return reference;
+                }
+                Log.d("test", "NONONO " + itemName);
+                return null;
+            case 1: //Equippable
+                if (equippableItemsMap.contains(item.getName())) {
+                    int keyOfItem = equippableItemsMap.indexOf(item.getName());
+                    Item reference = equippableItems.get(keyOfItem);
+                    Log.d("test", "Successfully returned " + itemName);
+                    return reference;
+                }
+                Log.d("test", "NONONO " + itemName);
+                return null;
+            case 2: //Trophy
+                if (trophyItemsMap.contains(item.getName())) {
+                    int keyOfItem = trophyItemsMap.indexOf(item.getName());
+                    Item reference = trophyItems.get(keyOfItem);
+                    Log.d("test", "Successfully returned " + itemName);
+                    return reference;
+                }
+                Log.d("test", "NONONO " + itemName);
+                return null;
+        }
+        Log.d("test", "NONONO " + itemName);
+        return null;
+    }
+
 
     public int equipItem(String itemName) {
 //        removeItem(itemName, 1);
@@ -351,17 +388,20 @@ public class Inventory implements Serializable {
     }
 
     public void useConsumableItem(String item) {
-        removeItem(item, 1);
         Item consumeItem = new Item(item, 1);
         switch(consumeItem.getConsumeType()) {
             case "NA":
                 Log.d("Test ", "Can't eat a nonconsumable item...Error");
                 break;
             case "FOOD":
-                Log.d("Test ", "We ate the " + item);
-                Player.getInstance().setMaxHealth(Player.getInstance().getHealth() + consumeItem.getHealAmount());
+                Log.d("Test ", "We ate the " + item + " " + inventoryContains(item).getAmount() + " left");
+
+                synchronized (Player.getInstance()) {
+                    Player.getInstance().setHealth(Player.getInstance().getHealth() + consumeItem.getHealAmount());
+                }
                 break;
         }
+        removeItem(item, 1);
     }
 
     public double getGoldAmount() {

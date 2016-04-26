@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < items.length; i++) {
             Inventory.getInstance().addItem(items[i], 1);
         }
-
+        Inventory.getInstance().addItem("Fresh Apple", 10);
         Inventory.getInstance().equipConsumableItem(0, "Fresh Apple");
 
 //        Log.d("test", "Equippable Item Map size: " + Inventory.getInstance().getEquippableItemsMap().size());
