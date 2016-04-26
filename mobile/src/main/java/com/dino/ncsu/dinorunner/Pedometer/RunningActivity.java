@@ -191,8 +191,6 @@ public class RunningActivity extends Activity implements Runnable {
         scale_width = width / 1080;
         scale_height = height / 1776;
 
-        character_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_character);
-
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_shoulder = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
         equipped_chest = BitmapFactory.decodeResource(getResources(), equipment.get(2).getImageId());
@@ -205,13 +203,6 @@ public class RunningActivity extends Activity implements Runnable {
         //Bitmap for frame: Track
         map = BitmapFactory.decodeResource(getResources(), Track.getInstance().getTrackImageId());
 
-        //Bitmap for statistics frame
-        stat_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_stat_frame);
-
-        //Bitmap for consumable items frame
-        items_frame = BitmapFactory.decodeResource(getResources(), R.drawable.frame_inventory_consume);
-
-        character_frame = Bitmap.createScaledBitmap(character_frame, Math.round(character_frame.getWidth() * scale_width), Math.round(character_frame.getHeight() * scale_height), false);
         equipped_head = Bitmap.createScaledBitmap(equipped_head, Math.round(equipped_head.getWidth() * scale_width), Math.round(equipped_head.getHeight() * scale_height), false);
         equipped_shoulder = Bitmap.createScaledBitmap(equipped_shoulder, Math.round(equipped_shoulder.getWidth() * scale_width), Math.round(equipped_shoulder.getHeight() * scale_height), false);
         equipped_chest = Bitmap.createScaledBitmap(equipped_chest, Math.round(equipped_chest.getWidth() * scale_width), Math.round(equipped_chest.getHeight() * scale_height), false);
@@ -221,8 +212,6 @@ public class RunningActivity extends Activity implements Runnable {
         equipped_shoes = Bitmap.createScaledBitmap(equipped_shoes, Math.round(equipped_shoes.getWidth() * scale_width), Math.round(equipped_shoes.getHeight() * scale_height), false);
         equipped_cape = Bitmap.createScaledBitmap(equipped_cape, Math.round(equipped_cape.getWidth() * scale_width), Math.round(equipped_cape.getHeight() * scale_height), false);
         map = Bitmap.createScaledBitmap(map, Math.round(map.getWidth() * scale_width), Math.round(map.getHeight() * scale_height), false);
-        stat_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(stat_frame.getWidth() * scale_width), Math.round(stat_frame.getHeight() * scale_height), false);
-        items_frame = Bitmap.createScaledBitmap(stat_frame, Math.round(items_frame.getWidth() * scale_width), Math.round(items_frame.getHeight() * scale_height), false);
 
         frameWidth = Math.round(map.getWidth() / Track.getInstance().getFrameCount());
         frameHeight = Math.round(map.getHeight());
