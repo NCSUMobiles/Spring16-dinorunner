@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -276,7 +275,9 @@ public class LootActivity extends Activity implements Runnable {
     }
 
     public void disposeBitmap(Bitmap bitmap) {
-        bitmap.recycle();
-        bitmap = null;
+        if(bitmap != null) {
+            bitmap.recycle();
+            bitmap = null;
+        }
     }
 }
