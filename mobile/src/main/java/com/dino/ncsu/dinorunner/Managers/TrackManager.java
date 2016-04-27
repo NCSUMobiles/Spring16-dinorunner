@@ -44,8 +44,8 @@ public class TrackManager {
 
         switch(Track.getInstance().getTrackImageId()) {
             case R.drawable.track_track1:
-                double[] probs = {.95, 1};
-                String[] monsters = {"Goblin", "Skeleton Spearman"};
+                double[] probs = {1};
+                String[] monsters = {"Goblin"};
 
                 ArrayList<Tile> tiles = new ArrayList<Tile>();
 
@@ -67,6 +67,8 @@ public class TrackManager {
 
                 Track.getInstance().setTileList(tiles);
                 Track.getInstance().setFrameCount(4);
+                Track.getInstance().setInsurance(0);
+                Track.getInstance().setTotalDistance(100);
 
                 setMonsterForTrack(probs, monsters);
                 break;

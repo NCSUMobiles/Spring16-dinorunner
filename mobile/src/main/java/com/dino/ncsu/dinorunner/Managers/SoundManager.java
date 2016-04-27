@@ -16,7 +16,7 @@ public class SoundManager {
     private SoundPool.Builder builder;
 
     private int dinoApproach;
-
+    private int dinoApproachId;
     private int riverSound;
     private int riverSoundId;
 
@@ -50,14 +50,14 @@ public class SoundManager {
     public void playDinoApproach() {
         if(isDinoApproach == false) {
             isDinoApproach = true;
-            pool.play(dinoApproach, 0.1f, 0.1f, 0, 0, 1);
+            dinoApproachId = pool.play(dinoApproach, 1f, 1f, 0, -1, 1);
             //System.out.println("========= Started playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
         }
     }
 
     public void stopDinoApproach() {
         if(isDinoApproach) {
-            pool.stop(dinoApproach);
+            pool.stop(dinoApproachId);
             isDinoApproach = false;
            // System.out.println("========= Stopped playDinoApproach ===========" + RunManager.getInstance().getDistanceFromPlayer());
         }
@@ -67,7 +67,7 @@ public class SoundManager {
         switch(terrain) {
             case "water":
                 //pool.stop(riverSound);
-                riverSoundId = pool.play(riverSound, 0.1f, 0.1f, 0, 0, 1);
+                riverSoundId = pool.play(riverSound, 0.5f, 0.5f, 0, -1, 1);
 
                 //System.out.println("========= Playing river sound ===========" + riverSoundId + ", " + riverSound);
                 //stop all other sounds here

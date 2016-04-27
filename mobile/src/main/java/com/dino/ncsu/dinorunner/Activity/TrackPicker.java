@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.dino.ncsu.dinorunner.Managers.DinoManager;
 import com.dino.ncsu.dinorunner.Managers.TrackManager;
 import com.dino.ncsu.dinorunner.Objects.Track;
+import com.dino.ncsu.dinorunner.Pedometer.RunningActivity;
 import com.dino.ncsu.dinorunner.R;
 
 import java.util.ArrayList;
@@ -171,10 +172,24 @@ public class TrackPicker extends Activity {
                                 startActivity(new Intent(getApplicationContext(), ItemPickActivity.class));
                             }
                         })
+
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //do nothing for right now
+                            }
+                        })
+                        .setNeutralButton("LEEEROY JENKINS", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Track.getInstance().setTrackName(item.get("tracks"));
+                                Track.getInstance().setTrackImageId(Integer.parseInt(item.get("trackImage")));
+                                TrackManager tm = new TrackManager();
+                                tm.setTrack(scale_width, scale_height);
+                                DinoManager dinoManager = new DinoManager();
+                                dinoManager.setDinos();
+                                Toast.makeText(TrackPicker.this, "Selected Track: " + item.get("tracks"), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), RunningActivity.class));
                             }
                         })
                         .show();

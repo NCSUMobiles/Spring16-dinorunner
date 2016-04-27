@@ -287,6 +287,36 @@ public class Inventory implements Serializable {
         return null;
     }
 
+    public int inventoryItemAmountOf(String itemName) {
+        Item item = new Item(itemName, 1);
+        switch (item.getType()) {
+            case 0: //Consumable
+                if (consumableItemsMap.contains(item.getName())) {
+                    int keyOfItem = consumableItemsMap.indexOf(item.getName());
+                    Item reference = consumableItems.get(keyOfItem);
+                    return reference.getAmount();
+                }
+                return 0;
+            case 1: //Equippable
+                if (equippableItemsMap.contains(item.getName())) {
+                    int keyOfItem = equippableItemsMap.indexOf(item.getName());
+                    Item reference = equippableItems.get(keyOfItem);
+                    Log.d("test", "Successfully returned " + itemName);
+                    return reference.getAmount();
+                }
+                return 0;
+            case 2: //Trophy
+                if (trophyItemsMap.contains(item.getName())) {
+                    int keyOfItem = trophyItemsMap.indexOf(item.getName());
+                    Item reference = trophyItems.get(keyOfItem);
+                    Log.d("test", "Successfully returned " + itemName);
+                    return reference.getAmount();
+                }
+                return 0;
+        }
+        return 0;
+    }
+
 
     public int equipItem(String itemName) {
 //        removeItem(itemName, 1);

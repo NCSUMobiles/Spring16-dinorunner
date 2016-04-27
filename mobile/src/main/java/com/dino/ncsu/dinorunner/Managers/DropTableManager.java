@@ -17,7 +17,10 @@ public class DropTableManager {
             case "Goblin":
                 Dinosaur.getInstance().clearTables();
                 temp = Dinosaur.getInstance().getDropTable();
-                temp.add(new DropTableItem("Fresh Apple", 1, 1, 1000));
+                temp.add(new DropTableItem("Fresh Apple", 1, 3, 1000));
+                temp.add(new DropTableItem("Copper Ore", 1, 1, 1000));
+                temp.add(new DropTableItem("Tin Ore", 1, 1, 1000));
+                temp.add(new DropTableItem("Banana Peel", 1, 1, 1000));
                 Dinosaur.getInstance().setDropTable(temp);
                 break;
             case "Skeleton Spearman":

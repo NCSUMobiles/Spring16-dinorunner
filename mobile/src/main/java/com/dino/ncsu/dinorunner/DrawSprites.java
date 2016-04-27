@@ -289,7 +289,7 @@ public class DrawSprites {
         for (int i = 0; i < RunManager.getInstance().getTrapType().size(); i++) {
             Bitmap traps = BitmapFactory.decodeResource(resources, RunManager.getInstance().getTrapImage().get(i));
             traps = traps.createScaledBitmap(traps, Math.round(32 * scale_width), Math.round(32*scale_height), false);
-            canvas.drawBitmap(traps, (RunManager.getInstance().getTrapXPos().get(i) - 16) * scale_width, (RunManager.getInstance().getTrapYPos().get(i) - 16) * scale_height, null);
+            canvas.drawBitmap(traps, (RunManager.getInstance().getTrapXPos().get(i) - 16), (RunManager.getInstance().getTrapYPos().get(i) - 16), null);
         }
     }
 

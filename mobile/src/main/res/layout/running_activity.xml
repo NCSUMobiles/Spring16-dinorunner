@@ -164,8 +164,8 @@
             android:layout_above="@id/consume_slot2"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="58dp"
-            android:layout_marginLeft="70dp"
-            android:layout_toRightOf="@+id/amount_slot_1_view" />
+            android:layout_marginLeft="160dp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -176,8 +176,8 @@
             android:layout_above="@id/consume_slot3"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="58dp"
-            android:layout_marginLeft="70dp"
-            android:layout_toRightOf="@+id/amount_slot_2_view" />
+            android:layout_marginLeft="250dp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -188,8 +188,8 @@
             android:layout_above="@id/consume_slot4"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="58dp"
-            android:layout_marginLeft="70dp"
-            android:layout_toRightOf="@+id/amount_slot_3_view" />
+            android:layout_marginLeft="340dp"
+            android:layout_alignParentLeft="true" />
 
     </RelativeLayout>
 

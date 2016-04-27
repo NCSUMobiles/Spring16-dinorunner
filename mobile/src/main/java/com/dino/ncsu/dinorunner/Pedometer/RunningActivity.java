@@ -36,7 +36,6 @@ import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Managers.SoundManager;
-import com.dino.ncsu.dinorunner.Managers.TrackManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
@@ -57,11 +56,6 @@ import java.util.ArrayList;
  * Moves back to the main screen if the user presses the back button.
  */
 public class RunningActivity extends Activity implements Runnable {
-    //Private variables in this class
-    private int totalLaps;
-    private int lapsDone;
-//    private static final String TAG = "DinoTag";
-
     //Pedometer Stuff
     private SharedPreferences mSettings;
     private PedometerSettings mPedometerSettings;
@@ -268,6 +262,12 @@ public class RunningActivity extends Activity implements Runnable {
         mConsume4 = (ImageView) findViewById(R.id.consume_slot4);
         mConsume1.getLayoutParams().height = Math.round(200 * scale_height);
         mConsume1.getLayoutParams().width = Math.round(200 * scale_width);
+        mConsume2.getLayoutParams().height = Math.round(200 * scale_height);
+        mConsume2.getLayoutParams().width = Math.round(200 * scale_width);
+        mConsume3.getLayoutParams().height = Math.round(200 * scale_height);
+        mConsume3.getLayoutParams().width = Math.round(200 * scale_width);
+        mConsume4.getLayoutParams().height = Math.round(200 * scale_height);
+        mConsume4.getLayoutParams().width = Math.round(200 * scale_width);
 
         //Old London Text Style
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
@@ -501,6 +501,7 @@ public class RunningActivity extends Activity implements Runnable {
 
             //Game logic
             checkAndPlayDinoApproach();
+            checkTrackCompleted();
             checkPlayerDead();
             RunManager.getInstance().updateDistance();
             RunManager.getInstance().checkDistance();
@@ -563,10 +564,7 @@ public class RunningActivity extends Activity implements Runnable {
             checkAndPlayTerrainSound();
         }
     }
-//    public void checkTerrain() {
-//        Log.d("TerrainL:", Player.getInstance().getCurrentTile().getTerrain());
-//        SoundManager.getInstance().playTerrainSound(Player.getInstance().getCurrentTile().getTerrain());
-//    }
+
     public void checkPlayerDead() {
         if (Player.getInstance().getHealth() <= 0) {
             Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -574,6 +572,14 @@ public class RunningActivity extends Activity implements Runnable {
             this.thread.interrupt();
             finish();
             startActivity(dataIntent);
+        }
+    }
+
+    public void checkTrackCompleted() {
+        if (DistanceValue >= Track.getInstance().getTotalDistance()) {
+            this.thread.interrupt();
+            finish();
+            startActivity(new Intent(getApplicationContext(), LootActivity.class));
         }
     }
 
@@ -598,7 +604,6 @@ public class RunningActivity extends Activity implements Runnable {
         String curTerrain = curTile.getTerrain();
 
         if(curTerrain != null && curTerrain.equals(prevTerrain) == false) {
-            //System.out.println("========= Calling SoundManager: " + prevTerrain + ", " + curTerrain);
             SoundManager.getInstance().playTerrainSound(curTerrain);
             prevTerrain = curTerrain;
         }
@@ -713,13 +718,8 @@ public class RunningActivity extends Activity implements Runnable {
     }
 
     public void clearProgress() {
-        Bundle infoBundle = getIntent().getExtras();
-
         //Laps, distance traveled data
-        lapsDone = 0;
-        totalLaps = infoBundle.getInt("lapsPicked");
-        TotalDistance = infoBundle.getInt("distancePicked") * totalLaps;
-        Track.getInstance().setTotalDistance(TotalDistance);
+        TotalDistance = Track.getInstance().getTotalDistance();
         Player.getInstance().setHealth(Player.getInstance().getMaxHealth());
         Dinosaur.getInstance().setDistance(0);
         Player.getInstance().setDistance(0);
@@ -756,46 +756,42 @@ public class RunningActivity extends Activity implements Runnable {
     }
 
     public void setInventoryViews() {
-        Item tempItem = null;
-        if (Inventory.getInstance().getEquippedConsumables()[0] != null) {
-            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]);
-        }
-        if (tempItem != null) {
-            mAmount1.setText("" + tempItem.getAmount());
-            mConsume1.setImageResource(tempItem.getImageId());
+        if (Inventory.getInstance().getEquippedConsumables()[0]!= null) {
+            mAmount1.setText("" + Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]).getAmount());
+            mConsume1.setImageResource(Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]).getImageId());
         } else {
             mAmount1.setText("");
         }
         mConsume1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]);
-                if (tempItem != null) {
-                    if (tempItem.getAmount() > 0) {
-                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[0],
+                if (Inventory.getInstance().getEquippedConsumables()[0] != null) {
+                    if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]) != null) {
+                        if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[0]).getAmount() > 0) {
+                            Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[0],
+                                    Toast.LENGTH_LONG).show();
+                            mAmount1.setTextColor(Color.parseColor("#00FF00"));
+                            Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[0]);
+                            mAmount1.setText("" + Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[0]));
+                        }
+
+                    } else {
+                        Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[0],
                                 Toast.LENGTH_LONG).show();
-                        mAmount1.setTextColor(Color.parseColor("#00FF00"));
-                        mAmount1.setText("" + tempItem.getAmount());
-                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[0]);
+                        mAmount1.setTextColor(Color.parseColor("#FF0000"));
+                        mAmount1.setText("0");
+                    }
+                    if (Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[0])== 0) {
+                        mAmount1.setTextColor(Color.parseColor("#FF0000"));
                     }
 
-                } else {
-                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[0],
-                            Toast.LENGTH_LONG).show();
-                    mAmount1.setTextColor(Color.parseColor("#FF0000"));
-                    mAmount1.setText("0");
                 }
-
             }
         });
 
-        tempItem = null;
         if (Inventory.getInstance().getEquippedConsumables()[1] != null) {
-            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]);
-        }
-        if (tempItem != null) {
-            mAmount2.setText("" + tempItem.getAmount());
-            mConsume2.setImageResource(tempItem.getImageId());
+            mAmount2.setText("" + Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]).getAmount());
+            mConsume2.setImageResource(Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]).getImageId());
         } else {
             mAmount2.setText("");
         }
@@ -803,33 +799,33 @@ public class RunningActivity extends Activity implements Runnable {
         mConsume2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]);
-                if (tempItem != null) {
-                    if (tempItem.getAmount() > 0) {
-                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[1],
+                if (Inventory.getInstance().getEquippedConsumables()[1] != null) {
+                    if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]) != null) {
+                        if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[1]).getAmount() > 0) {
+                            Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[1],
+                                    Toast.LENGTH_LONG).show();
+                            mAmount2.setTextColor(Color.parseColor("#00FF00"));
+                            Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[1]);
+                            mAmount2.setText("" + Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[1]));
+                        }
+
+                    } else {
+                        Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[1],
                                 Toast.LENGTH_LONG).show();
-                        mAmount2.setTextColor(Color.parseColor("#00FF00"));
-                        mAmount2.setText("" + tempItem.getAmount());
-                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[1]);
+                        mAmount2.setTextColor(Color.parseColor("#FF0000"));
+                        mAmount2.setText("0");
+                    }
+                    if (Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[1]) == 0) {
+                        mAmount2.setTextColor(Color.parseColor("#FF0000"));
                     }
 
-                } else {
-                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[1],
-                            Toast.LENGTH_LONG).show();
-                    mAmount2.setTextColor(Color.parseColor("#FF0000"));
-                    mAmount2.setText("0");
                 }
-
             }
         });
 
-        tempItem = null;
         if (Inventory.getInstance().getEquippedConsumables()[2] != null) {
-            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]);
-        }
-        if (tempItem != null) {
-            mAmount3.setText("" + tempItem.getAmount());
-            mConsume3.setImageResource(tempItem.getImageId());
+            mAmount3.setText("" + Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]).getAmount());
+            mConsume3.setImageResource(Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]).getImageId());
         } else {
             mAmount3.setText("");
         }
@@ -837,56 +833,61 @@ public class RunningActivity extends Activity implements Runnable {
         mConsume3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]);
-                if (tempItem != null) {
-                    if (tempItem.getAmount() > 0) {
-                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[2],
+                if (Inventory.getInstance().getEquippedConsumables()[2] != null) {
+                    if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]) != null) {
+                        if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]).getAmount() > 0) {
+                            Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[2],
+                                    Toast.LENGTH_LONG).show();
+                            mAmount3.setTextColor(Color.parseColor("#00FF00"));
+                            Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[2]);
+                            mAmount3.setText("" + Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[2]).getAmount());
+                        }
+
+                    } else {
+                        Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[2],
                                 Toast.LENGTH_LONG).show();
-                        mAmount3.setTextColor(Color.parseColor("#00FF00"));
-                        mAmount3.setText("" + tempItem.getAmount());
-                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[2]);
+                        mAmount3.setTextColor(Color.parseColor("#FF0000"));
+                        mAmount3.setText("0");
+                    }
+                    if (Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[2]) == 0) {
+                        mAmount3.setTextColor(Color.parseColor("#FF0000"));
                     }
 
-                } else {
-                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[2],
-                            Toast.LENGTH_LONG).show();
-                    mAmount3.setTextColor(Color.parseColor("#FF0000"));
-                    mAmount3.setText("0");
                 }
-
-            }
+                }
         });
 
-        tempItem = null;
-        if (Inventory.getInstance().getEquippedConsumables()[3] != null) {
-            tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]);
-        }
-            if (tempItem != null) {
-            mAmount4.setText("" + tempItem.getAmount());
-            mConsume4.setImageResource(tempItem.getImageId());
+
+       if (Inventory.getInstance().getEquippedConsumables()[3] != null) {
+            mAmount4.setText("" + Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]).getAmount());
+            mConsume4.setImageResource(Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]).getImageId());
         } else {
             mAmount4.setText("");
         }
         mConsume4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item tempItem = Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]);
-                if (tempItem != null) {
-                    if (tempItem.getAmount() > 0) {
-                        Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[3],
+                if (Inventory.getInstance().getEquippedConsumables()[2] != null) {
+                    if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]) != null) {
+                        if (Inventory.getInstance().inventoryContains(Inventory.getInstance().getEquippedConsumables()[3]).getAmount() > 0) {
+                            Toast.makeText(RunningActivity.this, "You consumed a " + Inventory.getInstance().getEquippedConsumables()[3],
+                                    Toast.LENGTH_LONG).show();
+                            mAmount4.setTextColor(Color.parseColor("#00FF00"));
+                            Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[3]);
+                            mAmount4.setText("" + Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[3]));
+                        }
+
+                    } else {
+                        Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[3],
                                 Toast.LENGTH_LONG).show();
-                        mAmount4.setTextColor(Color.parseColor("#00FF00"));
-                        mAmount4.setText("" + tempItem.getAmount());
-                        Inventory.getInstance().useConsumableItem(Inventory.getInstance().getEquippedConsumables()[3]);
+                        mAmount4.setTextColor(Color.parseColor("#FF0000"));
+                        mAmount4.setText("0");
+                    }
+                    if (Inventory.getInstance().inventoryItemAmountOf(Inventory.getInstance().getEquippedConsumables()[3]) == 0) {
+                        mAmount4.setTextColor(Color.parseColor("#FF0000"));
                     }
 
-                } else {
-                    Toast.makeText(RunningActivity.this, "Ran out of " + Inventory.getInstance().getEquippedConsumables()[3],
-                            Toast.LENGTH_LONG).show();
-                    mAmount4.setTextColor(Color.parseColor("#FF0000"));
-                    mAmount4.setText("0");
                 }
-
             }
         });
     }

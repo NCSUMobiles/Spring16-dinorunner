@@ -2,7 +2,6 @@ package com.dino.ncsu.dinorunner.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -11,13 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.dino.ncsu.dinorunner.Objects.Inventory;
@@ -230,8 +224,29 @@ public class ItemPickActivity extends Activity {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Clicked the button!", Toast.LENGTH_LONG).show();
-                createRunDialog();
+                for (int i = 0; i < itemList.size(); i++) {
+                    HashMap<String, String> iMap = mListAdapter.getItem(i);
+
+                    inventory.equipItem(iMap.get(from[1]));
+                    Log.d("ItemAdded", "" + inventory.getEquippedItems()[i].getName());
+                }
+
+                Bundle dataBundle = new Bundle();
+                Intent intent = new Intent(getApplicationContext(), RunningActivity.class);
+
+                preferenceEditor = preferenceSettings.edit();
+
+                Set<String> set = new HashSet<String>();
+                Item[] itemList = Inventory.getInstance().getEquippedItems();
+
+                for (int i = 0; i < Inventory.getInstance().getEquippedItems().length; i++)
+                    set.add(itemList[i].getName());
+
+                preferenceEditor.putStringSet(EQUIPPED_TAG, set);
+                preferenceEditor.commit();
+                Player.getInstance().setListOfItems(new ArrayList<Item>(Arrays.asList(inventory.getEquippedItems())));
+                intent.putExtras(dataBundle);
+                startActivity(intent);
             }
         });
     }
@@ -373,124 +388,124 @@ public class ItemPickActivity extends Activity {
         capeIndex += feet.size() + feetIndex;
     }
 
-    /**
-     * Creates the dialog necessary to set the distance
-     * and laps to run for the run
-     */
-    private void createRunDialog() {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_view_options, null);
-
-        final SeekBar pickDist = (SeekBar) dialogView.findViewById(R.id.distance_picker);
-        pickDist.setMax(4900);
-        pickDist.setProgress(0);
-        pickDist.incrementProgressBy(50);
-        final EditText distValueText = (EditText) dialogView.findViewById(R.id.dist_value);
-        distValueText.setSelection(distValueText.length());
-
-        distValueText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    int j = Integer.parseInt(s.toString());
-                    if (j >= 100 && j <= 5000)
-                        pickDist.setProgress(j - 100);  //for the seekbar, 0-4900
-                } else {
-                    pickDist.setProgress(0);  //for the seekbar, 0-4900
-                    distValueText.setText("100");
-                }
-            }
-        });
-
-        pickDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
-                progress /= 50;
-                progress *= 50;
-                int posOfCursor = distValueText.getSelectionStart();
-                distValueText.setText(String.valueOf(progress + 100));
-                distValueText.setSelection(posOfCursor);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        NumberPicker pickLaps = (NumberPicker) dialogView.findViewById(R.id.laps_picker);
-        pickLaps.setMinValue(1);
-        pickLaps.setMaxValue(30);
-
-        new AlertDialog.Builder(ItemPickActivity.this, AlertDialog.THEME_HOLO_LIGHT)
-                .setTitle("Options")
-                .setView(dialogView)
-                .setPositiveButton("Run", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int distance = Integer.parseInt(((EditText) ((AlertDialog) dialog).findViewById(R.id.dist_value)).getText().toString());
-
-                        if (distance < 100 || distance > 5000)
-                            distance = ((SeekBar) ((AlertDialog) dialog).findViewById(R.id.distance_picker)).getProgress() + 100;
-
-                        int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
-
-                        for (int i = 0; i < itemList.size(); i++) {
-                            HashMap<String, String> iMap = mListAdapter.getItem(i);
-
-                            //EquippedItems.getInstance().setItemAtIndex(i, item);
-//                            Item item = new Item(iMap.get(from[1]), 1);
-//                            //This will set all of the other values for the item
-//                            ItemManager.getInstance().setItemVariables(item);
-
-//                            Log.d("name", item.getName());
-//                            Log.d("amt", "" + item.getAmount());
-//                            Log.d("descript", item.getDescription());
-//                            Log.d("ItemType", "" + item.getType());
-
-                            inventory.equipItem(iMap.get(from[1]));
-                            Log.d("ItemAdded", "" + inventory.getEquippedItems()[i].getName());
-                        }
-
-                        Bundle dataBundle = new Bundle();
-                        Intent intent = new Intent(getApplicationContext(), RunningActivity.class);
-                        dataBundle.putInt("distancePicked", distance);
-                        dataBundle.putInt("lapsPicked", laps);
-
-                        preferenceEditor = preferenceSettings.edit();
-
-                        Set<String> set = new HashSet<String>();
-                        Item[] itemList = Inventory.getInstance().getEquippedItems();
-
-                        for (int i = 0; i < Inventory.getInstance().getEquippedItems().length; i++)
-                            set.add(itemList[i].getName());
-
-                        preferenceEditor.putStringSet(EQUIPPED_TAG, set);
-                        preferenceEditor.commit();
-                        Player.getInstance().setListOfItems(new ArrayList<Item>(Arrays.asList(inventory.getEquippedItems())));
-                        intent.putExtras(dataBundle);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //do nothing for right now
-                    }
-                })
-                .show();
-    }
+//    /**
+//     * Creates the dialog necessary to set the distance
+//     * and laps to run for the run
+//     */
+//    private void createRunDialog() {
+//        View dialogView = getLayoutInflater().inflate(R.layout.dialog_view_options, null);
+//
+//        final SeekBar pickDist = (SeekBar) dialogView.findViewById(R.id.distance_picker);
+//        pickDist.setMax(4900);
+//        pickDist.setProgress(0);
+//        pickDist.incrementProgressBy(50);
+//        final EditText distValueText = (EditText) dialogView.findViewById(R.id.dist_value);
+//        distValueText.setSelection(distValueText.length());
+//
+//        distValueText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            public void afterTextChanged(Editable s) {
+//                if (!s.toString().isEmpty()) {
+//                    int j = Integer.parseInt(s.toString());
+//                    if (j >= 100 && j <= 5000)
+//                        pickDist.setProgress(j - 100);  //for the seekbar, 0-4900
+//                } else {
+//                    pickDist.setProgress(0);  //for the seekbar, 0-4900
+//                    distValueText.setText("100");
+//                }
+//            }
+//        });
+//
+//        pickDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
+//                progress /= 50;
+//                progress *= 50;
+//                int posOfCursor = distValueText.getSelectionStart();
+//                distValueText.setText(String.valueOf(progress + 100));
+//                distValueText.setSelection(posOfCursor);
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
+//
+//        NumberPicker pickLaps = (NumberPicker) dialogView.findViewById(R.id.laps_picker);
+//        pickLaps.setMinValue(1);
+//        pickLaps.setMaxValue(30);
+//
+//        new AlertDialog.Builder(ItemPickActivity.this, AlertDialog.THEME_HOLO_LIGHT)
+//                .setTitle("Options")
+//                .setView(dialogView)
+//                .setPositiveButton("Run", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        int distance = Integer.parseInt(((EditText) ((AlertDialog) dialog).findViewById(R.id.dist_value)).getText().toString());
+//
+//                        if (distance < 100 || distance > 5000)
+//                            distance = ((SeekBar) ((AlertDialog) dialog).findViewById(R.id.distance_picker)).getProgress() + 100;
+//
+//                        int laps = ((NumberPicker) ((AlertDialog) dialog).findViewById(R.id.laps_picker)).getValue();
+//
+//                        for (int i = 0; i < itemList.size(); i++) {
+//                            HashMap<String, String> iMap = mListAdapter.getItem(i);
+//
+//                            //EquippedItems.getInstance().setItemAtIndex(i, item);
+////                            Item item = new Item(iMap.get(from[1]), 1);
+////                            //This will set all of the other values for the item
+////                            ItemManager.getInstance().setItemVariables(item);
+//
+////                            Log.d("name", item.getName());
+////                            Log.d("amt", "" + item.getAmount());
+////                            Log.d("descript", item.getDescription());
+////                            Log.d("ItemType", "" + item.getType());
+//
+//                            inventory.equipItem(iMap.get(from[1]));
+//                            Log.d("ItemAdded", "" + inventory.getEquippedItems()[i].getName());
+//                        }
+//
+//                        Bundle dataBundle = new Bundle();
+//                        Intent intent = new Intent(getApplicationContext(), RunningActivity.class);
+//                        dataBundle.putInt("distancePicked", distance);
+//                        dataBundle.putInt("lapsPicked", laps);
+//
+//                        preferenceEditor = preferenceSettings.edit();
+//
+//                        Set<String> set = new HashSet<String>();
+//                        Item[] itemList = Inventory.getInstance().getEquippedItems();
+//
+//                        for (int i = 0; i < Inventory.getInstance().getEquippedItems().length; i++)
+//                            set.add(itemList[i].getName());
+//
+//                        preferenceEditor.putStringSet(EQUIPPED_TAG, set);
+//                        preferenceEditor.commit();
+//                        Player.getInstance().setListOfItems(new ArrayList<Item>(Arrays.asList(inventory.getEquippedItems())));
+//                        intent.putExtras(dataBundle);
+//                        startActivity(intent);
+//                    }
+//                })
+//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //do nothing for right now
+//                    }
+//                })
+//                .show();
+//    }
 }
