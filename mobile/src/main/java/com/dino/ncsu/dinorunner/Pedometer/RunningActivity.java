@@ -36,10 +36,12 @@ import com.dino.ncsu.dinorunner.DrawSprites;
 import com.dino.ncsu.dinorunner.MainActivity;
 import com.dino.ncsu.dinorunner.Managers.RunManager;
 import com.dino.ncsu.dinorunner.Managers.SoundManager;
+import com.dino.ncsu.dinorunner.Managers.TrackManager;
 import com.dino.ncsu.dinorunner.Objects.Dinosaur;
 import com.dino.ncsu.dinorunner.Objects.Inventory;
 import com.dino.ncsu.dinorunner.Objects.Item;
 import com.dino.ncsu.dinorunner.Objects.Player;
+import com.dino.ncsu.dinorunner.Objects.Tile;
 import com.dino.ncsu.dinorunner.Objects.Track;
 import com.dino.ncsu.dinorunner.R;
 
@@ -181,6 +183,7 @@ public class RunningActivity extends Activity implements Runnable {
 
     //Sounds:
     boolean isTicking;
+    String prevTerrain;
 
 
     /**
@@ -556,6 +559,8 @@ public class RunningActivity extends Activity implements Runnable {
                 // End of painting to canvas. system will paint with this canvas,to the surface.
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
+
+            checkAndPlayTerrainSound();
         }
     }
 //    public void checkTerrain() {
@@ -581,6 +586,21 @@ public class RunningActivity extends Activity implements Runnable {
         }
         else if(dist > 0.3 && dist < 5) {
             SoundManager.getInstance().playDinoApproach();
+        }
+    }
+
+    public void checkAndPlayTerrainSound() {
+        Tile curTile = Player.getInstance().getCurrentTile();
+        if(curTile == null) {
+            Player.getInstance().setCurrentTile(Track.getInstance().getTileList().get(0));
+            curTile = Player.getInstance().getCurrentTile();
+        }
+        String curTerrain = curTile.getTerrain();
+
+        if(curTerrain != null && curTerrain.equals(prevTerrain) == false) {
+            //System.out.println("========= Calling SoundManager: " + prevTerrain + ", " + curTerrain);
+            SoundManager.getInstance().playTerrainSound(curTerrain);
+            prevTerrain = curTerrain;
         }
     }
 

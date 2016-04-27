@@ -22,10 +22,10 @@ public class Tile {
         this.length = length;
 
         switch(terrain) {
-            case "Dirt":
+            case "dirt":
                 terrainSpeedBonus = 1;
                 break;
-            case "Water":
+            case "water":
                 terrainSpeedBonus = .8f;
                 break;
 

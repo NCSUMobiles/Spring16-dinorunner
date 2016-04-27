@@ -16,7 +16,10 @@ public class SoundManager {
     private SoundPool.Builder builder;
 
     private int dinoApproach;
+
     private int riverSound;
+    private int riverSoundId;
+
     private boolean isDinoApproach = false;
 
     public static synchronized SoundManager getInstance() {
@@ -63,7 +66,18 @@ public class SoundManager {
     public void playTerrainSound(String terrain) {
         switch(terrain) {
             case "water":
-                pool.play(riverSound, 0.1f, 0.1f, 0, 0, 1);
+                //pool.stop(riverSound);
+                riverSoundId = pool.play(riverSound, 0.1f, 0.1f, 0, 0, 1);
+
+                //System.out.println("========= Playing river sound ===========" + riverSoundId + ", " + riverSound);
+                //stop all other sounds here
+                //pool.stop(dirtSound);
+                break;
+            case "dirt":
+                //pool.play(dirtSound, 0.1f, 0.1f, 0, 0, 1);    //there's no dirt sound :P
+                //stop all other sounds here
+                pool.stop(riverSoundId);
+                //System.out.println("========= Stopping river sound ===========");
                 break;
         }
     }
