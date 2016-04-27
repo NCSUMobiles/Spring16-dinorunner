@@ -744,9 +744,22 @@ public class RunningActivity extends Activity implements Runnable {
     public void onDestroy() {
         unbindStepService();
         stopStepService();
-        disposeBitmap(bm_run_vertical);
-        disposeBitmap(bm_run_horizontal);
-        disposeBitmap(monster);
+
+        recycleBitmap(equipped_head);
+        recycleBitmap(equipped_shoulder);
+        recycleBitmap(equipped_chest);
+        recycleBitmap(equipped_shirt);
+        recycleBitmap(equipped_glove);
+        recycleBitmap(equipped_pants);
+        recycleBitmap(equipped_shoes);
+        recycleBitmap(equipped_cape);
+        recycleBitmap(map);
+        recycleBitmap(bm_run_vertical);
+        recycleBitmap(bm_run_horizontal);
+        recycleBitmap(monster);
+
+        System.gc();
+
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
     }
@@ -907,8 +920,10 @@ public class RunningActivity extends Activity implements Runnable {
         });
     }
 
-    public void disposeBitmap(Bitmap bitmap) {
-        bitmap.recycle();
-        bitmap = null;
+    private void recycleBitmap(Bitmap bm) {
+        if(bm != null) {
+            bm.recycle();
+            bm = null;
+        }
     }
 }
