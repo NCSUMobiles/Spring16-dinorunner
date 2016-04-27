@@ -261,6 +261,7 @@ public class LootActivity extends Activity implements Runnable {
     @Override
     public void onDestroy() {
         disposeBitmap(loot_table_view);
+        System.gc();
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
     }
