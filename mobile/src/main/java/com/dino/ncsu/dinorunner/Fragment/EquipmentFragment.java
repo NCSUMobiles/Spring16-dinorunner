@@ -54,52 +54,55 @@ public class EquipmentFragment extends Fragment {
     private RecyclerView lView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setItemLists();
+
+        //Each row of the list stores item name, image and description
+        allItems = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            HashMap<String, String> hm = new HashMap<String, String>();
+            hm.put("image", Integer.toString(imageId.get(i)));
+            hm.put("name", items.get(i));
+            hm.put("desc", desc.get(i));
+            hm.put("boost", Double.toString(boosts.get(i)));
+            allItems.add(hm);
+        }
+
+        mListAdapter = new ItemListAdapter(getActivity(), allItems, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(ItemListAdapter adapter, View v, int position) {
+                //Do Nothing
+                Log.d("Clicked item", "" + position);
+            }
+
+            @Override
+            public void onItemClick(DinoListAdapter adapter, View v, int position) {
+
+            }
+
+            @Override
+            protected void onItemClick(TrackListAdapter adapter, View v, int position) {
+
+            }
+        });
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_equipment, container, false);
 
         setRetainInstance(true);
-        setItemLists();
+        lView = (RecyclerView) rootView.findViewById(R.id.item_list_view);
 
-        //Each row of the list stores item name, image and description
-        if (allItems == null) {
-            allItems = new ArrayList<>();
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-            for (int i = 0; i < items.size(); i++) {
-                HashMap<String, String> hm = new HashMap<String, String>();
-                hm.put("image", Integer.toString(imageId.get(i)));
-                hm.put("name", items.get(i));
-                hm.put("desc", desc.get(i));
-                hm.put("boost", Double.toString(boosts.get(i)));
-                allItems.add(hm);
-            }
-
-            lView = (RecyclerView) rootView.findViewById(R.id.item_list_view);
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-            lView.setItemAnimator(new DefaultItemAnimator());
-            lView.setLayoutManager(mLayoutManager);
-
-            mListAdapter = new ItemListAdapter(getActivity(), allItems, R.layout.itempicker_list_single, from, to, new CustomItemClickListener() {
-                @Override
-                public void onItemClick(ItemListAdapter adapter, View v, int position) {
-                    //Do Nothing
-                    Log.d("Clicked item", "" + position);
-                }
-
-                @Override
-                public void onItemClick(DinoListAdapter adapter, View v, int position) {
-
-                }
-
-                @Override
-                protected void onItemClick(TrackListAdapter adapter, View v, int position) {
-
-                }
-            });
-            lView.setAdapter(mListAdapter);
-        }
+        lView.setItemAnimator(new DefaultItemAnimator());
+        lView.setLayoutManager(mLayoutManager);
+        lView.setAdapter(mListAdapter);
 
         // Inflate the layout for this fragment
         return rootView;

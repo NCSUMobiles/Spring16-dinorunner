@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.dino.ncsu.dinorunner.Fragment.EquipmentFragment;
 import com.dino.ncsu.dinorunner.Fragment.ItemsFragment;
 import com.dino.ncsu.dinorunner.Fragment.StatsFragment;
+import com.dino.ncsu.dinorunner.Fragment.TrophyFragment;
 import com.dino.ncsu.dinorunner.R;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -74,10 +75,6 @@ public class PlayerStatsActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         //All available fragments for this sections adapter
-        private StatsFragment statsFragment;
-        private EquipmentFragment equipmentFragment;
-        private ItemsFragment itemsFragment;
-
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -88,27 +85,21 @@ public class PlayerStatsActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    if (statsFragment == null)
-                        statsFragment = new StatsFragment();
-                    return statsFragment;
+                    return new StatsFragment();
                 case 1:
-                    if (equipmentFragment == null)
-                        equipmentFragment = new EquipmentFragment();
-
-                    return equipmentFragment;
+                    return new EquipmentFragment();
                 case 2:
-                    if (itemsFragment == null)
-                        itemsFragment = new ItemsFragment();
-
-                    return itemsFragment;
+                    return new ItemsFragment();
+                case 3:
+                    return new TrophyFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages.
+            return 4;
         }
 
         @Override
@@ -120,6 +111,8 @@ public class PlayerStatsActivity extends AppCompatActivity {
                     return "EQUIPMENT";
                 case 2:
                     return "ITEMS";
+                case 3:
+                    return "TROPHIES";
             }
             return null;
         }

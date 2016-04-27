@@ -23,10 +23,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ItemsFragment extends Fragment {
+public class TrophyFragment extends Fragment {
 
     //Consumable items for now
     private ArrayList<Item> itemArrayList = new ArrayList<Item>();
@@ -80,17 +81,16 @@ public class ItemsFragment extends Fragment {
 
             }
         });
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_items, container, false);
-
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_trophy, container, false);
         setRetainInstance(true);
 
-        lView = (RecyclerView) rootView.findViewById(R.id.item_list_view2);
+        lView = (RecyclerView) rootView.findViewById(R.id.item_list_view3);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -98,6 +98,7 @@ public class ItemsFragment extends Fragment {
         lView.setLayoutManager(mLayoutManager);
 
         lView.setAdapter(mListAdapter);
+
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -106,7 +107,7 @@ public class ItemsFragment extends Fragment {
      * Sets the item lists for the appropriate slots
      */
     public void setItemLists() {
-        ArrayList<Item> temp = Inventory.getInstance().getConsumableItems();
+        ArrayList<Item> temp = Inventory.getInstance().getTrophyItems();
 
         //Sets all individual equipment arraylists
         for (int i = 0; i < temp.size(); i++) {
@@ -116,4 +117,5 @@ public class ItemsFragment extends Fragment {
             items.add(temp.get(i).getName());
         }
     }
+
 }
