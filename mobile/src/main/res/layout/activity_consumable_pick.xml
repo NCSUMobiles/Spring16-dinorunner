@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/frame_table_consumable"
+        android:src="@mipmap/frame_table_consumable"
         android:id="@+id/consumable_table_view"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

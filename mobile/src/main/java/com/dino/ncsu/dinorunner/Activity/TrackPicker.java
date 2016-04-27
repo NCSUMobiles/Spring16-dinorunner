@@ -57,9 +57,9 @@ public class TrackPicker extends Activity {
     };
 
     private Integer[] trackImageId = new Integer[]{
-            R.drawable.track_track1,
-            R.drawable.track_track1,
-            R.drawable.track_track1
+            R.mipmap.track_track1,
+            R.mipmap.track_track1,
+            R.mipmap.track_track1
     };
 
     private String[] desc = new String[]{

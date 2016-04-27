@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/frame_running_activity"
+        android:src="@mipmap/frame_running_activity"
         android:id="@+id/running_activity_view"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

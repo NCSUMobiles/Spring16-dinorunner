@@ -146,6 +146,10 @@ public class RunningActivity extends Activity implements Runnable {
     public static Typeface roman;
 
     private DrawSprites drawSprites = null;
+    Bitmap bm_run_vertical;
+    Bitmap bm_run_horizontal;
+    Bitmap monster;
+    Bitmap[] sprites = new Bitmap [3];
 
     private int currentFrame = 0;
     private long lastFrameChangeTime = 0;
@@ -200,6 +204,14 @@ public class RunningActivity extends Activity implements Runnable {
         //Bitmap for frame: Character
         scale_width = width / 1080;
         scale_height = height / 1776;
+
+        //Bitmaps for Sprites
+        bm_run_vertical = BitmapFactory.decodeResource(getResources(), R.drawable.runman_vertical);
+        bm_run_horizontal = BitmapFactory.decodeResource(getResources(), R.drawable.runman);
+        monster = BitmapFactory.decodeResource(getResources(), Dinosaur.getInstance().getSpriteSheetId());
+        sprites[0] = bm_run_vertical;
+        sprites[1] = bm_run_horizontal;
+        sprites[2] = monster;
 
         equipped_head = BitmapFactory.decodeResource(getResources(), equipment.get(0).getImageId());
         equipped_shoulder = BitmapFactory.decodeResource(getResources(), equipment.get(1).getImageId());
@@ -617,7 +629,7 @@ public class RunningActivity extends Activity implements Runnable {
             drawMap(canvas);
 
             if (drawSprites == null) {
-                drawSprites = new DrawSprites(canvas, getResources());
+                drawSprites = new DrawSprites(canvas, getResources(), sprites);
             }
             drawSprites.draw();
         }
@@ -732,6 +744,9 @@ public class RunningActivity extends Activity implements Runnable {
     public void onDestroy() {
         unbindStepService();
         stopStepService();
+        disposeBitmap(bm_run_vertical);
+        disposeBitmap(bm_run_horizontal);
+        disposeBitmap(monster);
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
     }
@@ -890,5 +905,10 @@ public class RunningActivity extends Activity implements Runnable {
                 }
             }
         });
+    }
+
+    public void disposeBitmap(Bitmap bitmap) {
+        bitmap.recycle();
+        bitmap = null;
     }
 }

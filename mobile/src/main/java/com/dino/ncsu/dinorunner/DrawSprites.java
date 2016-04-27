@@ -76,14 +76,21 @@ public class DrawSprites {
             dinoX + frameWidth,
             frameHeight);
     Bitmap monster;
+
+    Bitmap bm_run_vertical;
+    Bitmap bm_run_horizontal;
     boolean backtrack; //Is monster going back
 
-    public DrawSprites(Canvas canvas, Resources resources) {
+    public DrawSprites(Canvas canvas, Resources resources, Bitmap[] sprites) {
 
         this.canvas = canvas;
         this.resources = resources;
 
         trackTiles = Track.getInstance().getTileList();
+        bm_run_vertical = sprites[0];
+        bm_run_horizontal = sprites[1];
+        monster = sprites[2];
+
 
         //Scaling
         display = resources.getDisplayMetrics();
@@ -94,7 +101,6 @@ public class DrawSprites {
         scale_total = (scale_width < scale_height) ? scale_width : scale_height;
         frameWidth *= scale_width;
         frameHeight *= scale_height;
-        monster = BitmapFactory.decodeResource(resources, Dinosaur.getInstance().getSpriteSheetId());
         monster = monster.createScaledBitmap(monster, frameWidth * Dinosaur.getInstance().getFrameCount(), frameHeight, false);
 
         //Re-adjust tiles' (X,Y) by subtracting getStatusBarHeight() from each Y
@@ -197,8 +203,6 @@ public class DrawSprites {
     }
 
     private void drawPlayer() {
-        Bitmap bm_run_vertical = BitmapFactory.decodeResource(resources, R.drawable.runman_vertical);
-        Bitmap bm_run_horizontal = BitmapFactory.decodeResource(resources, R.drawable.runman);
         if (playerDirX == 1) {
             bm_run_horizontal = Bitmap.createScaledBitmap(bm_run_horizontal, 100, 100, false);
             //Log.d("Test Direction", "X Direction: Right: " + playerDirX);

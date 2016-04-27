@@ -14,7 +14,13 @@ public class LevelManager {
     public LevelManager() {
         for (int i = 1; i < 100; i++) {
             levels[i] = i;
-            experience[i] = 50 * Math.pow(i, 1.1);
+            if (i >= 2) {
+                experience[i] = experience[i-1] + 50 * Math.pow(i, 1.1);
+            }
+            else {
+                experience[i] = 50 * Math.pow(i, 1.1);
+            }
+
         }
         for (int i = 1; i < 99; i++) {
             expUntilNext[i] = experience[i + 1] - experience[i];

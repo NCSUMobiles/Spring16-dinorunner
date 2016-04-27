@@ -35,7 +35,6 @@ import java.util.Random;
 public class LootActivity extends Activity implements Runnable {
 
     private Bitmap loot_table_view;
-    private Bitmap monster;
     public static Typeface oldLondon;
     public static Typeface roman;
 
@@ -101,10 +100,8 @@ public class LootActivity extends Activity implements Runnable {
         oldLondon = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Blackwood Castle.ttf");
         roman = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/MorrisRomanBlack.ttf");
 
-        loot_table_view = BitmapFactory.decodeResource(getResources(), R.drawable.frame_loot_table);
+        loot_table_view = BitmapFactory.decodeResource(getResources(), R.mipmap.frame_loot_table);
         loot_table_view = Bitmap.createScaledBitmap(loot_table_view, width, height, true);
-
-        monster = BitmapFactory.decodeResource(getResources(), Dinosaur.getInstance().getImageId());
 
         mExperienceView = (TextView) findViewById(R.id.experience_loot);
         mItemsLootedView = (TextView) findViewById(R.id.item_loot);
@@ -125,7 +122,6 @@ public class LootActivity extends Activity implements Runnable {
         mItemViewCount.setTypeface(roman);
 
         mMonsterNameView.setText("Monster Slain: " + Dinosaur.getInstance().getNameOfDino());
-        monster = Bitmap.createScaledBitmap(monster, 50, 50, false);
 
         mExperienceView.setText("Total Experience: ");
         int experienceGained = Dinosaur.getInstance().getExperience();
@@ -265,6 +261,7 @@ public class LootActivity extends Activity implements Runnable {
 
     @Override
     public void onDestroy() {
+        disposeBitmap(loot_table_view);
         super.onDestroy();
         //Log.d(TAG, "onDestroy() called");
     }
@@ -276,5 +273,10 @@ public class LootActivity extends Activity implements Runnable {
         Intent dataIntent = new Intent(getApplicationContext(), MainActivity.class);
         dataIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dataIntent);
+    }
+
+    public void disposeBitmap(Bitmap bitmap) {
+        bitmap.recycle();
+        bitmap = null;
     }
 }
